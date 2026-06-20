@@ -1,64 +1,8 @@
 layout: {zmk_keyboard: lily58}
 layers:
-  Bas:
-  - Esc
-  - '1'
-  - '2'
-  - '3'
-  - '4'
-  - '5'
-  - '6'
-  - '7'
-  - '8'
-  - '9'
-  - '0'
-  - '-'
-  - ↹
-  - Q
-  - W
-  - E
-  - R
-  - T
-  - Y
-  - U
-  - I
-  - O
-  - P
-  - '{'
-  - $$mdi:apple-keyboard-control$$
-  - {t: A, h: '$$mdi:apple-keyboard-shift$$'}
-  - {t: S, h: '$$mdi:apple-keyboard-control$$'}
-  - {t: D, h: '$$mdi:apple-keyboard-option$$'}
-  - {t: F, h: '$$mdi:apple-keyboard-command$$'}
-  - G
-  - H
-  - J
-  - K
-  - L
-  - ;
-  - ''''
-  - {t: '~', h: '$$mdi:apple-keyboard-shift$$'}
-  - Z
-  - X
-  - C
-  - V
-  - B
-  - F17
-  - F18
-  - N
-  - M
-  - ','
-  - .
-  - /
-  - {t: '|', h: '$$mdi:apple-keyboard-shift$$'}
-  - $$mdi:apple-keyboard-option$$
-  - $$mdi:apple-keyboard-command$$
-  - $$mdi:apple-keyboard-control$$
-  - {t: ␣, h: Low}
-  - {t: ⏎, h: Rai}
-  - {t: ▽, type: trans}
-  - $$mdi:backspace-outline$$
-  - $$mdi:apple-keyboard-option$$
+  Bas: [Esc, '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', ↹, Q, W, E, R, T, Y, U, I, O, P, '{', '$$mdi:apple-keyboard-control$$', A, S, D, F, G, H, J, K,
+    L, ;, '''', '$$mdi:apple-keyboard-shift$$', Z, X, C, V, B, F17, F18, N, M, ',', ., /, '$$mdi:apple-keyboard-shift$$', '$$mdi:apple-keyboard-option$$', '$$mdi:apple-keyboard-command$$',
+    Low, ␣, ⏎, Rai, '$$mdi:backspace-outline$$', '$$mdi:apple-keyboard-option$$']
   Low:
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
@@ -112,8 +56,8 @@ layers:
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
   - {type: held}
+  - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
@@ -173,7 +117,7 @@ layers:
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
-  - {type: held}
   - {t: ▽, type: trans}
+  - {type: held}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
