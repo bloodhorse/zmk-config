@@ -8,6 +8,13 @@
 #include <dt-bindings/zmk/keys.h>
 #include <dt-bindings/zmk/bt.h>
 
+// Попытка погасить синий onboard-диод (P0.15) на nice_nano_v2.
+// Сработает ТОЛЬКО если им рулит gpio-leds драйвер приложения.
+// Если моргает бутлоадер/железо клона — оверлей бесполезен, душим физически.
+&blue_led {
+    status = "disabled";
+};
+
 / {
     keymap {
         compatible = "zmk,keymap";
