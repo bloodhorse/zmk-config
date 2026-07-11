@@ -1,8 +1,64 @@
 layout: {zmk_keyboard: lily58}
 layers:
-  ground: [Esc, '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', ']', ↹, Q, W, E, R, T, Y, U, I, O, P, '[', CURSE, A, S, D, F, G, H, J, K, L, ;, HEAVEN, '$$mdi:apple-keyboard-shift$$',
-    Z, X, C, V, B, '=', '-', N, M, ',', ., /, '$$mdi:apple-keyboard-shift$$', '$$mdi:apple-keyboard-control$$', '$$mdi:apple-keyboard-option$$', '$$mdi:apple-keyboard-command$$',
-    ␣, ⏎, '$$mdi:apple-keyboard-command$$', '$$mdi:backspace-outline$$', '$$mdi:apple-keyboard-option$$']
+  ground:
+  - Esc
+  - '1'
+  - '2'
+  - '3'
+  - '4'
+  - '5'
+  - '6'
+  - '7'
+  - '8'
+  - '9'
+  - '0'
+  - ']'
+  - ↹
+  - Q
+  - W
+  - E
+  - R
+  - T
+  - Y
+  - U
+  - I
+  - O
+  - P
+  - '['
+  - CURSE
+  - A
+  - S
+  - D
+  - F
+  - G
+  - H
+  - J
+  - K
+  - L
+  - ;
+  - HEAVEN
+  - $$mdi:apple-keyboard-shift$$
+  - Z
+  - X
+  - C
+  - V
+  - B
+  - '='
+  - '-'
+  - N
+  - M
+  - ','
+  - .
+  - /
+  - $$mdi:apple-keyboard-shift$$
+  - $$mdi:apple-keyboard-control$$
+  - $$mdi:apple-keyboard-option$$
+  - $$mdi:apple-keyboard-command$$
+  - ␣
+  - ⏎
+  - {t: CURSE, h: '$$mdi:apple-keyboard-command$$'}
+  - $$mdi:backspace-outline$$
+  - $$mdi:apple-keyboard-option$$
   CURSE:
   - {t: ▽, type: trans}
   - F1
@@ -33,7 +89,7 @@ layers:
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - F16
-  - {t: ▽, type: trans}
+  - Ctl+␣
   - {t: ▽, type: trans}
   - '4'
   - '5'
@@ -59,9 +115,9 @@ layers:
   - {t: ▽, type: trans}
   - '`'
   - {t: ▽, type: trans}
-  - .
-  - ⌦
+  - {t: ▽, type: trans}
   - '0'
+  - .
   HEAVEN:
   - F13
   - F14
