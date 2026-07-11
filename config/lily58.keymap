@@ -25,6 +25,29 @@
             tapping-term-ms = <200>;
             bindings = <&kp>, <&tog>;
         };
+        // Tapping-term ladder — same behavior at faster terms, so tuning the
+        // hold-engage delay is a runtime rebind (Studio/RPC), never a reflash.
+        gtog180: gui_tap_toggle_180 {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            flavor = "balanced";
+            tapping-term-ms = <180>;
+            bindings = <&kp>, <&tog>;
+        };
+        gtog160: gui_tap_toggle_160 {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            flavor = "balanced";
+            tapping-term-ms = <160>;
+            bindings = <&kp>, <&tog>;
+        };
+        gtog140: gui_tap_toggle_140 {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            flavor = "balanced";
+            tapping-term-ms = <140>;
+            bindings = <&kp>, <&tog>;
+        };
         motog: momentary_tap_toggle {
             compatible = "zmk,behavior-hold-tap";
             #binding-cells = <2>;
