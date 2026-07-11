@@ -101,15 +101,15 @@
         heaven_layer {
 // ------------------------------------------------------------------------------------------------------------
 // |  F13  | F14 | F15 |      |      |      |                   |BT_CLR|BT_SEL0|BT_PRV |BT_NXT|       |  KP+  |
-// |       |  1  |  2  |  3   |  4   |  5   |                   |  6   |   7   |   8   |  9   |   0   |   ]   |
-// |       |     |     |      |      |      |                   |  <-  |   v   |   ^   |  ->  |       |       |
+// |       |     |     |      |      |      |                   |      |       |   ^   |      |       |       |
+// |       |     |     |      |      |      |                   |      |  <-   |   v   |  ->  |       |       |   inverted-T arrow cross
 // |       |     |     |      |      |      |        |  |  F16  |      |       |   |   |      |       |       |
 //                      |      |      |      |        |  |   '   | tog1 |  DEL  |  F13  |   (tog1: HEAVEN+thumb chords the CURSE numpad lock)
             display-name = "HEAVEN";
             bindings = <
 &kp F13 &kp F14 &kp F15 &trans &trans &trans                    &bt BT_CLR &bt BT_SEL 0 &bt BT_PRV &bt BT_NXT &trans &kp KP_PLUS
-&trans  &kp N1  &kp N2  &kp N3 &kp N4 &kp N5                    &kp N6     &kp N7       &kp N8     &kp N9     &kp N0 &kp RBKT
-&trans  &trans  &trans  &trans &trans &trans                    &kp LEFT   &kp DOWN     &kp UP     &kp RIGHT  &trans &trans
+&trans  &trans  &trans  &trans &trans &trans                    &trans     &trans       &kp UP     &trans     &trans &trans
+&trans  &trans  &trans  &trans &trans &trans                    &trans     &kp LEFT     &kp DOWN   &kp RIGHT  &trans &trans
 &trans  &trans  &trans  &trans &trans &trans &trans   &kp F16   &trans     &trans       &kp LS(BSLH) &trans   &trans &trans
                         &trans &trans &trans &trans   &kp SQT   &tog 1     &kp DEL      &kp F13
             >;
