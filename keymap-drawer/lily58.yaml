@@ -1,21 +1,10 @@
 layout: {zmk_keyboard: lily58}
 layers:
-  Bas: [Esc, '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', ↹, Q, W, E, R, T, Y, U, I, O, P, '{', '$$mdi:apple-keyboard-control$$', A, S, D, F, G, H, J, K,
-    L, ;, '''', '$$mdi:apple-keyboard-shift$$', Z, X, C, V, B, F17, F18, N, M, ',', ., /, '$$mdi:apple-keyboard-shift$$', '$$mdi:apple-keyboard-option$$', '$$mdi:apple-keyboard-command$$',
-    Low, ␣, ⏎, Rai, '$$mdi:backspace-outline$$', '$$mdi:apple-keyboard-option$$']
-  Low:
+  ground: [Esc, '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', ']', ↹, Q, W, E, R, T, Y, U, I, O, P, '[', CURSE, A, S, D, F, G, H, J, K, L, ;, HEAVEN, '$$mdi:apple-keyboard-shift$$',
+    Z, X, C, V, B, '=', '-', N, M, ',', ., /, '$$mdi:apple-keyboard-shift$$', '$$mdi:apple-keyboard-control$$', '$$mdi:apple-keyboard-option$$', '$$mdi:apple-keyboard-command$$',
+    ␣, ⏎, '$$mdi:apple-keyboard-command$$', '$$mdi:backspace-outline$$', '$$mdi:apple-keyboard-option$$']
+  CURSE:
   - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - '='
   - F1
   - F2
   - F3
@@ -27,52 +16,63 @@ layers:
   - F9
   - F10
   - F11
-  - F12
-  - '`'
-  - '1'
-  - '2'
-  - '3'
-  - '4'
-  - F16
-  - '6'
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - F17
+  - F18
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
   - '7'
   - '8'
   - '9'
-  - '0'
-  - \
   - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - F13
-  - ⏎
-  - F15
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - '-'
-  - KP PLUS
-  - F13
-  - F15
-  - \
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
+  - F12
   - {type: held}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
+  - F16
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
-  Rai:
+  - '4'
+  - '5'
+  - '6'
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - Caps Lock
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - ⏎
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - '1'
+  - '2'
+  - '3'
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
   - '`'
   - {t: ▽, type: trans}
+  - .
+  - ⌦
+  - '0'
+  HEAVEN:
+  - F13
+  - F14
+  - F15
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
+  - BT CLR
+  - BT 1
+  - BT PRV
+  - BT NXT
   - {t: ▽, type: trans}
   - KP PLUS
   - {t: ▽, type: trans}
@@ -86,38 +86,97 @@ layers:
   - '8'
   - '9'
   - '0'
-  - '}'
-  - F1
-  - F2
-  - F3
-  - F4
-  - F5
-  - F6
+  - ']'
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
   - ←
   - ↓
   - ↑
   - →
   - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - F7
-  - F8
-  - F9
-  - F10
-  - F11
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - F16
-  - KP PLUS
-  - '-'
-  - '='
-  - '{'
-  - '}'
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
   - {type: held}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - F16
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - Sft+\
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - ''''
+  - {t: ▽, type: trans}
+  - ⌦
+  - F13
+  media:
+  - ''
+  - BRI DN
+  - BRI UP
+  - ''
+  - '0xC007A'
+  - '0xC0079'
+  - Vol Up
+  - RW
+  - ⏯
+  - FF
+  - MUTE
+  - Vol Down
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
