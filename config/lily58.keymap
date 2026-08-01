@@ -66,17 +66,19 @@
 // |  TAB  |  Q  |  W  |  E   |  R   |  T   |                   |  Y   |  U    |  I    |  O   |   P   |   [   |
 // | CTRL  |  A  |  S  |  D   |  F   |  G   |                   |  H   |  J    |  K    |  L   |   ;   | CTRL  |
 // | SHIFT |  Z  |  X  |  C   |  V   |  B   |   =    |  |   -   |  N   |  M    |  ,    |  .   |   /   | SHIFT |
-//                      |CURSE | GUI  | ALT  | SPACE  |  | ENTER |HEAVEN| BSPC  | RALT  |
+//                      |CURSE | GUI  | ALT  | SPACE  |  | ENTER |HEAVEN| BSPC  | RGUI  |
 // thumbs 2026-08-01: LAlt owns the prime left seat (aerospace lives on alt — top
 // measured modifier, ~260 chords/day, one-handed left by requirement), cmd beside
-// it, CURSE at the outer corner. Right half: HEAVEN keeps the prime seat.
+// it, CURSE at the outer corner. Right half: HEAVEN keeps the prime seat; RGUI
+// replaced RAlt on the outer thumb (cross-hand cmd chording; right-alt was dead —
+// superwhisper moved off the right-alt tap to F13 long ago).
             display-name = "ground";
             bindings = <
 &kp ESC   &kp N1 &kp N2 &kp N3   &kp N4   &kp N5                        &kp N6 &kp N7   &kp N8    &kp N9  &kp N0   &kp RBKT
 &kp TAB   &kp Q  &kp W  &kp E    &kp R    &kp T                         &kp Y  &kp U    &kp I     &kp O   &kp P    &kp LBKT
 &kp LCTRL &kp A  &kp S  &kp D    &kp F    &kp G                         &kp H  &kp J    &kp K     &kp L   &kp SEMI &kp RCTRL
 &kp LSHFT &kp Z  &kp X  &kp C    &kp V    &kp B  &kp EQUAL   &kp MINUS  &kp N  &kp M    &kp COMMA &kp DOT &kp FSLH &kp RSHFT
-                        &mo 1 &kp LGUI &kp LALT &kp SPACE   &kp RET &mo 2 &kp BSPC &kp RALT
+                        &mo 1 &kp LGUI &kp LALT &kp SPACE   &kp RET &mo 2 &kp BSPC &kp RGUI
             >;
 
             sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN>;
