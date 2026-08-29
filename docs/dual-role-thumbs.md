@@ -92,8 +92,11 @@ F13     335/day     Escape  260/day
   was chasing, and leaves CURSE the only layer key on the thumb row.
   - Costs: the `Right Option → double left_shift (Caramba)` rule must go, and
     option+I/J/K/L stop producing `ˆ ∆ ˚ ¬`.
-  - HEAVEN keeps its cold leftovers (BT, F13-15, DEL) on pos 11, the dead `]`
-    corner — also the fallback path to arrows if Karabiner is ever off.
+  - `RAlt + H → F13` too, so the superwhisper trigger is a right-thumb chord
+    instead of the pinky-corner hold it became when HEAVEN moved. F13 is off the
+    board entirely now; the dead `|` on HEAVEN went with it.
+  - HEAVEN keeps its cold leftovers (BT profiles, DEL, `'`) on pos 11, the dead
+    `]` corner — also the fallback path to arrows if Karabiner is ever off.
   - **Karabiner rule order matters here.** Placed below the Gallium rules, the
     nav rule would see gallium-remapped key codes and fire on the wrong physical
     keys under EN. It has to sit *above* them, same as the screenshot rule.

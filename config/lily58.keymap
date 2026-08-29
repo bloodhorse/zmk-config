@@ -90,6 +90,10 @@
 // (']' 2.1, ъ 0.6) sit in the worst reach on the board. See stats/keycount-2026-07.md.
 // Under a US input source this key types '&'. The board cannot see the layout;
 // cross-layout '?' would need Karabiner's input_source_if.
+// F13 left the board entirely: it is RAlt+H in Karabiner now, so the
+// superwhisper trigger is a right-thumb chord instead of a pinky-corner hold.
+// The '|' on HEAVEN went with it — dead weight.
+//
 // 2026-08-29 — RAlt takes seat 55, the mirror of LAlt at 52. That symmetry is
 // the point: both alts on the prime thumb seats, one story for both hands.
 // Arrows move off the HEAVEN layer onto RAlt + I/J/K/L in Karabiner (mod
@@ -132,20 +136,20 @@
 
         heaven_layer {
 // ------------------------------------------------------------------------------------------------------------
-// |  F13  |     | KP@ |      |      |      |                   |BT_CLR|BT_SEL0|BT_PRV |BT_NXT|   ]   |  KP+  |
+// |       |     | KP@ |      |      |      |                   |BT_CLR|BT_SEL0|BT_PRV |BT_NXT|   ]   |  KP+  |
 // |       |     |     |      |      |      |                   |      |       |   ^   |      |       |       |
 // |       |     |     |      |      |      |                   |      |  <-   |   v   |  ->  |       |       |   inverted-T arrow cross
-// |       |     |     |      |      |      |        |  |  F16  |      |       |   |   |      |       |       |
-//                      |      |      |      |        |  |   '   | tog1 |  DEL  |  F13  |   (tog1 numpad-lock chord is BROKEN: it sits on
+// |       |     |     |      |      |      |        |  |  F16  |      |       |       |      |       |       |
+//                      |      |      |      |        |  |   '   | tog1 |  DEL  |       |   (tog1 numpad-lock chord is BROKEN: it sits on
 //                                                                                          HEAVEN's own mo seat after the thumb reshuffle —
 //                                                                                          unreachable while holding HEAVEN; fix pending)
             display-name = "HEAVEN";
             bindings = <
-&kp F13 &trans  &kp 0x700CE &trans &trans &trans                &bt BT_CLR &bt BT_SEL 0 &bt BT_PRV &bt BT_NXT &kp RBKT &kp KP_PLUS
+&trans  &trans  &kp 0x700CE &trans &trans &trans                &bt BT_CLR &bt BT_SEL 0 &bt BT_PRV &bt BT_NXT &kp RBKT &kp KP_PLUS
 &trans  &trans  &trans  &trans &trans &trans                    &trans     &trans       &kp UP     &trans     &trans &trans
 &trans  &trans  &trans  &trans &trans &trans                    &trans     &kp LEFT     &kp DOWN   &kp RIGHT  &trans &trans
-&trans  &trans  &trans  &trans &trans &trans &trans   &kp F16   &trans     &trans       &kp LS(BSLH) &trans   &trans &trans
-                        &trans &trans &trans &trans   &kp SQT   &tog 1     &kp DEL      &kp F13
+&trans  &trans  &trans  &trans &trans &trans &trans   &kp F16   &trans     &trans       &trans       &trans   &trans &trans
+                        &trans &trans &trans &trans   &kp SQT   &tog 1     &kp DEL      &trans
             >;
 
             sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN>;
