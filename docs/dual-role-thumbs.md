@@ -60,6 +60,23 @@ F13     335/day     Escape  260/day
 
 ## Setup facts that bite
 
+- **Two alphabets are in play and they look identical in writing.** Karabiner
+  rules are written in QWERTY scancodes; bekh reads and speaks Gallium letters.
+  The arrow cross below is one set of physical keys under two names — get this
+  wrong and a conversation about bindings becomes nonsense:
+
+  ```
+  gallium   O    H    A    E    K        (what bekh sees and says)
+  scancode  i    j    k    l    n        (what a Karabiner rule says)
+  action    ↑    ←    ↓    →   F13
+  ```
+
+  Full table: the `Gallium Colstag (Lily58 Only)` rule in `karabiner.json`.
+- **A rule placed above the Gallium rules is layout-independent** — it sees raw
+  scancodes, so it behaves identically under EN and ЙЦУКЕН. Placed below, it
+  fires on the wrong physical keys under EN only. Above is both correct and
+  bilingual; there is no reason to put a physical-key rule below.
+
 - **Karabiner carries 30 complex-modification rules.** Alpha remapping (Gallium
   Colstag, Colemak Mod-DH) is gated `input_source_if ^en$` and device-scoped, so
   **none of it fires under ЙЦУКЕН** — positional reasoning about Cyrillic holds.
