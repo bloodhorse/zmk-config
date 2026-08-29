@@ -80,6 +80,11 @@ F13     335/day     Escape  260/day
 - **Karabiner carries 30 complex-modification rules.** Alpha remapping (Gallium
   Colstag, Colemak Mod-DH) is gated `input_source_if ^en$` and device-scoped, so
   **none of it fires under ЙЦУКЕН** — positional reasoning about Cyrillic holds.
+- **Karabiner rules get edited and enabled directly — never handed back to the
+  GUI.** Enabling is inserting the rule object into
+  `profiles[0].complex_modifications.rules` at the index that gives it the right
+  precedence; back up the file first and it is as reversible as anything else.
+
 - **A rule present in `karabiner.json` proves nothing.** The space dual-role sat
   there inert for the whole investigation because it was disabled in the UI.
   Verify by pressing keys, never by reading config.
