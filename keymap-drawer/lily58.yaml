@@ -1,7 +1,7 @@
 layout: {zmk_keyboard: lily58}
 layers:
   ground: [Esc, '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', ']', ↹, Q, W, E, R, T, Y, U, I, O, P, '[', '$$mdi:apple-keyboard-control$$', A, S, D, F, G, H, J,
-    K, L, ;, '$$mdi:apple-keyboard-control$$', '$$mdi:apple-keyboard-shift$$', Z, X, C, V, B, '=', '-', N, M, ',', ., /, '$$mdi:apple-keyboard-shift$$', CURSE, '$$mdi:apple-keyboard-command$$',
+    K, L, ;, Sft+7, '$$mdi:apple-keyboard-shift$$', Z, X, C, V, B, '=', '-', N, M, ',', ., /, '$$mdi:apple-keyboard-shift$$', CURSE, '$$mdi:apple-keyboard-command$$',
     '$$mdi:apple-keyboard-option$$', ␣, ⏎, HEAVEN, '$$mdi:backspace-outline$$', '$$mdi:apple-keyboard-command$$']
   CURSE:
   - {t: ▽, type: trans}
@@ -17,8 +17,8 @@ layers:
   - F10
   - F11
   - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
+  - F11
+  - F12
   - F17
   - F18
   - ⏎
@@ -32,7 +32,7 @@ layers:
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - Gui+K
-  - F16
+  - K
   - Ctl+␣
   - {t: ▽, type: trans}
   - '4'
@@ -43,8 +43,8 @@ layers:
   - Caps Lock
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
+  - F17
+  - F18
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
@@ -64,8 +64,8 @@ layers:
   - KP DOT
   HEAVEN:
   - F13
-  - F14
-  - F15
+  - {t: ▽, type: trans}
+  - '0x700CE'
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
