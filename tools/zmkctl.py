@@ -17,7 +17,14 @@ import sys
 sys.path.insert(0, __import__("os").path.join(__import__("os").path.dirname(__file__), "..", ".venv", "lib", "python3.12", "site-packages"))
 import zmk_studio_api as z
 
-SERIAL = "/dev/cu.usbmodem21201"
+# The usbmodem node changes with the USB port/enumeration order, so a pinned
+# path goes stale silently. Glob it; override with ZMKCTL_SERIAL if several
+# CDC devices are plugged in.
+import glob as _glob
+import os as _os
+
+_ports = sorted(_glob.glob("/dev/cu.usbmodem*"))
+SERIAL = _os.environ.get("ZMKCTL_SERIAL") or (_ports[0] if _ports else "/dev/cu.usbmodem-none")
 
 # HID usage page 7 -> readable label (the ones a Lily58 actually uses)
 HID = {
