@@ -63,7 +63,7 @@ layers:
   - {t: ▽, type: trans}
   - KP DOT
   HEAVEN:
-  - F13
+  - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - '0x700CE'
   - {t: ▽, type: trans}
@@ -109,7 +109,7 @@ layers:
   - F16
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
-  - Sft+\
+  - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
@@ -120,7 +120,7 @@ layers:
   - ''''
   - {t: CURSE, h: toggle}
   - ⌦
-  - F13
+  - {t: ▽, type: trans}
   media:
   - ''
   - BRI DN
