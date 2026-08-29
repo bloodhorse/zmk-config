@@ -4,6 +4,7 @@
 Usage:
   .venv/bin/python tools/zmkctl.py dump           # print all layers as grids
   .venv/bin/python tools/zmkctl.py get L POS      # read one key
+  .venv/bin/python tools/zmkctl.py verify         # MATCH/MISMATCH vs the keymap file
   (set/save live in here too — used from sessions, see set_key/save)
 
 The board must be free (ZMK Studio GUI disconnected) and unlocked.
@@ -64,11 +65,11 @@ def label(behavior):
             return f"{prefix}({name})" if prefix else name
     if "MomentaryLayer" in s:
         import re
-        m = re.search(r"MomentaryLayer\((\d+)\)", s)
+        m = re.search(r"MomentaryLayer.*?(\d+)", s)
         return f"mo{m.group(1)}" if m else "mo?"
     if "ToggleLayer" in s:
         import re
-        m = re.search(r"ToggleLayer\((\d+)\)", s)
+        m = re.search(r"ToggleLayer.*?(\d+)", s)
         return f"tog{m.group(1)}" if m else "tog?"
     if "LayerTap" in s or "ModTap" in s or "StickyLayer" in s or "CapsWord" in s:
         return s[:18]
@@ -115,11 +116,112 @@ def save(client):
     client.save_changes()
 
 
+# --- mirror verification -------------------------------------------------
+# The keymap file is documentation until something proves it. Studio GUI edits
+# never reach it, so drift is silent — and only bites on the day of a reflash,
+# when the file becomes the source of truth. Compare numeric (page, id, mods),
+# never display names: alias tables are how a diff quietly lies.
+
+_LETTERS = {c: (7, 4 + i) for i, c in enumerate("ABCDEFGHIJKLMNOPQRSTUVWXYZ")}
+KEYCODES = dict(_LETTERS)
+KEYCODES.update({f"N{d}": (7, 30 + (d - 1) % 10) for d in list(range(1, 10)) + [0]})
+KEYCODES.update({f"F{n}": (7, 57 + n) for n in range(1, 13)})
+KEYCODES.update({f"F{n}": (7, 104 + n - 13) for n in range(13, 25)})
+KEYCODES.update({
+    "RET": (7, 40), "ESC": (7, 41), "BSPC": (7, 42), "TAB": (7, 43), "SPACE": (7, 44),
+    "MINUS": (7, 45), "EQUAL": (7, 46), "LBKT": (7, 47), "RBKT": (7, 48), "BSLH": (7, 49),
+    "SEMI": (7, 51), "SQT": (7, 52), "GRAVE": (7, 53), "COMMA": (7, 54), "DOT": (7, 55),
+    "FSLH": (7, 56), "CAPS": (7, 57), "DEL": (7, 76),
+    "RIGHT": (7, 79), "LEFT": (7, 80), "DOWN": (7, 81), "UP": (7, 82),
+    "KP_PLUS": (7, 87), "KP_DOT": (7, 99),
+    "LCTRL": (7, 224), "LSHFT": (7, 225), "LALT": (7, 226), "LGUI": (7, 227),
+    "RCTRL": (7, 228), "RSHFT": (7, 229), "RALT": (7, 230), "RGUI": (7, 231),
+    "C_BRI_UP": (12, 111), "C_BRI_DN": (12, 112), "C_FF": (12, 179), "C_RW": (12, 180),
+    "C_PP": (12, 205), "C_MUTE": (12, 226), "C_VOL_UP": (12, 233), "C_VOL_DN": (12, 234),
+})
+MODBIT = {"LC": 1, "LS": 2, "LA": 4, "LG": 8, "RC": 16, "RS": 32, "RA": 64, "RG": 128}
+
+
+def cell_from_token(t):
+    import re
+    t = t.strip()
+    if t == "&trans":
+        return ("trans",)
+    if t == "&none":
+        return ("none",)
+    for name, kind in (("&mo ", "mo"), ("&tog ", "tog")):
+        m = re.match(re.escape(name) + r"(\d+)$", t)
+        if m:
+            return (kind, int(m.group(1)))
+    if t.startswith("&bt"):
+        return ("bt",)
+    m = re.match(r"&kp (.+)$", t)
+    if m:
+        arg, mods = m.group(1).strip(), 0
+        while True:
+            mm = re.match(r"^(LC|LS|LA|LG|RC|RS|RA|RG)\((.*)\)$", arg)
+            if not mm:
+                break
+            mods |= MODBIT[mm.group(1)]
+            arg = mm.group(2).strip()
+        if arg.startswith("0x"):
+            v = int(arg, 16)
+            return ("kp", (v >> 16) & 0xFF, v & 0xFFFF, mods)
+        if arg in KEYCODES:
+            return ("kp",) + KEYCODES[arg] + (mods,)
+        return ("UNKNOWN-NAME", arg)
+    return ("other", t)
+
+
+def cell_from_board(b):
+    import re
+    s = str(b)
+    if "Transparent" in s:
+        return ("trans",)
+    if "NoBehavior" in s or "Behavior(None" in s:
+        return ("none",)
+    if "KeyPress" in s:
+        m = re.search(r"page: (\d+), id: (\d+), modifiers: (\d+)", s)
+        if m:
+            return ("kp", int(m.group(1)), int(m.group(2)), int(m.group(3)))
+    for needle, kind in (("MomentaryLayer", "mo"), ("ToggleLayer", "tog")):
+        if needle in s:
+            m = re.search(r"(\d+)", s)
+            return (kind, int(m.group(1))) if m else (kind, None)
+    if "Bluetooth" in s:
+        return ("bt",)
+    return ("other", s[:40])
+
+
+def verify(client, keymap_path="config/lily58.keymap"):
+    """Verdict-only: MATCH means the file is a true mirror of the board."""
+    import re
+    src = open(keymap_path).read()
+    blocks = re.findall(r"bindings = <\n(.*?)>;", src, re.S)
+    bad = 0
+    for layer, block in enumerate(blocks):
+        toks = ["&" + p.strip() for p in re.sub(r"//.*", "", block).split("&")[1:]]
+        if len(toks) != 58:
+            print(f"L{layer}: parsed {len(toks)} bindings, expected 58 — CANNOT VERIFY")
+            bad += 1
+            continue
+        for pos in range(58):
+            want = cell_from_token(toks[pos])
+            got = cell_from_board(client.get_key_at(layer, pos))
+            if want != got:
+                bad += 1
+                print(f"L{layer} pos {pos:2d}  file {want}  board {got}   {toks[pos]}")
+    print("MATCH — mirror is true" if bad == 0 else f"MISMATCH — {bad} cells")
+    return bad == 0
+
+
 if __name__ == "__main__":
     cmd = sys.argv[1] if len(sys.argv) > 1 else "dump"
     c = connect()
     if cmd == "dump":
         dump(c)
+    elif cmd == "verify":
+        sys.exit(0 if verify(c) else 1)
     elif cmd == "get":
         print(c.get_key_at(int(sys.argv[2]), int(sys.argv[3])))
     else:
