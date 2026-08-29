@@ -17,8 +17,8 @@ layers:
   - F10
   - F11
   - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
+  - F11
+  - F12
   - F17
   - F18
   - ⏎
@@ -32,7 +32,7 @@ layers:
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - Gui+K
-  - F16
+  - K
   - Ctl+␣
   - {t: ▽, type: trans}
   - '4'
@@ -43,8 +43,8 @@ layers:
   - Caps Lock
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
+  - F17
+  - F18
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
@@ -64,8 +64,8 @@ layers:
   - KP DOT
   HEAVEN:
   - F13
-  - F14
-  - F15
+  - {t: ▽, type: trans}
+  - '0x700CE'
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
