@@ -76,7 +76,7 @@
 // |  TAB  |  Q  |  W  |  E   |  R   |  T   |                   |  Y   |  U    |  I    |  O   |   P   |   [   |
 // | CTRL  |  A  |  S  |  D   |  F   |  G   |                   |  H   |  J    |  K    |  L   |   ;   |   ?   |
 // | SHIFT |  Z  |  X  |  C   |  V   |  B   |   =    |  |   -   |  N   |  M    |  ,    |  .   |   /   | SHIFT |
-//                      |CURSE | GUI  | ALT  |SPC/CUR |  |RET/HVN| RALT | BSPC  | RGUI  |
+//                      |CURSE | GUI  | ALT  | SPACE  |  | ENTER | RALT | BSPC  | RGUI  |
 // thumbs 2026-08-01: LAlt owns the prime left seat (aerospace lives on alt — top
 // measured modifier, ~260 chords/day, one-handed left by requirement), cmd beside
 // it, CURSE at the outer corner. Right half: HEAVEN keeps the prime seat; RGUI
@@ -90,12 +90,15 @@
 // (']' 2.1, ъ 0.6) sit in the worst reach on the board. See stats/keycount-2026-07.md.
 // Under a US input source this key types '&'. The board cannot see the layout;
 // cross-layout '?' would need Karabiner's input_source_if.
-// Space and Enter are layer-taps now: tap = the key, hold = the layer on that
-// hand's side (CURSE left, HEAVEN right). Mirror-identical motion, which is what
-// the thumb argument was always about. Stock &lt is tap-preferred/200ms, so a
-// roll never misfires — an interrupting key emits the tap first; the only cost
-// is that the tap lands on release and hold-to-repeat is gone.
-// &mo 1 at seat 50 and &mo 2 at pos 11 stay as redundant no-delay access.
+// Space and Enter stay PLAIN on the board. Their hold-layers live in Karabiner
+// instead (asset lily58-thumb-layers.json): a variable set on press, so the
+// layer engages instantly with no tapping term. ZMK's stock &lt cannot do that —
+// tap-preferred makes you hold past 200ms first, and Studio can only set a
+// hold-tap's two parameters, never its flavor. A whitelist behavior
+// (hold-trigger-key-positions) would match Karabiner's feel, and that is the one
+// thing on this board still worth a reflash.
+// The board layers remain reachable at seat 50 (CURSE) and pos 11 (HEAVEN) —
+// and they are the ONLY way to reach Bluetooth, which Karabiner cannot touch.
 //
 // F13 left the board entirely: it is RAlt+H in Karabiner now, so the
 // superwhisper trigger is a right-thumb chord instead of a pinky-corner hold.
@@ -116,7 +119,7 @@
 &kp TAB   &kp Q  &kp W  &kp E    &kp R    &kp T                         &kp Y  &kp U    &kp I     &kp O   &kp P    &kp LBKT
 &kp LCTRL &kp A  &kp S  &kp D    &kp F    &kp G                         &kp H  &kp J    &kp K     &kp L   &kp SEMI &kp LS(N7)
 &kp LSHFT &kp Z  &kp X  &kp C    &kp V    &kp B  &kp EQUAL   &kp MINUS  &kp N  &kp M    &kp COMMA &kp DOT &kp FSLH &kp RSHFT
-                        &mo 1 &kp LGUI &kp LALT &lt 1 SPACE   &lt 2 RET &kp RALT &kp BSPC &kp RGUI
+                        &mo 1 &kp LGUI &kp LALT &kp SPACE   &kp RET &kp RALT &kp BSPC &kp RGUI
             >;
 
             sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN>;
