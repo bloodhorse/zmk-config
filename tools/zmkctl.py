@@ -149,6 +149,12 @@ def cell_from_token(t):
         return ("trans",)
     if t == "&none":
         return ("none",)
+    m = re.match(r"&(lt|mt) (\S+) (.+)$", t)
+    if m:
+        kind, first, tap = m.group(1), m.group(2), m.group(3).strip()
+        held = int(first) if kind == "lt" else KEYCODES.get(first, first)
+        cell = cell_from_token("&kp " + tap)
+        return (kind, held) + cell[1:]
     for name, kind in (("&mo ", "mo"), ("&tog ", "tog")):
         m = re.match(re.escape(name) + r"(\d+)$", t)
         if m:
@@ -184,6 +190,13 @@ def cell_from_board(b):
         m = re.search(r"page: (\d+), id: (\d+), modifiers: (\d+)", s)
         if m:
             return ("kp", int(m.group(1)), int(m.group(2)), int(m.group(3)))
+    m = re.search(r"LayerTap \{ layer_id: (\d+), tap: HidUsage \{ page: (\d+), id: (\d+), modifiers: (\d+)", s)
+    if m:
+        return ("lt",) + tuple(int(g) for g in m.groups())
+    m = re.search(r"ModTap \{ hold: HidUsage \{ page: (\d+), id: (\d+), modifiers: (\d+) \}, tap: HidUsage \{ page: (\d+), id: (\d+), modifiers: (\d+)", s)
+    if m:
+        g = [int(x) for x in m.groups()]
+        return ("mt", (g[0], g[1])) + tuple(g[3:])
     for needle, kind in (("MomentaryLayer", "mo"), ("ToggleLayer", "tog")):
         if needle in s:
             m = re.search(r"(\d+)", s)
