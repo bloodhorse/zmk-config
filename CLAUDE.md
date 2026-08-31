@@ -104,7 +104,17 @@ current layout landed and why, and what is still open.
 
 ## Resume pointer
 
-The board runs the balanced ladder, flashed and verified 2026-08-31. Open
+The board runs the balanced ladder, flashed and verified 2026-08-31 — but
+since later that day bekh is cooking GUI edits directly in ZMK Studio, on
+purpose, hands off: **the mirror is STALE and `verify` MISMATCH is expected
+and correct.** Do not "fix" the board to match the file. Proper re-mirror
+(dump → fold into the keymap file → verify) planned for ~2026-09-end when the
+cooking is done; until then his edits have no backup, so a read-only `dump`
+snapshot is welcome any time the Studio GUI is closed. Also parked: seat 50
+→ `motog 1 1` (tap = latch CURSE numpad, hold = momentary door) — approved
+but on hold so it doesn't stomp the GUI work. Arrows left Karabiner's RAlt
+2026-08-31 (rule 0 keeps only K=F13 and Enter=apostrophe; backup json.bak
+sits next to karabiner.json) — arrows are HEAVEN's, board-side. Open
 threads, in the order they matter: whether balanced@280 wears well over a
 week (spaces vanishing = rebind a rung up: `zmkctl set 0 53
 layer_tap_balanced_320 1 SPACE`); pointing something at `media_layer`, which
