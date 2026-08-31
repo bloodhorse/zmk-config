@@ -101,42 +101,49 @@ F13     335/day     Escape  260/day
 - Studio's flash state overrides keymap defaults, so `config/lily58.keymap` only
   matters on the day of a reflash. `zmkctl verify` is what keeps it honest.
 
-## Settled
+## Where it landed
 
-- **`?` lives on pos 35**, the dead right-CTRL seat. It had to be a *modifier*
-  seat: modifiers don't change with the host input source, and every symbol seat
-  on the right half is a live Cyrillic letter under ЙЦУКЕН.
-- **Arrows stay zero-delay.** They are used swiftly, so they never go behind a
-  hold-tap. The trigger is **RAlt at seat 55** — the exact seat HEAVEN occupies
-  today, so the thumb motion is unchanged — with `right_option + I/J/K/L → arrows`
-  and `right_option + Enter → '` done in Karabiner, mod stripped. That makes
-  `LALT(52) ↔ RALT(55)` mirror twins, which is the symmetry the whole endeavor
-  was chasing, and leaves CURSE the only layer key on the thumb row.
-  - Costs: the `Right Option → double left_shift (Caramba)` rule must go, and
-    option+I/J/K/L stop producing `ˆ ∆ ˚ ¬`.
-  - `RAlt + H → F13` too, so the superwhisper trigger is a right-thumb chord
-    instead of the pinky-corner hold it became when HEAVEN moved. F13 is off the
-    board entirely now; the dead `|` on HEAVEN went with it.
-  - HEAVEN keeps its cold leftovers (BT profiles, DEL, `'`) on pos 11, the dead
-    `]` corner — also the fallback path to arrows if Karabiner is ever off.
-  - **Karabiner rule order matters here.** Placed below the Gallium rules, the
-    nav rule would see gallium-remapped key codes and fire on the wrong physical
-    keys under EN. It has to sit *above* them, same as the screenshot rule.
-- **Design rule: hot key, cold hold.** SpaceFN earns its bad reputation from
-  people putting arrows and backspace behind Space. Deliberate, never-in-a-roll
-  content only.
+The thumb row, and why each seat is what it is:
 
-## Open
+```
+50 CURSE   51 LGUI   52 LALT    53 SPACE / hold = CURSE
+57 RGUI    56 BSPC   55 RAlt    54 ENTER / hold = HEAVEN
+```
 
-- **Does release-fire on Space actually bother bekh?** Under test now — the rule
-  is finally enabled, hold bound to Command. This is the single question the
-  whole endeavor reduces to; everything else is known.
-- **How often does the `cmd+letter` roll fire in practice?** Two rogue `cmd+W`s
-  in a day closes the question by itself.
-- **What goes behind the holds.** `media_layer` (layer 3 — brightness, keyboard
-  illumination, volume, transport) is built, flashed, and **currently
-  unreachable — nothing points at it**. Cold by nature, zero misfire surface.
-  The obvious first tenant.
-- **Does the `?` key survive the EN input source?** A `shift+7 → ?` Karabiner
-  rule exists and is EN-gated, which *should* translate it — untested. Press it
-  under English: `?` = works in both layouts, `&` = board-only.
+- **`?` on pos 35**, the dead right-CTRL seat. It had to be a *modifier* seat:
+  modifiers don't change with the host input source, and every symbol seat on
+  the right half is a live Cyrillic letter under ЙЦУКЕН. Karabiner's EN-gated
+  `shift+7 → ?` rule covers the other language, so one key serves both.
+- **RAlt at seat 55**, mirror of LAlt at 52 — the symmetry the whole endeavour
+  was chasing. It only became affordable once arrows stopped needing a layer key.
+- **Arrows and F13 hang off RAlt in Karabiner**, mod stripped: `RAlt + O/H/A/E`
+  (gallium) and `RAlt + K` for whisper, `RAlt + Enter` for `'`. Zero delay,
+  one-handed, and above the Gallium rules so it is identical in both languages.
+  F13 is off the board entirely; the dead `|` on HEAVEN went with it.
+- **Space and Enter hold the two layers**, via `lt_curse` / `lt_heaven` in the
+  keymap — `hold-preferred`, a position whitelist, and `tapping-term-ms = 1000`
+  so the only remaining timer branch never fires by accident. Whitelists are
+  derived from the board (every non-transparent position on the target layer),
+  not hand-picked: **add a key to a layer, add its position to the whitelist.**
+- **Seat 50 and pos 11 keep board-side doors** to the same two layers. Redundant
+  and free, and they are the floor if anything upstream breaks.
+
+The design rule underneath all of it: **hot key, cold hold.** SpaceFN earns its
+bad reputation from people putting arrows and backspace behind Space. Only
+deliberate, never-in-a-roll content goes behind a hold — which is exactly why
+arrows had to leave HEAVEN before Space could carry a layer at all.
+
+## Still open
+
+- **Does the tap-on-release cost on Space register in daily use?** It is
+  constant, ~your dwell time, and paid on all 421 presses. The one thing only
+  a week of typing can answer.
+- **What else belongs on those two layers.** `media_layer` (layer 3 —
+  brightness, keyboard illumination, volume, transport) is built, flashed, and
+  **still unreachable — nothing points at it.** Cold by nature, zero misfire
+  surface, the obvious next tenant.
+- **HEAVEN pos 2 is a bare Keypad @ that macOS ignores**, and pos 1 is blank.
+  Reads like a Studio slip that ate F14/F15. Restore or clear, undecided.
+- Seat 50 is redundant now. Reclaiming it would let `LGUI↔RGUI` and
+  `DEL↔BSPC` mirror too, making all four thumb pairs symmetric — at the cost of
+  CURSE's board-side door.
