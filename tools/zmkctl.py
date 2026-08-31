@@ -5,7 +5,9 @@ Usage:
   .venv/bin/python tools/zmkctl.py dump           # print all layers as grids
   .venv/bin/python tools/zmkctl.py get L POS      # read one key
   .venv/bin/python tools/zmkctl.py verify         # MATCH/MISMATCH vs the keymap file
-  (set/save live in here too — used from sessions, see set_key/save)
+  .venv/bin/python tools/zmkctl.py behaviors      # id + node name of every behavior on the board
+  .venv/bin/python tools/zmkctl.py set L POS NODE_NAME P1 P2   # bind custom behavior + save
+      e.g. set 0 53 layer_tap_balanced_320 1 SPACE   (tune the Space hold term)
 
 The board must be free (ZMK Studio GUI disconnected) and unlocked.
 Positions are keymap indices, row-major:
@@ -114,6 +116,66 @@ def set_key(client, layer, pos, behavior):
 
 def save(client):
     client.save_changes()
+
+
+# --- behavior directory --------------------------------------------------
+# Behavior ids are assigned by devicetree order and shift when nodes are
+# added or removed, so nothing may hardcode them: resolve by display name,
+# per connection, every time.
+
+def _details_name(data):
+    """display_name out of a GetBehaviorDetailsResponse (field 2, length-delimited)."""
+    i = 0
+    while i < len(data):
+        tag = data[i]; i += 1
+        field, wt = tag >> 3, tag & 7
+        if wt == 0:
+            while data[i] & 0x80:
+                i += 1
+            i += 1
+        elif wt == 2:
+            ln = data[i]; i += 1
+            if field == 2:
+                return data[i:i + ln].decode()
+            i += ln
+        else:
+            break
+    return "?"
+
+
+def behaviors(client):
+    for bid in sorted(client.list_all_behaviors()):
+        name = _details_name(bytes(client.get_behavior_details_bytes(bid)))
+        print(f"{bid:3d}  {name}")
+
+
+def behavior_id(client, name):
+    for bid in client.list_all_behaviors():
+        if _details_name(bytes(client.get_behavior_details_bytes(bid))) == name:
+            return bid
+    raise SystemExit(f"no behavior named {name!r} on the board — try 'behaviors'")
+
+
+def _param2(token):
+    """keycode name / 0xPPPPII raw usage / plain int -> u32 param."""
+    if token in KEYCODES:
+        page, kid = KEYCODES[token]
+        return (page << 16) | kid
+    return int(token, 0)
+
+
+def set_custom(client, layer, pos, name, p1, p2):
+    """Bind a custom (devicetree) behavior by display name and save.
+
+    zmkctl set L POS NODE_NAME PARAM1 PARAM2
+      e.g. set 0 53 layer_tap_balanced_280 1 SPACE
+    NODE_NAME is the devicetree node name (what 'behaviors' prints), not the
+    &label. PARAM2 takes a keycode name from KEYCODES, 0x-hex, or an int.
+    """
+    bid = behavior_id(client, name)
+    client.set_key_at(layer, pos, z.Raw(bid, int(p1), _param2(p2)))
+    client.save_changes()
+    print(client.get_key_at(layer, pos))
 
 
 # --- mirror verification -------------------------------------------------
@@ -250,5 +312,9 @@ if __name__ == "__main__":
         sys.exit(0 if verify(c) else 1)
     elif cmd == "get":
         print(c.get_key_at(int(sys.argv[2]), int(sys.argv[3])))
+    elif cmd == "behaviors":
+        behaviors(c)
+    elif cmd == "set":
+        set_custom(c, int(sys.argv[2]), int(sys.argv[3]), sys.argv[4], sys.argv[5], sys.argv[6])
     else:
         print(f"unknown command: {cmd}")
