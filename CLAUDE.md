@@ -21,6 +21,12 @@ That means edits go one of two ways:
   flash both halves → **then bind over RPC**, because Studio's saved state still
   holds the old binding for that position
 
+Layer *content* is always runtime — retargeting an existing key on CURSE or
+HEAVEN never needs a build. The one thing that does is putting content on a
+position that was blank on that layer, since `hold-trigger-key-positions` is
+compiled in; until it is rebuilt, that key emits the tap instead of engaging
+the layer.
+
 After anything, run the checker:
 
 ```bash

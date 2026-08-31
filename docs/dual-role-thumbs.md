@@ -122,9 +122,17 @@ The thumb row, and why each seat is what it is:
   F13 is off the board entirely; the dead `|` on HEAVEN went with it.
 - **Space and Enter hold the two layers**, via `lt_curse` / `lt_heaven` in the
   keymap — `hold-preferred`, a position whitelist, and `tapping-term-ms = 1000`
-  so the only remaining timer branch never fires by accident. Whitelists are
-  derived from the board (every non-transparent position on the target layer),
-  not hand-picked: **add a key to a layer, add its position to the whitelist.**
+  so the only remaining timer branch never fires by accident.
+  - Whitelists are derived from the board — every non-transparent position on
+    the target layer — not hand-picked.
+  - **Changing what an existing layer key does is pure RPC.** Only putting
+    content on a position that was *blank* on that layer needs a build, because
+    the whitelist is compiled in and Studio cannot touch it. Until it is
+    rebuilt, that key types the tap instead of engaging the layer.
+  - Don't be tempted to whitelist all 58 to avoid that. The whitelist is the set
+    where "you meant the layer" is unambiguous; widen it and `hold-preferred`
+    engages on any key, so rolling Space into a letter falls through to a bare
+    letter with no space — the exact swallow that made Karabiner worse.
 - **Seat 50 and pos 11 keep board-side doors** to the same two layers. Redundant
   and free, and they are the floor if anything upstream breaks.
 
