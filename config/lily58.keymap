@@ -9,8 +9,9 @@
  * If reflashed, Studio's saved state still overrides these defaults — which is
  * also the day this file starts mattering, so it has to be true before a build.
  *
- * Verified cell-by-cell against the board 2026-08-29: all 58 positions on all
- * four bound layers compared as numeric (page, id, mods), not display names.
+ * Verified cell-by-cell against the board 2026-08-31 (post balanced-ladder
+ * flash): all 58 positions on all four bound layers compared as numeric
+ * (page, id, mods), not display names.
  * Edits made in the Studio GUI do NOT reach this file — re-verify after any.
  *
  * HEAVEN pos 2 is a bare keyboard-page usage 0xCE (Keypad @), which macOS

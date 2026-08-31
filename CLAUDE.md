@@ -104,13 +104,10 @@ current layout landed and why, and what is still open.
 
 ## Resume pointer
 
-IN FLIGHT: the balanced-ladder switch (`ltb200`-`ltb360` replacing
-`lt_curse`/`lt_heaven`) is committed but the board may still run the old
-whitelist firmware. Remaining steps: GH Actions build → flash both halves →
-rebind pos 53/54 to `&ltb280 1 SPACE` / `&ltb280 2 RET` over RPC (behavior
-IDs shifted — the old nodes are gone) → `zmkctl verify` → delete this
-paragraph. Then the open threads: whether balanced@280 wears well over a week
-(spaces vanishing = rebind a rung up); pointing something at `media_layer`,
-which is built and flashed but still has nothing referencing it; and the two
-stray cells at HEAVEN pos 1-2 (a blank and an inert Keypad @) that look like
-a Studio slip which ate F14/F15.
+The board runs the balanced ladder, flashed and verified 2026-08-31. Open
+threads, in the order they matter: whether balanced@280 wears well over a
+week (spaces vanishing = rebind a rung up: `zmkctl set 0 53
+layer_tap_balanced_320 1 SPACE`); pointing something at `media_layer`, which
+is built and flashed but still has nothing referencing it; and the two stray
+cells at HEAVEN pos 1-2 (a blank and an inert Keypad @) that look like a
+Studio slip which ate F14/F15.
