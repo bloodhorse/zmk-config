@@ -149,6 +149,10 @@ def cell_from_token(t):
         return ("trans",)
     if t == "&none":
         return ("none",)
+    m = re.match(r"&([a-z_][a-z_0-9]*) (\d+) (.+)$", t)
+    if m and m.group(1) not in ("lt", "mt", "mo", "tog", "kp", "bt"):
+        cell = cell_from_token("&kp " + m.group(3).strip())
+        return ("custom", m.group(1), int(m.group(2))) + cell[1:]
     m = re.match(r"&(lt|mt) (\S+) (.+)$", t)
     if m:
         kind, first, tap = m.group(1), m.group(2), m.group(3).strip()
@@ -190,6 +194,10 @@ def cell_from_board(b):
         m = re.search(r"page: (\d+), id: (\d+), modifiers: (\d+)", s)
         if m:
             return ("kp", int(m.group(1)), int(m.group(2)), int(m.group(3)))
+    m = re.search(r'Custom \{ behavior_id: \d+, display_name: "([a-z_0-9]+)", param1: LayerId\((\d+)\), '
+                  r'param2: Keycode\(HidUsage \{ page: (\d+), id: (\d+), modifiers: (\d+)', s)
+    if m:
+        return ("custom", m.group(1)) + tuple(int(g) for g in m.groups()[1:])
     m = re.search(r"LayerTap \{ layer_id: (\d+), tap: HidUsage \{ page: (\d+), id: (\d+), modifiers: (\d+)", s)
     if m:
         return ("lt",) + tuple(int(g) for g in m.groups())
@@ -210,6 +218,9 @@ def verify(client, keymap_path="config/lily58.keymap"):
     """Verdict-only: MATCH means the file is a true mirror of the board."""
     import re
     src = open(keymap_path).read()
+    # devicetree label vs node name: the keymap binds &lt_curse, the board
+    # reports "layer_tap_curse". Same behavior, two names — resolve the label.
+    labels = dict(re.findall(r"^\s*([a-z_][a-z_0-9]*):\s*([a-z_][a-z_0-9]*)\s*\{", src, re.M))
     blocks = re.findall(r"bindings = <\n(.*?)>;", src, re.S)
     bad = 0
     for layer, block in enumerate(blocks):
@@ -220,6 +231,8 @@ def verify(client, keymap_path="config/lily58.keymap"):
             continue
         for pos in range(58):
             want = cell_from_token(toks[pos])
+            if want[0] == "custom":
+                want = (want[0], labels.get(want[1], want[1])) + want[2:]
             got = cell_from_board(client.get_key_at(layer, pos))
             if want != got:
                 bad += 1
