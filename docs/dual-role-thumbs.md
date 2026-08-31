@@ -22,10 +22,17 @@ Everything measured comes from [`../stats/keycount-2026-07.md`](../stats/keycoun
   chording survives it. Bilateral combinations are one *use* of the property.
 - **`require-prior-idle-ms`** short-circuits to tap-on-press when the previous
   key was recent. It removes felt latency inside a typing burst — at the price
-  of behavior that depends on *how fast you were*. Rejected here on purpose:
-  unpredictable-by-timing is worse than a constant cost.
-- **Long tapping-term + positional whitelist** makes the outcome depend on
-  *which key came next*, never on a clock. That is the shape to build.
+  of behavior that depends on *how fast you were*. Not in use; on the table if
+  the balanced regime ever feels laggy inside bursts.
+- **Two viable shapes, and the trade between them is maintenance vs clocks.**
+  Long tapping-term + positional whitelist decides by *which key came next*,
+  never a clock — but the whitelist is compiled in, so every key added to a
+  layer costs a rebuild + flash of both halves. `balanced` + a timer decides
+  most cases by key order too (press-and-release of another key while the
+  thumb is down = hold; thumb up first = tap) and needs no whitelist, so the
+  whole board is layer-capable and layer edits are pure RPC. Ran the first
+  shape 2026-08 → 2026-08-31, then switched: the rebuild tax bit on every
+  layer edit, while slow typing makes the timer's misfire window cheap.
 
 ## Measured — the two worst keys on the board for this
 
@@ -120,19 +127,19 @@ The thumb row, and why each seat is what it is:
   (gallium) and `RAlt + K` for whisper, `RAlt + Enter` for `'`. Zero delay,
   one-handed, and above the Gallium rules so it is identical in both languages.
   F13 is off the board entirely; the dead `|` on HEAVEN went with it.
-- **Space and Enter hold the two layers**, via `lt_curse` / `lt_heaven` in the
-  keymap — `hold-preferred`, a position whitelist, and `tapping-term-ms = 1000`
-  so the only remaining timer branch never fires by accident.
-  - Whitelists are derived from the board — every non-transparent position on
-    the target layer — not hand-picked.
-  - **Changing what an existing layer key does is pure RPC.** Only putting
-    content on a position that was *blank* on that layer needs a build, because
-    the whitelist is compiled in and Studio cannot touch it. Until it is
-    rebuilt, that key types the tap instead of engaging the layer.
-  - Don't be tempted to whitelist all 58 to avoid that. The whitelist is the set
-    where "you meant the layer" is unambiguous; widen it and `hold-preferred`
-    engages on any key, so rolling Space into a letter falls through to a bare
-    letter with no space — the exact swallow that made Karabiner worse.
+- **Space and Enter hold the two layers**, via the `ltb` ladder in the keymap —
+  `balanced` flavor, `quick-tap-ms = 200`, five compiled rungs at
+  200/240/280/320/360ms so the term is tuned by runtime rebind, never reflash.
+  One behavior serves both thumbs; the layer is a binding parameter
+  (`&ltb280 1 SPACE`, `&ltb280 2 RET`). 280 is the starting default.
+  - No whitelist anymore, so **every layer edit is pure RPC** — content,
+    retargeting, and previously-blank positions alike. A build is needed only
+    for a genuinely new behavior (Studio sets a hold-tap's parameters, never
+    its flavor or term).
+  - The term's one real failure mode: a solo Space press that dwells past it
+    forfeits the space entirely. Spaces vanishing = rebind one rung up.
+  - A fast roll (thumb up first) still yields the tap — balanced protects the
+    space-then-letter roll that `hold-preferred`-without-whitelist would eat.
 - **Seat 50 and pos 11 keep board-side doors** to the same two layers. Redundant
   and free, and they are the floor if anything upstream breaks.
 
@@ -143,9 +150,10 @@ arrows had to leave HEAVEN before Space could carry a layer at all.
 
 ## Still open
 
-- **Does the tap-on-release cost on Space register in daily use?** It is
-  constant, ~your dwell time, and paid on all 421 presses. The one thing only
-  a week of typing can answer.
+- **Does the balanced regime wear well at 280ms?** Two things only a week of
+  typing can answer: the tap-on-release cost (~your dwell, paid on all 421
+  Space presses) and whether lazy solo presses ever cross the term and eat a
+  space. The ladder makes the answer a rebind, not a rebuild.
 - **What else belongs on those two layers.** `media_layer` (layer 3 —
   brightness, keyboard illumination, volume, transport) is built, flashed, and
   **still unreachable — nothing points at it.** Cold by nature, zero misfire

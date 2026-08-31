@@ -58,39 +58,66 @@
             tapping-term-ms = <140>;
             bindings = <&kp>, <&tog>;
         };
-        // Thumb hold-layers. The whole point is that NOTHING here consults a
-        // clock: hold-preferred plus a position whitelist means the outcome is
-        // decided by *which key came next*, never by how fast it came.
+        // Thumb hold-layers — balanced regime, 2026-08-31. The previous design
+        // (hold-preferred + a compiled position whitelist, zero clocks) made
+        // every key added to a layer a whitelist edit -> rebuild -> flash both
+        // halves. That tax lost: bekh types slowly now, so a timer's misfire
+        // window is cheap, and with no whitelist every position is
+        // layer-capable — layer content is pure Studio RPC, forever.
         //
-        //   whitelisted key  -> layer engages on that key's PRESS, instantly
-        //   any other key    -> the tap is emitted immediately, then that key
-        //   released alone   -> the tap, on release
+        // balanced semantics:
+        //   other key pressed AND released while thumb is down -> hold, no wait
+        //   thumb released first (fast roll)                   -> tap
+        //   thumb held alone past the term                     -> hold
+        //   thumb released alone within the term               -> tap, on release
         //
-        // tapping-term is parked at 1000ms deliberately: it is the only branch
-        // that would still be a timer, and at one second it never fires by
-        // accident. No quick-tap and no require-prior-idle-ms — both trade a
-        // constant cost for a surprise that depends on typing speed, and a
-        // surprise you cannot predict is worse than a cost you can feel.
+        // The term's only real job is how long a solo press may dwell before
+        // the tap is forfeited: spaces vanishing = raise it. quick-tap-ms:
+        // tap, then press again within 200ms -> forced tap, held = key repeat.
         //
-        // Whitelists are every non-transparent position on the target layer,
-        // derived from the board rather than hand-picked, minus the thumb key
-        // itself. Add a key to a layer -> add its position here.
-        lt_curse: layer_tap_curse {
+        // Five rungs so tuning the term is a runtime rebind (Studio RPC),
+        // never a reflash — the gtog ladder trick. ltb280 is the default;
+        // one behavior serves both thumbs (the layer is a binding parameter).
+        // Prune = behavior IDs shift under Studio's saved bindings; don't.
+        ltb200: layer_tap_balanced_200 {
             compatible = "zmk,behavior-hold-tap";
             #binding-cells = <2>;
-            flavor = "hold-preferred";
-            tapping-term-ms = <1000>;
+            flavor = "balanced";
+            tapping-term-ms = <200>;
+            quick-tap-ms = <200>;
             bindings = <&mo>, <&kp>;
-            hold-trigger-key-positions = <1 2 3 4 5 6 7 8 9 10 11 13 14 15 16 17 19 20 21 23 27 28 29 31 32
-                33 36 39 40 45 46 47 55 57>;
         };
-        lt_heaven: layer_tap_heaven {
+        ltb240: layer_tap_balanced_240 {
             compatible = "zmk,behavior-hold-tap";
             #binding-cells = <2>;
-            flavor = "hold-preferred";
-            tapping-term-ms = <1000>;
+            flavor = "balanced";
+            tapping-term-ms = <240>;
+            quick-tap-ms = <200>;
             bindings = <&mo>, <&kp>;
-            hold-trigger-key-positions = <2 6 7 8 9 10 11 20 31 32 33 43 55 56>;
+        };
+        ltb280: layer_tap_balanced_280 {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            flavor = "balanced";
+            tapping-term-ms = <280>;
+            quick-tap-ms = <200>;
+            bindings = <&mo>, <&kp>;
+        };
+        ltb320: layer_tap_balanced_320 {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            flavor = "balanced";
+            tapping-term-ms = <320>;
+            quick-tap-ms = <200>;
+            bindings = <&mo>, <&kp>;
+        };
+        ltb360: layer_tap_balanced_360 {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            flavor = "balanced";
+            tapping-term-ms = <360>;
+            quick-tap-ms = <200>;
+            bindings = <&mo>, <&kp>;
         };
         motog: momentary_tap_toggle {
             compatible = "zmk,behavior-hold-tap";
@@ -124,12 +151,12 @@
 // (']' 2.1, ъ 0.6) sit in the worst reach on the board. See stats/keycount-2026-07.md.
 // Under a US input source this key types '&'. The board cannot see the layout;
 // cross-layout '?' would need Karabiner's input_source_if.
-// Space and Enter carry the two layers on hold, via lt_curse / lt_heaven above.
-// This lived in Karabiner for one afternoon because ZMK's stock &lt waits 200ms
-// and Studio can set a hold-tap's parameters but never its flavor. Karabiner
-// was instant but kept a second copy of both layers in scancodes — two sources
-// of truth, one of which was going to rot. Firmware is also strictly better:
-// on a non-whitelisted key it emits the tap, where Karabiner swallowed it.
+// Space and Enter carry the two layers on hold, via the ltb ladder above.
+// This lived in Karabiner for one afternoon; Karabiner was instant but kept a
+// second copy of both layers in scancodes — two sources of truth, one of which
+// was going to rot. Firmware won, first as hold-preferred + whitelist, since
+// 2026-08-31 as the balanced ladder (Studio can set a hold-tap's parameters
+// but never its flavor or term, hence five compiled rungs).
 // Seat 50 (CURSE) and pos 11 (HEAVEN) stay as the board-side doors to the same
 // two layers.
 //
@@ -152,7 +179,7 @@
 &kp TAB   &kp Q  &kp W  &kp E    &kp R    &kp T                         &kp Y  &kp U    &kp I     &kp O   &kp P    &kp LBKT
 &kp LCTRL &kp A  &kp S  &kp D    &kp F    &kp G                         &kp H  &kp J    &kp K     &kp L   &kp SEMI &kp LS(N7)
 &kp LSHFT &kp Z  &kp X  &kp C    &kp V    &kp B  &kp EQUAL   &kp MINUS  &kp N  &kp M    &kp COMMA &kp DOT &kp FSLH &kp RSHFT
-                        &mo 1 &kp LGUI &kp LALT &lt_curse 1 SPACE   &lt_heaven 2 RET &kp RALT &kp BSPC &kp RGUI
+                        &mo 1 &kp LGUI &kp LALT &ltb280 1 SPACE   &ltb280 2 RET &kp RALT &kp BSPC &kp RGUI
             >;
 
             sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN>;
