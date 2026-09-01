@@ -16,10 +16,11 @@ That means edits go one of two ways:
 
 - **runtime** (`&kp`, `&mo`, layer-taps that already exist) — set over Studio
   RPC with `tools/zmkctl.py`, live in seconds, revert in seconds
-- **new behaviors** (a mod-morph, a hold-tap with a custom flavor or whitelist) —
-  those must be compiled in, so: edit the keymap → push → GitHub Actions builds →
-  flash both halves → **then bind over RPC**, because Studio's saved state still
-  holds the old binding for that position
+- **new behaviors and conditional layers** (a mod-morph, a hold-tap with a
+  custom flavor, a tri-layer node) — those must be compiled in, so: edit the
+  keymap → push → GitHub Actions builds → flash both halves → **then bind over
+  RPC** where a binding changed (a conditional_layers node needs no rebinding —
+  it lives in firmware, not settings)
 
 Layer *content* is always runtime — retargeting, adding, or clearing any key
 on CURSE or HEAVEN never needs a build. Since 2026-08-31 the thumb hold-taps
@@ -86,6 +87,10 @@ precedence. Back the file up first and it is as reversible as anything else.
   `input_source_if ^en$`, so under Russian the physical positions are plain
   ЙЦУКЕН: `[` is х, `;` is ж, `/` is `.`. A key that looks free in English is
   often a live Cyrillic letter. Modifier seats are the only ones free in both.
+- **Deleting a layer in Studio does not survive a reflash** while the keymap
+  file still defines it: media (id 3) was deleted in the kitchen and came back
+  with firmware defaults on the 2026-09-01 flash. Retired layer ids are never
+  recycled either — Studio's next new layer takes the next reserved slot.
 - **The keymap-drawer Action amends your pushed commit** to add the regenerated
   SVG. Every subsequent push conflicts; resolve by keeping your
   `config/lily58.keymap` and taking theirs for `keymap-drawer/`.
@@ -104,20 +109,27 @@ current layout landed and why, and what is still open.
 
 ## Resume pointer
 
-The board runs the balanced ladder, flashed and verified 2026-08-31 — but
-since later that day bekh is cooking GUI edits directly in ZMK Studio, on
-purpose, hands off: **the mirror is STALE and `verify` MISMATCH is expected
-and correct.** Do not "fix" the board to match the file. Proper re-mirror
-(dump → fold into the keymap file → verify) planned for ~2026-09-end when the
-cooking is done; until then his edits have no backup, so a read-only `dump`
-snapshot is welcome any time the Studio GUI is closed. Also parked: seat 50
-→ `motog 1 1` (tap = latch CURSE numpad, hold = momentary door) — approved
-but on hold so it doesn't stomp the GUI work. Arrows left Karabiner's RAlt
-2026-08-31 (rule 0 keeps only K=F13 and Enter=apostrophe; backup json.bak
-sits next to karabiner.json) — arrows are HEAVEN's, board-side. Open
-threads, in the order they matter: whether balanced@280 wears well over a
-week (spaces vanishing = rebind a rung up: `zmkctl set 0 53
-layer_tap_balanced_320 1 SPACE`); pointing something at `media_layer`, which
-is built and flashed but still has nothing referencing it; and the two stray
-cells at HEAVEN pos 1-2 (a blank and an inert Keypad @) that look like a
-Studio slip which ate F14/F15.
+KITCHEN MODE, since 2026-08-31, until ~2026-09-end: bekh cooks GUI edits in
+Studio on purpose — **the mirror is STALE, `verify` MISMATCH is expected and
+correct, do not "fix" the board to match the file.** The real board state is
+snapshotted read-only in [`docs/kitchen-dump-2026-09-01.txt`](docs/kitchen-dump-2026-09-01.txt);
+refresh it (dump → commit) whenever the port is free — it is the only backup
+his edits have. Cooked so far, beyond the file: thumb row reshuffled (LAlt↔LGui
+swapped, RAlt→RGui, HEAVEN's pos-11 door traded for a plain `]`), CURSE's left
+hand is aerospace sims (`LA(letter)`), CURSE num row is `LA(ESC)`/`LA(1-5)`
+workspace switching, and **LIMBO** (fw slot 4) opens on Space+Enter held
+together — a compiled conditional_layers node — carrying the alt-arrow
+word-jump cross on HEAVEN's arrow positions. alt+shift+number works with no
+cells: real shift composes (right shift any order; left shift before Space,
+CAPS squats on CURSE's shift seat). Media (slot 3) is back after the reflash,
+inert. The space-as-real-Alt idea is settled: simulate with `LA()` cells; a
+balanced mod-tap build only ever pays if alt+mouse chords start mattering.
+
+Parked, in bekh's words: seat 50 → `motog 1 1` (tap = latch CURSE numpad,
+hold = momentary door) — approved, waiting; alt+Z fullscreen sim — "think
+later"; CAPS off CURSE's shift seat if the left-shift ordering annoys.
+
+Open threads: whether balanced@280 wears well (spaces vanishing = rebind a
+rung up: `zmkctl set 0 53 layer_tap_balanced_320 1 SPACE`); the two stray
+cells at HEAVEN pos 1-2; and the proper re-mirror at month end — dump → fold
+into the keymap file → verify MATCH → delete the kitchen notes above.
