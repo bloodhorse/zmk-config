@@ -129,6 +129,20 @@
         };
     };
 
+    // Both thumb layers held together open LIMBO (word-motion: the HEAVEN
+    // arrow cross positions, but with Alt/Cmd chords). Indices are FIRMWARE
+    // layer slots: 1=CURSE, 2=HEAVEN, 4=the first reserved slot — which is
+    // where Studio put bekh's LIMBO layer (media, id 3, was deleted in the
+    // Studio kitchen 2026-09; ids don't recycle). If layers are ever
+    // re-mirrored/reordered, re-check these numbers before trusting them.
+    conditional_layers {
+        compatible = "zmk,conditional-layers";
+        limbo_tri {
+            if-layers = <1 2>;
+            then-layer = <4>;
+        };
+    };
+
     keymap {
         compatible = "zmk,keymap";
 

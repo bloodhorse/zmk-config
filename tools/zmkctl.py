@@ -93,6 +93,8 @@ def connect():
 
 
 def dump(client, max_layers=10):
+    # Layer ids can have holes: deleting a layer in Studio retires its id for
+    # good (media was id 3), so a failed id means skip, never stop.
     for layer in range(max_layers):
         try:
             cells = {}
@@ -100,7 +102,7 @@ def dump(client, max_layers=10):
                 for pos in left + right:
                     cells[pos] = label(client.get_key_at(layer, pos))
         except Exception:
-            break
+            continue
         print(f"=== layer {layer} ===")
         for name, left, right in ROWS:
             l = " ".join(f"{cells[p]:>7}" for p in left)
