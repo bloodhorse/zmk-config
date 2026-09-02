@@ -1,5 +1,5 @@
 === layer 0 ===
-num      Esc       1       2       3       4       5   |         6       7       8       9       0       ]
+num      Esc   LS(`)       '   LS(')       `   LS(9)   |     LS(0)   LS([)   LS(])       [       ]       \
 top      Tab       Q       W       E       R       T   |         Y       U       I       O       P       [
 home    LCtl       A       S       D       F       G   |         H       J       K       L       ;   LS(7)
 bot     LSft       Z       X       C       V       B       =   |         -       N       M       ,       .       /    RSft
@@ -7,15 +7,15 @@ thmb     mo1    LAlt    LGui Behavior(Custo   |   Behavior(Custo    RGui    BkSp
 
 === layer 1 ===
 num  LA(Esc)   LA(1)   LA(2)   LA(3)   LA(4)   LA(5)   |        F6      F7      F8      F9     F10     F11
-top        ▽     F11     F12  p7u108  p7u109     Ret   |         ▽       7       8       9       ▽     F12
-home       ▽   LA(A)   LA(S)   LA(D)   LA(F) LC(Spc)   |         ▽       4       5       6       ▽       ▽
-bot     Caps       ▽       ▽  p7u108   LA(V) LA(Spc)  p7u108   |         ▽       ▽       1       2       3       ▽       ▽
-thmb       ▽       ▽       ▽       `   |         ▽       0       ▽   p7u99
+top  LA(Tab)     F11     F12 LS+LA(F)   LA(R)     Ret   |         ▽       7       8       9       ▽     F12
+home       ▽   LA(A)   LA(S)   LA(D)   LA(F)   LA(G)   |         ▽       4       5       6       ▽       ▽
+bot     Caps       ▽       ▽  p7u108   LA(V)   LA(B)   LA(=)   |         ▽       ▽       1       2       3       ▽       ▽
+thmb       ▽       ▽       ▽       `   |         ▽       0 LA(BkSp)   p7u99
 
 === layer 2 ===
 num        ▽       ▽  p7u206       ▽       ▽       ▽   |   Behavior(Bluet Behavior(Bluet Behavior(Bluet Behavior(Bluet       ]   p7u87
 top        ▽       ▽       ▽       ▽       ▽       ▽   |         ▽       ▽       ↑       ▽       ▽       ▽
-home       ▽       ▽       ▽       ▽       ▽       ▽   |         ▽       ←       ↓       →       ▽       ▽
+home       ▽       ▽       ▽       ▽       ▽       ▽   |     LA(←)       ←       ↓       →   LA(→)       ▽
 bot        ▽       ▽       ▽       ▽       ▽       ▽       ▽   |    p7u107  p7u104       ▽   LS(\)       ▽       ▽       ▽
 thmb       ▽       ▽       ▽       ▽   |         '    tog1     Del       ▽
 

@@ -166,6 +166,22 @@ def _param2(token):
     return int(token, 0)
 
 
+def set_kp(client, layer, pos, name):
+    """Bind a plain &kp by ZMK keycode name and save.
+
+    zmkctl kp L POS NAME   e.g. kp 0 4 GRAV / kp 0 3 DQT / kp 0 1 0x2070032
+    NAME is a zmk_studio_api.Keycode member (ZMK's own spelling: GRAV, TILD,
+    APOSTROPHE, DQT, LPAR, LBRC, BSLH, PIPE …) or a raw 0xMMPPIIII value —
+    modifiers ride in the top byte, so shifted symbols are one keycode.
+    """
+    kc = z.Keycode(int(name, 0)) if name.startswith("0x") else getattr(z.Keycode, name, None)
+    if kc is None:
+        raise SystemExit(f"unknown keycode {name!r} — see dir(zmk_studio_api.Keycode)")
+    client.set_key_at(layer, pos, z.KeyPress(kc))
+    client.save_changes()
+    print(client.get_key_at(layer, pos))
+
+
 def set_custom(client, layer, pos, name, p1, p2):
     """Bind a custom (devicetree) behavior by display name and save.
 
@@ -316,6 +332,8 @@ if __name__ == "__main__":
         print(c.get_key_at(int(sys.argv[2]), int(sys.argv[3])))
     elif cmd == "behaviors":
         behaviors(c)
+    elif cmd == "kp":
+        set_kp(c, int(sys.argv[2]), int(sys.argv[3]), sys.argv[4])
     elif cmd == "set":
         set_custom(c, int(sys.argv[2]), int(sys.argv[3]), sys.argv[4], sys.argv[5], sys.argv[6])
     else:
