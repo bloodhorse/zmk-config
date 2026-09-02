@@ -125,7 +125,8 @@ CAPS squats on CURSE's shift seat). Media (slot 3) is back after the reflash,
 inert. The space-as-real-Alt idea is settled: simulate with `LA()` cells; a
 balanced mod-tap build only ever pays if alt+mouse chords start mattering.
 
-Number row is now unshifted `! @ # $ % ^ & * ( )` (2026-09-02); the
+Number row is plain digits with `\` at pos 11; the unshifted-symbols row was
+tried and reverted on 2026-09-02 because it broke cmd+digit — that, the
 cross-language symbol problem and the custom ЙЦУКЕН plan live in
 [`docs/musings_over_ru_layout.md`](docs/musings_over_ru_layout.md) — read it before touching either.
 

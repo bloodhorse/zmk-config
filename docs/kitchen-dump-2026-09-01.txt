@@ -1,5 +1,5 @@
 === layer 0 ===
-num      Esc   LS(1)   LS(2)   LS(3)   LS(4)   LS(5)   |     LS(6)   LS(7)   LS(8)   LS(9)   LS(0)       \
+num      Esc       1       2       3       4       5   |         6       7       8       9       0       \
 top      Tab       Q       W       E       R       T   |         Y       U       I       O       P       [
 home    LCtl       A       S       D       F       G   |         H       J       K       L       ;   LS(7)
 bot     LSft       Z       X       C       V       B       =   |         -       N       M       ,       .       /    RSft

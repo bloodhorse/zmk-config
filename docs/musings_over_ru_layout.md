@@ -35,8 +35,8 @@ One custom ЙЦУКЕН file. Five cells differ from Apple's Russian:
 | shift+7 | `&` | `?` | `&` |
 
 `! % * ( )` already agree. After this the ten shifted-digit symbols are
-identical in both languages, wherever the board puts them (today: unshifted
-on the number row, and behind shift on HEAVEN's numpad).
+identical in both languages, wherever the board puts them (today: behind
+shift on the number row and on HEAVEN's numpad).
 
 EN layout untouched. No board change. Karabiner's Gallium rules act on
 scancodes upstream of the layout and do not care.
@@ -74,17 +74,36 @@ verify in a real file before building on it.**
 - Dead end already found: alt+digit combos as a symbol layer are out —
   AeroSpace owns alt+1-5 and alt+shift+digits.
 
+## Why the unshifted row got reverted (2026-09-02)
+
+The row ran as unshifted `! @ # $ % ^ & * ( )` for an evening. It fell to
+cmd+digit: bekh uses cmd+1…9 constantly (tabs, workspaces), and a seat that
+sends shift+digit makes that cmd+shift+digit. Two fixes exist, neither free:
+
+- **Karabiner** — `cmd+shift+digit → cmd+digit`, ten manipulators, trivial.
+  But it eats every real cmd+shift+digit too, and cmd+shift+3/4/5 are macOS
+  screenshots; Karabiner cannot tell "cmd on the `$` seat" from a genuine
+  cmd+shift+4 — same event. Only viable if the screenshot chords move.
+- **Board mod-morph** — a per-seat behavior: plain digit while cmd is held,
+  shifted symbol otherwise (`mod-morph`, mods `MOD_LGUI|MOD_RGUI`, ten nodes
+  or one parametrised via `keep-mods`). Correct and lossless, but it is a
+  compiled behavior: edit keymap → build → flash → bind over RPC.
+
+bekh's call: not ready to solve it, revert to digits, decide later. The
+mod-morph is the answer when he is.
+
 ## Where it stands (2026-09-02)
 
-- Board side done, runtime, in the kitchen: number row is unshifted
-  `! @ # $ % ^ & * ( )` with `\` at pos 11; HEAVEN's numpad is plain `N1`…`N0`
-  (not keypad codes — the dump renders keypad as raw `p7uNN`, only `KP_DOT` at
-  the outer thumb is one), so shift+numpad composes the same ten symbols.
-  Under Russian the row types `!"№;%:?*()` — exactly the five cells above.
+- Board side: number row is plain `1`–`0` again with `\` at pos 11 (the
+  `]` it had before is a duplicate of pos 23 anyway). HEAVEN's numpad is
+  plain `N1`…`N0` (not keypad codes — the dump renders keypad as raw
+  `p7uNN`, only `KP_DOT` at the outer thumb is one), so shift+numpad
+  composes `!@#$%^&*()`, and cmd+numpad composes cmd+digit.
 - `.keylayout` file: not started. Blocked on the RU `?` `:` `"` question.
 - Backtick, tilde, quotes, brackets have no seat on the board right now
   (backtick sits on CURSE under the Space seat, unreachable). Positions are a
   separate fight, explicitly deferred by bekh.
 - `zmkctl kp L POS NAME` binds a plain key press by ZMK's own keycode names
-  (`EXCL`, `ATSN`, `HASH`, `DLLR`, `PRCNT`, `AMPS`, `ASTRK`, `LPAR`, `RPAR`;
-  `^` has no name in the enum, use `0x2070023`).
+  (`NUM_1`…`NUM_0`, `EXCL`, `ATSN`, `HASH`, `DLLR`, `PRCNT`, `AMPS`, `ASTRK`,
+  `LPAR`, `RPAR`, `GRAV`, `TILD`, `DQT`, `APOSTROPHE`, `LBKT`, `RBKT`, `LBRC`,
+  `RBRC`, `BSLH`; `^` has no name in the enum, use `0x2070023`).
