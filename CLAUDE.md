@@ -127,7 +127,7 @@ balanced mod-tap build only ever pays if alt+mouse chords start mattering.
 
 Number row is now unshifted `! @ # $ % ^ & * ( )` (2026-09-02); the
 cross-language symbol problem and the custom ЙЦУКЕН plan live in
-[`docs/ruyout.md`](docs/ruyout.md) — read it before touching either.
+[`docs/musings_over_ru_layout.md`](docs/musings_over_ru_layout.md) — read it before touching either.
 
 Parked, in bekh's words: seat 50 → `motog 1 1` (tap = latch CURSE numpad,
 hold = momentary door) — approved, waiting; alt+Z fullscreen sim — "think
