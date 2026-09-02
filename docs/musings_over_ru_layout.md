@@ -2,7 +2,6 @@
 
 The parking spot for a fix we agreed on and have not built: a custom ЙЦУКЕН
 `.keylayout` so that symbol keys give the same glyph regardless of which
-`.keylayout` so that symbol keys give the same glyph regardless of which
 language macOS is in. Pick up from "Where it stands".
 
 ## The problem in one line
