@@ -94,8 +94,8 @@ mod-morph is the answer when he is.
 
 ## Where it stands (2026-09-02)
 
-- Board side: number row is plain `1`–`0` again with `\` at pos 11 (the
-  `]` it had before is a duplicate of pos 23 anyway). HEAVEN's numpad is
+- Board side: number row is plain `1`–`0` and `]` again, exactly as before
+  the experiment. HEAVEN's numpad is
   plain `N1`…`N0` (not keypad codes — the dump renders keypad as raw
   `p7uNN`, only `KP_DOT` at the outer thumb is one), so shift+numpad
   composes `!@#$%^&*()`, and cmd+numpad composes cmd+digit.
