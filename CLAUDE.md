@@ -125,6 +125,10 @@ CAPS squats on CURSE's shift seat). Media (slot 3) is back after the reflash,
 inert. The space-as-real-Alt idea is settled: simulate with `LA()` cells; a
 balanced mod-tap build only ever pays if alt+mouse chords start mattering.
 
+Number row is now unshifted `! @ # $ % ^ & * ( )` (2026-09-02); the
+cross-language symbol problem and the custom ЙЦУКЕН plan live in
+[`docs/ruyout.md`](docs/ruyout.md) — read it before touching either.
+
 Parked, in bekh's words: seat 50 → `motog 1 1` (tap = latch CURSE numpad,
 hold = momentary door) — approved, waiting; alt+Z fullscreen sim — "think
 later"; CAPS off CURSE's shift seat if the left-shift ordering annoys.
