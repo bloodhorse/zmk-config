@@ -112,9 +112,26 @@ precedence. Back the file up first and it is as reversible as anything else.
   not in the board's behavior list at all, so the API cannot name it. It is an
   empty cell in effect; `cell_from_board` maps exactly that string to `&none` so
   the layer can be verified instead of skipped.
-- **The keymap-drawer Action amends your pushed commit** to add the regenerated
-  SVG. Every subsequent push conflicts; resolve by keeping your
-  `config/lily58.keymap` and taking theirs for `keymap-drawer/`.
+- **The keymap-drawer Action rewrites the commit you just pushed.** It fires on
+  any push touching `config/*.keymap`, regenerates `keymap-drawer/lily58.{svg,yaml}`,
+  and — because the workflow sets `amend_commit: true` — folds them into *your*
+  commit with `--amend`, then force-pushes. Same content, new SHA. Your local
+  branch is left pointing at a commit that no longer exists upstream, and the two
+  are siblings off the same parent, not parent-and-child.
+  **Recovery is `git reset --hard origin/main`, never a merge** — the remote
+  commit already contains everything yours did, so there is nothing to keep. A
+  `git pull` instead invents a conflict in `keymap-drawer/`, files neither side
+  hand-edited.
+- **It pushes with `--force-with-lease`, so a fast second push kills the drawer.**
+  Push a keymap change, then push again within ~40s, and the amend is rejected
+  with `! [rejected] main -> main (stale info)`. Nothing is corrupted and your
+  branch stays linear — but **the SVG is now stale**, silently, because the run
+  went red while your commits went through. Fix: re-run it by hand, then reset.
+
+  ```bash
+  gh workflow run "Draw ZMK keymaps" --ref main   # wait for it, then:
+  git fetch origin && git reset --hard origin/main
+  ```
 
 ## Deciding what goes where
 
