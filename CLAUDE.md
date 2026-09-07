@@ -142,9 +142,10 @@ What the kitchen actually produced, now in the file:
 
 - **`shit` (slot 3) got a door and a job.** `&mo 3` sits at pos 24 (left home
   row, where LCTRL used to be) — the only non-thumb layer door on the board.
-  Its num row was media/brightness consumer-page usages; wiped 2026-09-08 for a
-  straight F1–F12. F1 is on the **ESC seat**, so the F-number runs one ahead of
-  the digit printed under it (F2 on `1`, F11 on `0`, F12 on the `]` corner).
+  Its num row was media/brightness consumer-page usages; wiped 2026-09-08 for
+  F1–F12. **F1–F10 sit under the digit they are named after** — that alignment
+  is the point — so the two overflow keys took the seats with no digit: F11 on
+  the ESC corner, F12 on the `]` corner.
   Volume still lives on the rotary encoder, which is bound on every layer.
 - **The base layer has no plain layer doors left.** Seat 50 (was `&mo 1`) is
   LCTRL, pos 11 (was `&mo 2`) is `]`. CURSE and HEAVEN are reachable *only*
@@ -171,8 +172,6 @@ shift seat if the left-shift ordering annoys. The old `motog 1 1` plan for seat
 50 is **stale** — that seat is LCTRL now and CURSE lost its board-side door, so
 re-decide the seat before reviving it.
 
-Open threads: whether the F1-on-ESC offset reads wrong in use (shifting the row
-one seat right gives F1–F10 under their own digits and orphans the two end
-seats); whether balanced@280 wears well (spaces vanishing = rebind a rung up:
+Open threads: whether balanced@280 wears well (spaces vanishing = rebind a rung up:
 `zmkctl set 0 53 layer_tap_balanced_320 1 SPACE`); HEAVEN pos 2's stray `0xCE`
 (Keypad @, ignored by macOS); and a build to land LIMBO in firmware.

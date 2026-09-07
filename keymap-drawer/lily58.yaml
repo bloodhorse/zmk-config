@@ -178,6 +178,7 @@ layers:
   - ⌦
   - {t: ▽, type: trans}
   shit:
+  - F11
   - F1
   - F2
   - F3
@@ -188,7 +189,6 @@ layers:
   - F8
   - F9
   - F10
-  - F11
   - F12
   - ''
   - ''
