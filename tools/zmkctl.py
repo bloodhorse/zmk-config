@@ -270,6 +270,13 @@ def cell_from_board(b):
         return ("trans",)
     if "NoBehavior" in s or "Behavior(None" in s:
         return ("none",)
+    # A cell in a layer that devicetree never defined (a "reserved" slot Studio
+    # later activated, e.g. LIMBO) holds a zeroed binding: behavior id 0, which
+    # is not in the board's behavior list at all, so the API cannot name it.
+    # Functionally it is an empty cell — same as &none, which is how the mirror
+    # writes it. Narrow on purpose: only id 0, only with null params.
+    if "Unknown { behavior_id: 0, param1: 0, param2: 0 }" in s:
+        return ("none",)
     if "KeyPress" in s:
         m = re.search(r"page: (\d+), id: (\d+), modifiers: (\d+)", s)
         if m:

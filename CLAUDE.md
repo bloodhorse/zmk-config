@@ -50,10 +50,24 @@ uv venv --python 3.12 .venv
 uv pip install --python .venv/bin/python zmk-studio-api
 ```
 
-The board must be plugged in and **ZMK Studio's GUI must be closed** — it holds
-the serial port exclusively, and `zmkctl` will fail with "Device or resource
-busy" while it is open. The usbmodem node moves between ports; `zmkctl` globs
-for it, `ZMKCTL_SERIAL` overrides.
+The board must be plugged in and **ZMK Studio's GUI must not be running** — it
+holds the serial port exclusively, and `zmkctl` fails with "Device or resource
+busy" while it is open.
+
+**Standing authorization: when the port is busy, kill ZMK Studio. Don't ask.**
+
+```bash
+P=$(lsof -t /dev/tty.usbmodem* 2>/dev/null | head -1); [ -n "$P" ] && kill $P
+```
+
+Kill by the PID `lsof` reports, never `pkill -f zmk` — the shell running it
+matches its own pattern. Studio writes every GUI edit straight to the board, so
+there is no unsaved buffer to lose. It also relaunches itself and grabs the port
+again mid-session; re-run the kill before each `zmkctl` call rather than assuming
+the port stayed free.
+
+The usbmodem node moves between ports; `zmkctl` globs for it, `ZMKCTL_SERIAL`
+overrides.
 
 ## Board vs Karabiner — where a thing belongs
 
@@ -89,8 +103,15 @@ precedence. Back the file up first and it is as reversible as anything else.
   often a live Cyrillic letter. Modifier seats are the only ones free in both.
 - **Deleting a layer in Studio does not survive a reflash** while the keymap
   file still defines it: media (id 3) was deleted in the kitchen and came back
-  with firmware defaults on the 2026-09-01 flash. Retired layer ids are never
-  recycled either — Studio's next new layer takes the next reserved slot.
+  with firmware defaults on the 2026-09-01 flash — it is now `shit`, the same
+  slot renamed and reused. Retired layer ids are never recycled either — Studio's
+  next new layer takes the next reserved slot, which is how LIMBO ended up in
+  `extra_2` (slot 4).
+- **A reserved slot Studio activated holds zeroed bindings, not `&none`.** Cells
+  in such a layer read back as `Unknown { behavior_id: 0 }` — behavior id 0 is
+  not in the board's behavior list at all, so the API cannot name it. It is an
+  empty cell in effect; `cell_from_board` maps exactly that string to `&none` so
+  the layer can be verified instead of skipped.
 - **The keymap-drawer Action amends your pushed commit** to add the regenerated
   SVG. Every subsequent push conflicts; resolve by keeping your
   `config/lily58.keymap` and taking theirs for `keymap-drawer/`.
@@ -109,32 +130,49 @@ current layout landed and why, and what is still open.
 
 ## Resume pointer
 
-KITCHEN MODE, since 2026-08-31, until ~2026-09-end: bekh cooks GUI edits in
-Studio on purpose — **the mirror is STALE, `verify` MISMATCH is expected and
-correct, do not "fix" the board to match the file.** The real board state is
-snapshotted read-only in [`docs/kitchen-dump-2026-09-01.txt`](docs/kitchen-dump-2026-09-01.txt);
-refresh it (dump → commit) whenever the port is free — it is the only backup
-his edits have. Cooked so far, beyond the file: thumb row reshuffled (LAlt↔LGui
-swapped, RAlt→RGui, HEAVEN's pos-11 door traded for a plain `]`), CURSE's left
-hand is aerospace sims (`LA(letter)`), CURSE num row is `LA(ESC)`/`LA(1-5)`
-workspace switching, and **LIMBO** (fw slot 4) opens on Space+Enter held
-together — a compiled conditional_layers node — carrying the alt-arrow
-word-jump cross on HEAVEN's arrow positions. alt+shift+number works with no
-cells: real shift composes (right shift any order; left shift before Space,
-CAPS squats on CURSE's shift seat). Media (slot 3) is back after the reflash,
-inert. The space-as-real-Alt idea is settled: simulate with `LA()` cells; a
-balanced mod-tap build only ever pays if alt+mouse chords start mattering.
+**KITCHEN MODE IS CLOSED, 2026-09-08.** The mirror is true again: `verify`
+returns MATCH across all five bound layers, so a MISMATCH from here on is real
+drift, not expected noise. `docs/kitchen-dump-2026-09-01.txt` is superseded by
+`config/lily58.keymap` itself — kept only as a record of what the kitchen looked
+like mid-cook.
 
-Number row is back to plain digits and `]`; the unshifted-symbols row was
-tried and reverted on 2026-09-02 because it broke cmd+digit — that, the
-cross-language symbol problem and the custom ЙЦУКЕН plan live in
+Five bound layers now: 0 `ground`, 1 `CURSE`, 2 `HEAVEN`, 3 `shit`, 4 `LIMBO`.
+
+What the kitchen actually produced, now in the file:
+
+- **`shit` (slot 3) got a door and a job.** `&mo 3` sits at pos 24 (left home
+  row, where LCTRL used to be) — the only non-thumb layer door on the board.
+  Its num row was media/brightness consumer-page usages; wiped 2026-09-08 for a
+  straight F1–F12. F1 is on the **ESC seat**, so the F-number runs one ahead of
+  the digit printed under it (F2 on `1`, F11 on `0`, F12 on the `]` corner).
+  Volume still lives on the rotary encoder, which is bound on every layer.
+- **The base layer has no plain layer doors left.** Seat 50 (was `&mo 1`) is
+  LCTRL, pos 11 (was `&mo 2`) is `]`. CURSE and HEAVEN are reachable *only*
+  through the thumb hold-taps at pos 53/54 — plus `&tog 1` at HEAVEN pos 55,
+  which is the single escape hatch if a hold-tap ever misbehaves.
+- **LIMBO** (fw slot 4, was `extra_2`) opens on Space+Enter held together via
+  the compiled conditional_layers node, carrying the alt-arrow word-jump cross.
+  It is now written out as a real layer in the keymap file — **but that only
+  becomes the firmware default on the next build.** Today it lives solely in
+  Studio flash settings, so a `settings_reset` before a rebuild loses it.
+- CURSE's left hand is aerospace sims (`LA(letter)`), num row `LA(ESC)`/`LA(1-5)`
+  for workspaces. alt+shift+number needs no cells: real shift composes (right
+  shift any order; left shift before Space, since CAPS squats on CURSE pos 36).
+  The space-as-real-Alt idea is settled — simulate with `LA()` cells; a balanced
+  mod-tap build only ever pays if alt+mouse chords start mattering.
+
+Number row is plain digits and `]`; the unshifted-symbols row was tried and
+reverted on 2026-09-02 because it broke cmd+digit — that, the cross-language
+symbol problem and the custom ЙЦУКЕН plan live in
 [`docs/musings_over_ru_layout.md`](docs/musings_over_ru_layout.md) — read it before touching either.
 
-Parked, in bekh's words: seat 50 → `motog 1 1` (tap = latch CURSE numpad,
-hold = momentary door) — approved, waiting; alt+Z fullscreen sim — "think
-later"; CAPS off CURSE's shift seat if the left-shift ordering annoys.
+Parked, in bekh's words: alt+Z fullscreen sim — "think later"; CAPS off CURSE's
+shift seat if the left-shift ordering annoys. The old `motog 1 1` plan for seat
+50 is **stale** — that seat is LCTRL now and CURSE lost its board-side door, so
+re-decide the seat before reviving it.
 
-Open threads: whether balanced@280 wears well (spaces vanishing = rebind a
-rung up: `zmkctl set 0 53 layer_tap_balanced_320 1 SPACE`); the two stray
-cells at HEAVEN pos 1-2; and the proper re-mirror at month end — dump → fold
-into the keymap file → verify MATCH → delete the kitchen notes above.
+Open threads: whether the F1-on-ESC offset reads wrong in use (shifting the row
+one seat right gives F1–F10 under their own digits and orphans the two end
+seats); whether balanced@280 wears well (spaces vanishing = rebind a rung up:
+`zmkctl set 0 53 layer_tap_balanced_320 1 SPACE`); HEAVEN pos 2's stray `0xCE`
+(Keypad @, ignored by macOS); and a build to land LIMBO in firmware.

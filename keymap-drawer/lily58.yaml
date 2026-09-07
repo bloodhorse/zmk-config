@@ -12,7 +12,7 @@ layers:
   - '8'
   - '9'
   - '0'
-  - HEAVEN
+  - ']'
   - ↹
   - Q
   - W
@@ -25,7 +25,7 @@ layers:
   - O
   - P
   - '['
-  - $$mdi:apple-keyboard-control$$
+  - shit
   - A
   - S
   - D
@@ -51,32 +51,32 @@ layers:
   - .
   - /
   - $$mdi:apple-keyboard-shift$$
-  - CURSE
-  - $$mdi:apple-keyboard-command$$
+  - $$mdi:apple-keyboard-control$$
   - $$mdi:apple-keyboard-option$$
+  - $$mdi:apple-keyboard-command$$
   - {t: ␣, h: CURSE}
   - {t: ⏎, h: HEAVEN}
-  - $$mdi:apple-keyboard-option$$
-  - $$mdi:backspace-outline$$
   - $$mdi:apple-keyboard-command$$
+  - $$mdi:backspace-outline$$
+  - $$mdi:apple-keyboard-control$$
   CURSE:
-  - {t: ▽, type: trans}
-  - F1
-  - F2
-  - F3
-  - F4
-  - F5
+  - Alt+Esc
+  - Alt+1
+  - Alt+2
+  - Alt+3
+  - Alt+4
+  - Alt+5
   - F6
   - F7
   - F8
   - F9
   - F10
   - F11
-  - {t: ▽, type: trans}
+  - Alt+↹
   - F11
   - F12
-  - F17
-  - F18
+  - Sft+Alt+F
+  - Alt+R
   - ⏎
   - {t: ▽, type: trans}
   - '7'
@@ -85,11 +85,11 @@ layers:
   - {t: ▽, type: trans}
   - F12
   - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - Gui+K
-  - K
-  - Ctl+␣
+  - Alt+A
+  - Alt+S
+  - Alt+D
+  - Alt+F
+  - Alt+G
   - {t: ▽, type: trans}
   - '4'
   - '5'
@@ -100,9 +100,9 @@ layers:
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - F17
-  - F18
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
+  - Alt+V
+  - Alt+B
+  - Alt+␣
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - '1'
@@ -110,13 +110,13 @@ layers:
   - '3'
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
-  - {type: held}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
-  - '`'
-  - {t: ▽, type: trans}
+  - Gui+Q
+  - {t: '`', type: held}
+  - ''''
   - '0'
-  - {t: ▽, type: trans}
+  - Alt+⌫
   - KP DOT
   HEAVEN:
   - {t: ▽, type: trans}
@@ -130,14 +130,14 @@ layers:
   - BT PRV
   - BT NXT
   - ']'
-  - {t: KP PLUS, type: held}
+  - KP PLUS
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
+  - Alt+Y
   - {t: ▽, type: trans}
   - ↑
   - {t: ▽, type: trans}
@@ -149,11 +149,11 @@ layers:
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
+  - Alt+←
   - ←
   - ↓
   - →
-  - {t: ▽, type: trans}
+  - Alt+→
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
@@ -163,45 +163,49 @@ layers:
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - F16
+  - F13
+  - F18
+  - Sft+\
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - ''''
+  - '`'
+  - {t: '''', type: held}
   - {t: CURSE, h: toggle}
   - ⌦
   - {t: ▽, type: trans}
-  media:
-  - ''
-  - BRI DN
-  - BRI UP
-  - ''
-  - '0xC007A'
-  - '0xC0079'
-  - Vol Up
-  - RW
-  - ⏯
-  - FF
-  - MUTE
-  - Vol Down
-  - ''
-  - ''
+  shit:
+  - F1
+  - F2
+  - F3
+  - F4
+  - F5
+  - F6
+  - F7
+  - F8
+  - F9
+  - F10
+  - F11
+  - F12
   - ''
   - ''
-  - ''
-  - ''
+  - Ctl+L
+  - Gui+I
   - ''
   - ''
   - ''
   - ''
   - ''
   - ''
+  - ''
+  - ''
+  - {type: held}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - Gui+K
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
@@ -210,10 +214,6 @@ layers:
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
   - ''
   - ''
   - ''
@@ -233,6 +233,65 @@ layers:
   - ''
   - ''
   - ''
+  - ''
+  - ''
+  - ''
+  LIMBO:
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - Alt+↑
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - Alt+←
+  - Alt+↓
+  - Alt+→
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - {type: held}
+  - {type: held}
   - ''
   - ''
   - ''
