@@ -85,7 +85,25 @@ will drift from the first.
 **Karabiner rules get edited and enabled directly**, never handed back to the
 GUI: enabling is inserting the rule object into
 `profiles[0].complex_modifications.rules` at the index that gives it the right
-precedence. Back the file up first and it is as reversible as anything else.
+precedence.
+
+**`~/.config/karabiner` is a git repo in place** (`bloodhorse/karabiner`) — the
+live directory *is* the repo, no mirror, no symlink, no daemon. bekh edits
+Karabiner only from sessions in this project, so the agent is the committer:
+
+- **commit and push immediately after each edit**, not at session end — a
+  session can die mid-way, and an uncommitted edit with a scratchpad `.bak` is
+  exactly how the repo rotted for two weeks in Aug–Sep 2026
+- whenever a session touches Karabiner, `git -C ~/.config/karabiner status
+  --short` first — anything dirty gets swept into the next commit with a message
+  that says what it was
+- no `.bak` files next to `karabiner.json` — git is the history, and the pile
+  has been killed twice now
+- `automatic_backups/` is gitignored; `assets/complex_modifications/` is tracked
+  (it holds the importable rule sources)
+
+Rollback is `git -C ~/.config/karabiner checkout HEAD~1 -- karabiner.json`;
+Karabiner reloads on its own.
 
 ## Traps that have already cost time
 
