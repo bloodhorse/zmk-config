@@ -85,3 +85,7 @@ __pycache__
 target/
 **/*.rs.bk
 .venv/
+
+# keylayout/: compiled helpers, rebuilt on demand by the scripts
+keylayout/dumplayout
+keylayout/tis

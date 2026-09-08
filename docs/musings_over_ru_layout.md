@@ -1,8 +1,8 @@
 # musings over the RU layout
 
-The parking spot for a fix we agreed on and have not built: a custom ЙЦУКЕН
-`.keylayout` so that symbol keys give the same glyph regardless of which
-language macOS is in. Pick up from "Where it stands".
+A custom ЙЦУКЕН `.keylayout` so that symbol keys give the same glyph regardless
+of which language macOS is in. **Built 2026-09-08, not yet cut over** — pick up
+from "Where it stands".
 
 ## The problem in one line
 
@@ -19,60 +19,107 @@ symbol; you would be evicting a letter with nowhere to put it. **Letters are
 off limits — decided, not open.**
 
 The keycodes with no Russian letter on them: the digit row `1`–`0`, `-`, `=`,
-`\`. These are the whole uniform zone. Anything we want predictable across
-languages has to arrive on one of these keycodes.
+`\`, **the keypad page, and a handful of spare keycodes no key on the board
+sends** (see below). Anything we want predictable across languages has to
+arrive on one of these.
 
-## The fix, minimal size (agreed, not built)
+## What was measured (2026-09-08)
 
-One custom ЙЦУКЕН file. Five cells differ from Apple's Russian:
+Everything here comes from asking macOS itself — `keylayout/dumplayout.swift`
+runs UCKeyTranslate over all 128 virtual keycodes × 32 modifier states for a
+named input source. No guessing from tables on the internet.
 
-| keycode | EN | RU today | RU after |
-|---|---|---|---|
-| shift+2 | `@` | `"` | `@` |
-| shift+3 | `#` | `№` | `#` |
-| shift+4 | `$` | `;` | `$` |
-| shift+6 | `^` | `:` | `^` |
-| shift+7 | `&` | `?` | `&` |
+- **Shifted digits in RussianWin:** `2→" 3→№ 4→; 6→: 7→?`. The other five
+  (`! % * ( )`) already agree with ABC.
+- **The keypad page is uniform except one cell:** `KP_SLASH KP_ASTERISK
+  KP_MINUS KP_PLUS KP_EQUAL` and the digits are identical in both layouts.
+  **`KP_DOT` (keycode 65) is `,` in RussianWin** — the Russian decimal comma.
+  HEAVEN's outer thumb has been typing a comma in Russian all along.
+- **F21–F24 do not exist as macOS keycodes.** Carbon's table ends at
+  `kVK_F20 = 0x5A`; the HID usages are swallowed. Spares have to come from
+  slots macOS *does* assign.
+- **Spare keycodes** — empty or junk in both layouts, with the HID usage the
+  board sends to reach each (ZMK name):
 
-`! % * ( )` already agree. After this the ten shifted-digit symbols are
-identical in both languages, wherever the board puts them (today: behind
-shift on the number row and on HEAVEN's numpad).
+  | keycode | HID | ZMK | ABC | RussianWin |
+  |---|---|---|---|---|
+  | 94 | 0x87 | `INT_RO` | — | ё (junk) |
+  | 93 | 0x89 | `INT_YEN` | — | ё (junk) |
+  | 95 | 0x85 | `KP_COMMA` | — | — |
+  | 10 | 0x64 | `NON_US_BSLH` | `§` | ё (junk) |
+  | 114 | 0x75 | `K_HELP` | ^E | ^E |
+  | 102 / 104 | 0x91 / 0x90 | `LANGUAGE_2 / _1` | fn-marker | fn-marker |
+  | 107 / 113 | 0x69 / 0x6A | `F14 / F15` | fn-marker | fn-marker |
 
-EN layout untouched. No board change. Karabiner's Gallium rules act on
-scancodes upstream of the layout and do not care.
+  Nine slots, and shift doubles them. Four are used; the rest are reserve.
+- RussianWin has no dead keys; every output is a single character.
 
-### Casualties to settle before it ships
+## The design, as built
 
-- `№` — zero presses in the July ledger. Drop it.
-- RU `"` lives on shift+2 and is lost. Needs a Russian home, or bekh types
-  `«»` and does not care. **Unknown — ask.**
-- RU `?` is shift+7 and RU `:` is shift+6. Both lost. These are not optional
-  in Russian prose. The `/` seat that Karabiner turns into `?` under EN is
-  `.`/`,` under RU. **Where `?` and `:` go in Russian is the open design
-  question — ask bekh how he types them today before writing the file.**
+Three mechanisms, each used where it is the cheapest correct one:
 
-## The fix, full size (on the table, not chosen)
+1. **Keypad page** — `/ * - + =` and digits need nothing. Outsource `/` to a
+   layer as `KP_SLASH` and it is `/` in both languages. (Not yet bound anywhere.)
+2. **Custom RU layout, `keylayout/RussianWinPlus.bundle`** — Apple's
+   RussianWin with a **57-cell delta** (`keylayout/verify.sh --delta` lists
+   every one). In plain words:
+   - shift+`2 3 4 6 7` → `@ # $ ^ &`. Casualties: RU `" № ; : ?` on those seats.
+     `№` had zero presses in July; the other four come back on spares.
+   - `KP_DOT` → `.` — the keypad page becomes the uniform zone it was
+     supposed to be.
+   - spares get their Russian meaning: `INT_RO → ?`, `INT_YEN → :`,
+     `KP_COMMA → "`, `NON_US_BSLH → ;`.
+   - **Nothing else moves.** ё stays on the backtick key (bekh parked
+     backtick), `х ъ ж э` keep their seats (bekh dropped brackets rather than
+     fight for them).
+3. **Karabiner, EN half of the spares** — one rule at index 0, gated `^en$`:
+   `international1 → shift+slash`, `international3 → shift+semicolon`,
+   `keypad_comma → shift+quote`, `non_us_backslash → semicolon`. Under ABC
+   the same spare produces the same glyph the RU layout gives it. The pair is
+   what makes a spare-fed symbol uniform. **Live since 2026-09-08, inert until
+   a layer sends those usages.**
 
-Make the *bare* row symbols predictable too (`` ` `` `~` `'` `"` and friends),
-still without touching letters: the number row sends digit keycodes, and a
-custom EN **and** custom RU layout both map bare-digit → symbol, shift-digit →
-another symbol. 22 uniform glyphs. Digits then come only from HEAVEN's numpad,
-which must switch to keypad codes (`KP_N1`…) so the OS can tell it from the
-row; both layouts map keypad → digits and shift+keypad → `!@#$%^&*()`.
+The two halves meet on the board: a layer cell that sends `INT_RO` types `?`
+in both languages. Base pos 35 (today `LS(N7)` + Karabiner rule 12) becomes
+`INT_RO` at cutover — and rule 12 goes, because with RU shift+7 now `&`, that
+rule was the last thing making EN shift+7 differ from RU.
 
-Costs: the MacBook's own digit row would type symbols → one Karabiner
-`device_if` rule sending keypad digits; two files to install on any new Mac;
-**shift+keypad being definable in a `.keylayout` is assumed, not verified —
-verify in a real file before building on it.**
+Rejected on the way, for the record: alt+digit as a symbol layer (AeroSpace
+owns alt+1-5); a custom EN layout as well (the Karabiner half does the same
+job where every other EN remap already lives); the "full size" bare-row-symbols
+plan (it needed two files and a device_if rule for the MacBook's own row, and
+the spares make it unnecessary).
 
-## Mechanics when we build it
+## Mechanics
 
-- Format: `.keylayout` XML. Editor: Ukelele, or by hand — start from a copy of
-  Apple's Russian layout so everything we do not touch is byte-identical.
-- Install: drop into `~/Library/Keyboard Layouts`, log out/in, enable in
-  System Settings → Keyboard → Input Sources. The file lives in this repo.
-- Dead end already found: alt+digit combos as a symbol layer are out —
-  AeroSpace owns alt+1-5 and alt+shift+digits.
+- **Generator, not a hand-edited file:** `.venv/bin/python keylayout/gen_layout.py`
+  dumps the RussianWin installed on this Mac and applies `DELTA` — the delta is
+  the design, one screen long, at the top of the script. Output is the
+  `.bundle` (Info.plist gives it the id `org.bekh.keylayout.RussianWinPlus`
+  and language `ru`; the id keeps the substring "Russian" because ru_border
+  greps for it) plus `expected.json` for the verifier.
+- **XML 1.1 on purpose.** Control-character references (`&#x0008;` for
+  backspace) are legal in 1.1 and rejected in 1.0; Apple's own layouts declare
+  1.1 for the same reason. `xmllint` does not speak 1.1 — validate the
+  *structure* with the control refs masked (verify.sh does not need to; the OS
+  is the real oracle).
+- **Install:** `rsync -a --delete keylayout/RussianWinPlus.bundle ~/Library/Keyboard\ Layouts/`
+  then **log out and back in** — TIS rescans the directory on the spot (it even
+  logs it) but a new *bundle* does not enter the source list until the login
+  session restarts. Nothing short of that refreshes it.
+- **Verify:** `keylayout/verify.sh` → MATCH/MISMATCH, comparing the installed
+  layout cell by cell against `expected.json` through the same UCKeyTranslate
+  call the generator used to read Apple's. Exit 2 = not visible yet.
+- **`keylayout/tis`** (`tis.swift`): `list | enable | disable | select` an
+  input source by id. **`disable` on the selected source does not fail — macOS
+  silently selects another.** Always `select` the one you want active first.
+  That was learned by knocking bekh into Russian for ten seconds.
+- **Cutover / rollback are one command each:** `keylayout/cutover.sh`
+  (verify → enable new, select ABC, disable RussianWin → Karabiner id refs +
+  drop rule 12, committed and pushed → board pos 35 `INT_RO`) and
+  `keylayout/rollback.sh` (board back to `LS(N7)` → `git revert` the cutover
+  commit → RussianWin back on, RussianWinPlus off). The bundle stays installed
+  either way; removing it would need another logout to mean anything.
 
 ## Why the unshifted row got reverted (2026-09-02)
 
@@ -92,18 +139,31 @@ sends shift+digit makes that cmd+shift+digit. Two fixes exist, neither free:
 bekh's call: not ready to solve it, revert to digits, decide later. The
 mod-morph is the answer when he is.
 
-## Where it stands (2026-09-02)
+## Where it stands (2026-09-08)
 
-- Board side: number row is plain `1`–`0` and `]` again, exactly as before
-  the experiment. HEAVEN's numpad is
-  plain `N1`…`N0` (not keypad codes — the dump renders keypad as raw
-  `p7uNN`, only `KP_DOT` at the outer thumb is one), so shift+numpad
-  composes `!@#$%^&*()`, and cmd+numpad composes cmd+digit.
-- `.keylayout` file: not started. Blocked on the RU `?` `:` `"` question.
-- Backtick, tilde, quotes, brackets have no seat on the board right now
-  (backtick sits on CURSE under the Space seat, unreachable). Positions are a
-  separate fight, explicitly deferred by bekh.
-- `zmkctl kp L POS NAME` binds a plain key press by ZMK's own keycode names
-  (`NUM_1`…`NUM_0`, `EXCL`, `ATSN`, `HASH`, `DLLR`, `PRCNT`, `AMPS`, `ASTRK`,
-  `LPAR`, `RPAR`, `GRAV`, `TILD`, `DQT`, `APOSTROPHE`, `LBKT`, `RBKT`, `LBRC`,
-  `RBRC`, `BSLH`; `^` has no name in the enum, use `0x2070023`).
+- **Bundle built, validated, installed to `~/Library/Keyboard Layouts`, not
+  yet visible** — this login session predates the install. The next step is
+  bekh's: **log out, log in, run `keylayout/verify.sh`**. MATCH → run
+  `keylayout/cutover.sh`. Anything else → stop, read the cells it prints.
+- Karabiner half of the spares is live (rule 0). Rule 12 (`shift+7 → ?`) is
+  still in place until cutover removes it.
+- Board: base pos 35 is still `LS(N7)`; cutover rebinds it to `INT_RO` and
+  the mirror in `config/lily58.keymap` must follow by hand. `shit` layer row 1
+  already carries shift+digit cells (`RS(N7)` on the `&` seat to dodge rule
+  12 — once rule 12 is gone that dodge is cosmetic; leave it or normalise to
+  `LS(N7)`, either verifies).
+- Not bound anywhere yet, both free to place on a layer whenever: `KP_SLASH`
+  (uniform `/`), and the spares `INT_YEN` `KP_COMMA` `NON_US_BSLH` for
+  uniform `: " ;`. `INT_RO` takes pos 35 at cutover.
+- Untested until real fingers: whether any app treats a spare-fed keypress as
+  something other than text (keycode 114 is "Help" and 102/104 are JIS
+  IME keys — with no Japanese IME installed they should be inert, and the
+  four spares in use avoid them anyway); and modifier composition through a
+  spare (cmd+? etc. — the physical key still works regardless).
+- `zmkctl kp L POS NAME` binds by ZMK's own keycode names (`NUM_1`…`NUM_0`,
+  `EXCL`, `ATSN`, `HASH`, `DLLR`, `PRCNT`, `AMPS`, `ASTRK`, `LPAR`, `RPAR`,
+  `GRAV`, `TILD`, `DQT`, `APOSTROPHE`, `LBKT`, `RBKT`, `LBRC`, `RBRC`, `BSLH`,
+  `INT_RO`, `INT_YEN`, `KP_COMMA`, `NON_US_BSLH`; `^` has no name, use
+  `0x2070023`). **The `Keycode` enum is closed** — a modifier combination it
+  has no member for (e.g. `RS(N7)`) fails in `kp`; write it raw:
+  `zmkctl set L POS "Key Press" $((0xMMPPIIII)) 0`.
