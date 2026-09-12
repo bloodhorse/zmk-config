@@ -153,6 +153,12 @@ Karabiner reloads on its own.
 
 ## Deciding what goes where
 
+**bekh's right hand lives on the mouse.** Every shortcut, chord and layer
+combo goes on the left hand alone — door and target both. Cross-hand chords
+are out, and "the free hand is more comfortable" is not an argument here,
+because the right hand is not free. A left-pinky hold plus left ring/middle/
+index is the shape to design for; it is the shift chord the hand already knows.
+
 Don't argue layout from feel — there is a measurement.
 [`stats/keycount-2026-07.md`](stats/keycount-2026-07.md) is a 16-day,
 79k-keypress character-frequency ledger with the blind spots documented. The
