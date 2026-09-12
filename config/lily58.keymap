@@ -15,12 +15,12 @@
  * bekh edits in Studio often, so the working order is always: dump the board,
  * then change it, then bring this file up to it. Never edit from memory.
  *
- * The board also carries an ACTIVE, EMPTY, NAMELESS layer in slot 5 — added by
- * hand in Studio 2026-09-12 while chasing a rename, and neither Studio nor the
- * RPC api would delete it. It has no door and no content, so it is not written
- * out here (it stays 'extra_3', reserved); `zmkctl dump` shows it as a grid of
- * behavior-0 cells, and `verify` walks only the blocks in this file, so it is
- * invisible to the check. A reflash + settings_reset would make it go away.
+ * Six bound layers since 2026-09-12: slot 5 was added by hand in Studio while
+ * chasing a rename, could not be deleted by Studio or the RPC api, and then
+ * turned out to be the only slot FUCK could live in (slot 4 belongs to the
+ * conditional_layers node — see there). Layer NAMES are Studio-GUI-only and
+ * this file cannot set them on a live board; read them back from
+ * get_keymap_bytes before trusting the display-name here.
  *
  * HEAVEN pos 2 is a bare keyboard-page usage 0xCE (Keypad @), which macOS
  * ignores. It reads like a Studio slip that ate the old F15 (and F14 next to
@@ -142,11 +142,16 @@
 
     // Both thumb layers held together open slot 4. Indices are FIRMWARE layer
     // slots: 1=CURSE, 2=HEAVEN, 4 = the first reserved slot (was extra_2).
-    // That slot was LIMBO, the alt-arrow word-jump cross; on 2026-09-12 it was
-    // renamed FUCK, the cross was erased and cmd+digit moved in, and FUCK got
-    // its own door (backtick held, pos 24). This node still points at 4 by
-    // number, so Space+Enter opens FUCK too — a leftover route, harmless, and
-    // it needs a build to change, which is why it is still here.
+    //
+    // THIS NODE OWNS SLOT 4. ZMK's conditional_layers listener runs on every
+    // layer state change and, when the if-layers are not all held, DEACTIVATES
+    // the then-layer — so no other door can open it: an `&mo 4` (or a hold-tap
+    // to 4) turns slot 4 on and the listener turns it off in the same tick.
+    // Learned 2026-09-12: FUCK was first bound into slot 4 with a backtick-held
+    // door and the door silently did nothing. FUCK moved to slot 5.
+    // Slot 4 is empty now (the alt-arrow word-jump cross it carried as LIMBO
+    // was erased the same day). Dropping or retargeting this node is a build;
+    // until then Space+Enter opens an empty layer whose cells fall through.
     // If layers are ever re-mirrored/reordered, re-check these numbers before
     // trusting them.
     conditional_layers {
@@ -170,7 +175,7 @@
 //
 // LAYER DOORS — the base layer carries no plain &mo to CURSE or HEAVEN.
 // Both live exclusively on the thumb hold-taps: Space (pos 53) holds CURSE,
-// Enter (pos 54) holds HEAVEN, and holding both opens slot 4 (FUCK) via the
+// Enter (pos 54) holds HEAVEN, and holding both opens slot 4 (empty) via the
 // conditional_layers node. pos 11 (was &mo 2) is ']'.
 // Consequence worth knowing: if a thumb hold-tap ever misbehaves, there is no
 // fallback route to CURSE or HEAVEN except HEAVEN's own &tog 1 at pos 55.
@@ -211,7 +216,7 @@
             bindings = <
 &kp ESC   &kp N1 &kp N2 &kp N3   &kp N4   &kp N5                        &kp N6 &kp N7   &kp N8    &kp N9  &kp N0   &kp RBKT
 &kp TAB   &kp Q  &kp W  &kp E    &kp R    &kp T                         &kp Y  &kp U    &kp I     &kp O   &kp P    &kp LBKT
-&ltb280 4 GRAVE &kp A &kp S &kp D &kp F  &kp G                         &kp H  &kp J    &kp K     &kp L   &kp SEMI &kp LS(N7)
+&ltb280 5 GRAVE &kp A &kp S &kp D &kp F  &kp G                         &kp H  &kp J    &kp K     &kp L   &kp SEMI &kp LS(N7)
 &kp LSHFT &kp Z  &kp X  &kp C    &kp V    &kp B  &kp EQUAL   &kp MINUS  &kp N  &kp M    &kp COMMA &kp DOT &kp FSLH &kp RSHFT
                         &mo 3    &kp LCTRL &kp LGUI &ltb280 1 SPACE   &ltb280 2 RET &kp RGUI &kp BSPC &mo 3
             >;
@@ -322,24 +327,45 @@
             sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN>;
         };
 
+        limbo_layer {
+// ------------------------------------------------------------------------------------------------------------
+// Firmware slot 4 (was extra_2, a reserved slot Studio activated). EMPTY.
+// Opens only as the conditional layer, Space + Enter held together, and the
+// conditional_layers node owns it — nothing else can open it (see the node).
+// It carried the alt-arrow word-jump cross (pos 20/31/32/33) as LIMBO until
+// 2026-09-12; Studio had silently renamed it 'WELL', bekh renamed it FUCK,
+// the cross was erased, cmd+digit went in — and the door never opened. FUCK
+// moved to slot 5; the five cells and four arrow seats here are explicit
+// &none on the board, the rest is behavior id 0 (zeroed reserved-layer
+// bindings), all written as &none. bekh renames it back in Studio at leisure.
+// This block only becomes the firmware default on the next build.
+            display-name = "LIMBO";
+            bindings = <
+&none &none &none &none &none &none                              &none &none &none &none &none &none
+&none &none &none &none &none &none                              &none &none &none &none &none &none
+&none &none &none &none &none &none                              &none &none &none &none &none &none
+&none &none &none &none &none &none &none                &none   &none &none &none &none &none &none
+                  &none &none &none &none                &none   &none &none &none
+            >;
+
+            sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN>;
+        };
+
         fuck_layer {
 // ------------------------------------------------------------------------------------------------------------
-// FUCK, firmware slot 4 (was extra_2, a reserved slot Studio activated).
-// Door: backtick held (pos 24, ltb280). Space+Enter held together also lands
-// here through the compiled conditional_layers node — leftover from when this
-// slot was LIMBO, not a design.
-// cmd+digit for tab switching, 2026-09-12: cmd+1..5 on the left home row,
-// each under the digit it sends, left hand only — the right hand is on the
-// mouse, and cmd+number-row was the stretch this layer exists to kill.
+// FUCK, firmware slot 5 (was extra_3, a reserved slot Studio activated by
+// hand 2026-09-12 — added while chasing a rename, undeletable, then the only
+// slot that could take this layer, since slot 4 is the conditional node's).
+// Door: backtick held (pos 24, ltb280; tap is still the backtick).
+// cmd+digit for tab switching: cmd+1..5 on the left home row, each under the
+// digit it sends, left hand only — the right hand is on the mouse, and
+// cmd+number-row was the stretch this layer exists to kill.
+// Physical keys, in Gallium: hold ` and press n r t s g.
 // |       |     |     |      |      |      |                   |      |       |       |      |       |       |
 // |       |LG(1)|LG(2)|LG(3) |LG(4) |LG(5) |                   |      |       |       |      |       |       |
 //
-// History: this slot was LIMBO, the alt-arrow word-jump cross on the right
-// hand (pos 20/31/32/33). Studio silently renamed it 'WELL' at some point;
-// bekh renamed it FUCK 2026-09-12 and had the cross erased.
-// Everything else is empty. On the board that is behavior id 0 — zeroed
-// bindings in a never-defined reserved layer — plus four explicit &none where
-// the arrows were; both are written here as &none. NOTE: this block only
+// Everything else is behavior id 0 on the board — zeroed bindings in a
+// never-defined reserved layer — written here as &none. NOTE: this block only
 // becomes the firmware default on the next build; today FUCK exists solely in
 // Studio flash settings, so a settings_reset before a rebuild would lose it.
             display-name = "FUCK";
@@ -352,10 +378,6 @@
             >;
 
             sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN>;
-        };
-
-        extra_3 {
-            status = "reserved";
         };
     };
 };

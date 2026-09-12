@@ -154,12 +154,17 @@ Karabiner reloads on its own.
   agent binds cells over RPC. Read the names back from `get_keymap_bytes`
   (the printable runs are the layer names, in slot order) before trusting a
   name from the doc: Studio renamed LIMBO to `WELL` on its own at some point,
-  and a layer bekh added by hand in Studio on 2026-09-12 (slot 5, empty,
-  nameless) could not be deleted from the GUI either. It sits there. Only a
-  reflash + `settings_reset` clears it.
-- **`conditional_layers` points at a slot by number, not a name.** Renaming or
-  repurposing slot 4 does not move the Space+Enter tri-chord — it opens whatever
-  slot 4 is now (FUCK, since 2026-09-12). Changing that is a build.
+  and a layer bekh added by hand in Studio on 2026-09-12 (slot 5) could not be
+  deleted from the GUI either — it became FUCK's home instead. Only a reflash
+  + `settings_reset` removes a layer for good.
+- **The `conditional_layers` node OWNS its then-layer, slot 4.** ZMK's listener
+  runs on every layer state change and *deactivates* the then-layer whenever
+  the if-layers aren't all held — so no other door can open slot 4: an `&mo 4`
+  or a hold-tap to 4 turns it on and the listener turns it off in the same
+  tick, and nothing tells you. 2026-09-12: FUCK was bound into slot 4 with a
+  backtick door that silently did nothing until it moved to slot 5. Never put
+  a layer with its own door in slot 4 while that node is compiled in; dropping
+  the node is a build.
 - **The keymap-drawer Action rewrites the commit you just pushed.** It fires on
   any push touching `config/*.keymap`, regenerates `keymap-drawer/lily58.{svg,yaml}`,
   and — because the workflow sets `amend_commit: true` — folds them into *your*
@@ -201,14 +206,15 @@ current layout landed and why, and what is still open.
 
 ## Resume pointer
 
-**Mirror true as of 2026-09-12**: `verify` returns MATCH across all five bound
+**Mirror true as of 2026-09-12**: `verify` returns MATCH across all six bound
 layers, so a MISMATCH from here on is bekh's Studio edits — dump, then fold them
 in. `docs/kitchen-dump-2026-09-01.txt` is superseded by `config/lily58.keymap`
 itself — kept only as a record of what the kitchen looked like mid-cook.
 
-Five bound layers: 0 `ground`, 1 `CURSE`, 2 `HEAVEN`, 3 `shit`, 4 `FUCK` — plus
-an empty nameless slot 5 nobody can delete (see traps). Names come from the
-board, not from here.
+Six bound layers: 0 `ground`, 1 `CURSE`, 2 `HEAVEN`, 3 `shit`, 4 empty (the
+tri-layer's slot, LIMBO in the file), 5 `FUCK`. Names come from the board, not
+from here — and as of the last session the board still had slot 4 named FUCK
+and slot 5 nameless; bekh renames them in Studio (4 → LIMBO, 5 → FUCK).
 
 Where the doors are:
 
@@ -216,13 +222,14 @@ Where the doors are:
   is F1–F12 with **F1–F10 under the digit they are named after**; F11 on the
   `]` corner, F12 under it. Row below is shift+digit baked in (the symbol row).
   Volume lives on the rotary encoder, bound on every layer.
-- **`FUCK` (slot 4, was LIMBO)** — backtick held at pos 24 (`ltb280 4 GRAVE`,
-  tap is still backtick). Carries cmd+1..5 on the left home row, each under its
-  digit — one-handed tab switching, the reason the layer exists. Space+Enter
-  held together also opens it through the compiled tri-layer node, a leftover.
-  The alt-arrow word-jump cross that LIMBO had is erased. Like LIMBO before it,
-  **the block in the keymap file only becomes firmware default on the next
-  build**; today it lives solely in Studio flash settings.
+- **`FUCK` (slot 5)** — backtick held at pos 24 (`ltb280 5 GRAVE`, tap is
+  still backtick). Carries cmd+1..5 on the left home row, each under its digit:
+  hold ` and press **n r t s g**. One-handed tab switching, the reason the
+  layer exists. **The block in the keymap file only becomes firmware default
+  on the next build**; today it lives solely in Studio flash settings.
+- **Slot 4** — empty, opened by Space+Enter through the compiled tri-layer node
+  and by nothing else (the node owns it, see traps). Was LIMBO's alt-arrow
+  word-jump cross, erased 2026-09-12. Same build caveat.
 - **CURSE / HEAVEN** — only through the thumb hold-taps at pos 53/54, plus
   `&tog 1` at HEAVEN pos 55, the single escape hatch if a hold-tap misbehaves.
   The base layer has no plain `&mo` to either; pos 11 is `]`.
@@ -246,4 +253,5 @@ Open threads: whether balanced@280 wears well (spaces vanishing = rebind a rung 
 `zmkctl set 0 53 layer_tap_balanced_320 1 SPACE`); whether the FUCK door at 280
 eats slow backtick taps (same fix, any rung); HEAVEN pos 2's stray `0xCE`
 (Keypad @, ignored by macOS); a build to land FUCK in firmware and, while at
-it, either retarget or drop the Space+Enter tri-layer node.
+it, drop the Space+Enter tri-layer node — it guards an empty slot now, and it
+is the reason slot 4 can never hold a layer with a door.
