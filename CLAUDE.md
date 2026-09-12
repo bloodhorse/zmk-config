@@ -115,9 +115,19 @@ Karabiner reloads on its own.
 
 ## Traps that have already cost time
 
-- **Two alphabets.** Karabiner rules are written in QWERTY scancodes; bekh reads
-  and speaks Gallium. `i j k l n` in a rule file are `O H A E K` in conversation.
-  Same physical keys, and confusing them makes a discussion incoherent.
+- **Two alphabets.** Karabiner rules AND `config/lily58.keymap` AND every
+  `zmkctl dump` are QWERTY scancodes — the board sends QWERTY, Karabiner turns
+  it into Gallium. bekh reads and speaks Gallium. **Never tell bekh a key by the
+  name in the file: translate.** 2026-09-12 the agent said "hold backtick, tap
+  A/S/D/F/G" for cells bound as `&kp A..G` — the physical keys are `n r t s g`,
+  and bekh pressed the keys that *type* a s d f g, half of them on the other
+  hand. Nothing worked, and the binding was right the whole time.
+
+  | file / karabiner | q w e r t | y u i o p | a s d f g | h j k l ; | z x c v b | n m , . / |
+  |---|---|---|---|---|---|---|
+  | **what bekh presses** | b l d c v | j y o u , | n r t s g | p h a e i | x q m w z | k f ' ; . |
+
+  Digits, symbols on the number row, modifiers and thumbs are the same in both.
 - **Rule order in Karabiner is precedence.** A physical-key rule belongs *above*
   the Gallium block: up there it sees raw scancodes and behaves identically under
   EN and ЙЦУКЕН. Below, it fires on the wrong keys in English only.
