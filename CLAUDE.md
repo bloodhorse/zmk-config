@@ -41,6 +41,14 @@ After anything, run the checker:
 mirror is true, `settings_reset` costs nothing but BT bonds. Keep it honest —
 **a Studio GUI edit never reaches this repo.**
 
+**Working order, every session: dump the board → change the board → bring the
+file up to it.** bekh edits in Studio a lot between sessions, so this file and
+CLAUDE.md are stale by default; a plan drawn from memory of the doc lands on
+keys that moved (2026-09-12: the doc said the `shit` door was pos 24, the board
+had it on both outer thumbs and pos 24 was the backtick). `dump` first, then
+act, then `verify`, then rewrite the mirror from what the board says — and fold
+in whatever drift `verify` finds along the way, it is bekh's edits, not noise.
+
 ## Setup
 
 `.venv` is gitignored and will not exist on a fresh clone:
@@ -130,6 +138,18 @@ Karabiner reloads on its own.
   not in the board's behavior list at all, so the API cannot name it. It is an
   empty cell in effect; `cell_from_board` maps exactly that string to `&none` so
   the layer can be verified instead of skipped.
+- **Layers themselves are Studio-GUI-only.** The python api (`zmk-studio-api`
+  0.5.1) has get/set key, save, discard, reset — no add, rename, remove or
+  reorder of layers. Adding a layer or naming it is bekh in the GUI, then the
+  agent binds cells over RPC. Read the names back from `get_keymap_bytes`
+  (the printable runs are the layer names, in slot order) before trusting a
+  name from the doc: Studio renamed LIMBO to `WELL` on its own at some point,
+  and a layer bekh added by hand in Studio on 2026-09-12 (slot 5, empty,
+  nameless) could not be deleted from the GUI either. It sits there. Only a
+  reflash + `settings_reset` clears it.
+- **`conditional_layers` points at a slot by number, not a name.** Renaming or
+  repurposing slot 4 does not move the Space+Enter tri-chord — it opens whatever
+  slot 4 is now (FUCK, since 2026-09-12). Changing that is a build.
 - **The keymap-drawer Action rewrites the commit you just pushed.** It fires on
   any push touching `config/*.keymap`, regenerates `keymap-drawer/lily58.{svg,yaml}`,
   and — because the workflow sets `amend_commit: true` — folds them into *your*
@@ -171,32 +191,31 @@ current layout landed and why, and what is still open.
 
 ## Resume pointer
 
-**KITCHEN MODE IS CLOSED, 2026-09-08.** The mirror is true again: `verify`
-returns MATCH across all five bound layers, so a MISMATCH from here on is real
-drift, not expected noise. `docs/kitchen-dump-2026-09-01.txt` is superseded by
-`config/lily58.keymap` itself — kept only as a record of what the kitchen looked
-like mid-cook.
+**Mirror true as of 2026-09-12**: `verify` returns MATCH across all five bound
+layers, so a MISMATCH from here on is bekh's Studio edits — dump, then fold them
+in. `docs/kitchen-dump-2026-09-01.txt` is superseded by `config/lily58.keymap`
+itself — kept only as a record of what the kitchen looked like mid-cook.
 
-Five bound layers now: 0 `ground`, 1 `CURSE`, 2 `HEAVEN`, 3 `shit`, 4 `LIMBO`.
+Five bound layers: 0 `ground`, 1 `CURSE`, 2 `HEAVEN`, 3 `shit`, 4 `FUCK` — plus
+an empty nameless slot 5 nobody can delete (see traps). Names come from the
+board, not from here.
 
-What the kitchen actually produced, now in the file:
+Where the doors are:
 
-- **`shit` (slot 3) got a door and a job.** `&mo 3` sits at pos 24 (left home
-  row, where LCTRL used to be) — the only non-thumb layer door on the board.
-  Its num row was media/brightness consumer-page usages; wiped 2026-09-08 for
-  F1–F12. **F1–F10 sit under the digit they are named after** — that alignment
-  is the point — so the two overflow keys took the seats with no digit: F11 on
-  the ESC corner, F12 on the `]` corner.
-  Volume still lives on the rotary encoder, which is bound on every layer.
-- **The base layer has no plain layer doors left.** Seat 50 (was `&mo 1`) is
-  LCTRL, pos 11 (was `&mo 2`) is `]`. CURSE and HEAVEN are reachable *only*
-  through the thumb hold-taps at pos 53/54 — plus `&tog 1` at HEAVEN pos 55,
-  which is the single escape hatch if a hold-tap ever misbehaves.
-- **LIMBO** (fw slot 4, was `extra_2`) opens on Space+Enter held together via
-  the compiled conditional_layers node, carrying the alt-arrow word-jump cross.
-  It is now written out as a real layer in the keymap file — **but that only
-  becomes the firmware default on the next build.** Today it lives solely in
-  Studio flash settings, so a `settings_reset` before a rebuild loses it.
+- **`shit` (slot 3)** — `&mo 3` on both outer thumbs, pos 50 and 57. Num row
+  is F1–F12 with **F1–F10 under the digit they are named after**; F11 on the
+  `]` corner, F12 under it. Row below is shift+digit baked in (the symbol row).
+  Volume lives on the rotary encoder, bound on every layer.
+- **`FUCK` (slot 4, was LIMBO)** — backtick held at pos 24 (`ltb280 4 GRAVE`,
+  tap is still backtick). Carries cmd+1..5 on the left home row, each under its
+  digit — one-handed tab switching, the reason the layer exists. Space+Enter
+  held together also opens it through the compiled tri-layer node, a leftover.
+  The alt-arrow word-jump cross that LIMBO had is erased. Like LIMBO before it,
+  **the block in the keymap file only becomes firmware default on the next
+  build**; today it lives solely in Studio flash settings.
+- **CURSE / HEAVEN** — only through the thumb hold-taps at pos 53/54, plus
+  `&tog 1` at HEAVEN pos 55, the single escape hatch if a hold-tap misbehaves.
+  The base layer has no plain `&mo` to either; pos 11 is `]`.
 - CURSE's left hand is aerospace sims (`LA(letter)`), num row `LA(ESC)`/`LA(1-5)`
   for workspaces. alt+shift+number needs no cells: real shift composes (right
   shift any order; left shift before Space, since CAPS squats on CURSE pos 36).
@@ -210,9 +229,11 @@ symbol problem and the custom ЙЦУКЕН plan live in
 
 Parked, in bekh's words: alt+Z fullscreen sim — "think later"; CAPS off CURSE's
 shift seat if the left-shift ordering annoys. The old `motog 1 1` plan for seat
-50 is **stale** — that seat is LCTRL now and CURSE lost its board-side door, so
-re-decide the seat before reviving it.
+50 is **stale** — that seat is a `shit` door now and CURSE lost its board-side
+door, so re-decide the seat before reviving it.
 
 Open threads: whether balanced@280 wears well (spaces vanishing = rebind a rung up:
-`zmkctl set 0 53 layer_tap_balanced_320 1 SPACE`); HEAVEN pos 2's stray `0xCE`
-(Keypad @, ignored by macOS); and a build to land LIMBO in firmware.
+`zmkctl set 0 53 layer_tap_balanced_320 1 SPACE`); whether the FUCK door at 280
+eats slow backtick taps (same fix, any rung); HEAVEN pos 2's stray `0xCE`
+(Keypad @, ignored by macOS); a build to land FUCK in firmware and, while at
+it, either retarget or drop the Space+Enter tri-layer node.

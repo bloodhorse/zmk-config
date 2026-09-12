@@ -25,7 +25,7 @@ layers:
   - O
   - P
   - '['
-  - shit
+  - {t: '`', h: FUCK}
   - A
   - S
   - D
@@ -51,14 +51,14 @@ layers:
   - .
   - /
   - $$mdi:apple-keyboard-shift$$
+  - shit
   - $$mdi:apple-keyboard-control$$
-  - $$mdi:apple-keyboard-option$$
   - $$mdi:apple-keyboard-command$$
   - {t: ␣, h: CURSE}
   - {t: ⏎, h: HEAVEN}
   - $$mdi:apple-keyboard-command$$
   - $$mdi:backspace-outline$$
-  - $$mdi:apple-keyboard-control$$
+  - shit
   CURSE:
   - Alt+Esc
   - Alt+1
@@ -97,8 +97,8 @@ layers:
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - Caps Lock
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
+  - Gui+K
+  - Gui+I
   - F17
   - Alt+V
   - Alt+B
@@ -112,7 +112,7 @@ layers:
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
-  - Gui+Q
+  - S
   - {t: '`', type: held}
   - ''''
   - '0'
@@ -138,7 +138,7 @@ layers:
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - Alt+Y
-  - {t: ▽, type: trans}
+  - Alt+Gui+U
   - ↑
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
@@ -166,8 +166,8 @@ layers:
   - F13
   - F18
   - Sft+\
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
+  - Gui+I
+  - K
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
@@ -178,7 +178,7 @@ layers:
   - ⌦
   - {t: ▽, type: trans}
   shit:
-  - F11
+  - {t: ▽, type: trans}
   - F1
   - F2
   - F3
@@ -189,20 +189,20 @@ layers:
   - F8
   - F9
   - F10
+  - F11
+  - ''
+  - Sft+1
+  - Sft+2
+  - Sft+3
+  - Sft+4
+  - Sft+5
+  - Sft+6
+  - Sft+7
+  - Sft+8
+  - Sft+9
+  - Sft+0
   - F12
-  - ''
-  - ''
-  - Ctl+L
-  - Gui+I
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - {type: held}
+  - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - Gui+K
@@ -216,6 +216,8 @@ layers:
   - {t: ▽, type: trans}
   - ''
   - ''
+  - Ctl+L
+  - Gui+I
   - ''
   - ''
   - ''
@@ -226,6 +228,7 @@ layers:
   - ''
   - ''
   - ''
+  - {type: held}
   - ''
   - ''
   - ''
@@ -233,44 +236,12 @@ layers:
   - ''
   - ''
   - ''
-  - ''
-  - ''
-  - ''
-  LIMBO:
-  - ''
+  FUCK:
   - ''
   - ''
   - ''
   - ''
   - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - Alt+↑
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - Alt+←
-  - Alt+↓
-  - Alt+→
   - ''
   - ''
   - ''
@@ -291,7 +262,36 @@ layers:
   - ''
   - ''
   - {type: held}
-  - {type: held}
+  - Gui+1
+  - Gui+2
+  - Gui+3
+  - Gui+4
+  - Gui+5
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
   - ''
   - ''
   - ''
