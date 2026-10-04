@@ -200,10 +200,10 @@
 
         curse_layer {
 // ------------------------------------------------------------------------------------------------------------
-// |LA(ESC)|LA(1)|LA(2)|LA(3) |LA(4) |LA(5) |                   |  F6  |  F7   |  F8   |  F9  |  F10  |  F11  |
-// |LA(TAB)| F11 | F12 |LA(E) |LA(R) | RET |                   |      |   7   |   8   |  9   |       |  F12  |
-// |       |LA(A)|LA(S)|LA(D) |LA(F) |LA(G) |                   |      |   4   |   5   |  6   |       |       |
-// | CAPS  |LG(K)|LG(I)| F17  |LA(V) |LA(B) |LA(SPC) |  |       |      |   1   |   2   |  3   |       |       |
+// |LA(ESC)|LA(1)|LA(2)|LA(3) |LA(4) |LA+LG(M)|                   |  F6  |  F7   |  F8   |  F9  |  F10  |  F11  |
+// |LA(TAB)| F11 | F12 |LA(D) |LA(C) | RET |                   |      |   7   |   8   |  9   |       |  F12  |
+// |       |LA(N)|LA(R)|LA(T) |LA(S) |LA(G) |                   |      |   4   |   5   |  6   |       |       |
+// | CAPS  |LG(K)|LG(I)| F17  |LA(W) |LA(Z) |LA(SPC) |  |       |      |   1   |   2   |  3   |       |       |
 //                      |      |      |  S   |   `    |  |   '   |  0   |LA(BSPC)|  KP. |
 //
 // Left hand is aerospace: LA(letter) window/workspace commands, LA(ESC)+LA(1-5)
@@ -214,10 +214,10 @@
 // verify and mirrored 2026-09-12 (52 was LG(Q) here before).
             display-name = "CURSE";
             bindings = <
-&kp LA(ESC) &kp LA(N1) &kp LA(N2) &kp LA(N3)    &kp LA(N4) &kp LA(N5)                     &kp F6  &kp F7 &kp F8 &kp F9 &kp F10 &kp F11
-&kp LA(TAB) &kp F11    &kp F12    &kp LA(E)     &kp LA(R)  &kp RET                        &trans  &kp N7 &kp N8 &kp N9 &trans  &kp F12
-&trans      &kp LA(A)  &kp LA(S)  &kp LA(D)     &kp LA(F)  &kp LA(G)                      &trans  &kp N4 &kp N5 &kp N6 &trans  &trans
-&kp CAPS    &kp LG(K)  &kp LG(I)  &kp F17       &kp LA(V)  &kp LA(B) &kp LA(SPACE) &trans &trans  &kp N1 &kp N2 &kp N3 &trans  &trans
+&kp LA(ESC) &kp LA(N1) &kp LA(N2) &kp LA(N3)    &kp LA(N4) &kp LA(LG(M))                     &kp F6  &kp F7 &kp F8 &kp F9 &kp F10 &kp F11
+&kp LA(TAB) &kp F11    &kp F12    &kp LA(D)     &kp LA(C)  &kp RET                        &trans  &kp N7 &kp N8 &kp N9 &trans  &kp F12
+&trans      &kp LA(N)  &kp LA(R)  &kp LA(T)     &kp LA(S)  &kp LA(G)                      &trans  &kp N4 &kp N5 &kp N6 &trans  &trans
+&kp CAPS    &kp LG(K)  &kp LG(I)  &kp F17       &kp LA(W)  &kp LA(Z) &kp LA(SPACE) &trans &trans  &kp N1 &kp N2 &kp N3 &trans  &trans
                                   &trans        &trans     &kp S     &kp GRAVE     &kp SQT &kp N0 &kp LA(BSPC) &kp KP_DOT
             >;
 
@@ -227,7 +227,7 @@
         heaven_layer {
 // ------------------------------------------------------------------------------------------------------------
 // |       |     | KP@ |      |      |      |                   |BT_CLR|BT_SEL0|BT_PRV |BT_NXT|   ]   |  KP+  |
-// |       |     |     |      |      |      |                   |LA(Y) |LA+LG(U)|  ^   |      |       |       |
+// |       |     |     |      |      |      |                   |LA(J) |LA+LG(Y)|  ^   |      |       |       |
 // |       |     |     |      |      |      |                   |LA(<-)|  <-   |   v   |  ->  |LA(->) |       |   inverted-T arrow cross
 // |       |     |     |      |      |      |        |  |  F16  | F13  |  F18  |   |   |LG(I) |   K   |       |
 //                      |      |      |      |    `   |  |   '   | tog1 |  DEL  |       |
@@ -240,7 +240,7 @@
             display-name = "HEAVEN";
             bindings = <
 &trans  &trans  &kp 0x700CE &trans &trans &trans                &bt BT_CLR   &bt BT_SEL 0 &bt BT_PRV  &bt BT_NXT   &kp RBKT &kp KP_PLUS
-&trans  &trans  &trans  &trans &trans &trans                    &kp LA(Y)    &kp LA(LG(U)) &kp UP     &trans       &trans &trans
+&trans  &trans  &trans  &trans &trans &trans                    &kp LA(J)    &kp LA(LG(Y)) &kp UP     &trans       &trans &trans
 &trans  &trans  &trans  &trans &trans &trans                    &kp LA(LEFT) &kp LEFT     &kp DOWN    &kp RIGHT    &kp LA(RIGHT) &trans
 &trans  &trans  &trans  &trans &trans &trans &trans   &kp F16   &kp F13      &kp F18      &kp LS(BSLH) &kp LG(I)   &kp K  &trans
                         &trans &trans &trans &kp GRAVE   &kp SQT   &tog 1     &kp DEL      &trans
@@ -259,7 +259,7 @@
 // |BT_SEL3|  F1 |  F2 |  F3  |  F4  |  F5  |                   |  F6  |  F7   |  F8   |  F9  |  F10  |  F11  |
 // |       |  !  |  @  |  #   |  $   |  %   |                   |  ^   |  &    |  *    |  (   |   )   |  F12  |
 // |       |     |     |LG(K) |      |      |                   |      |       |       |      |       |       |
-// |       |     |LC(L)|LA+LG(M)|    |      |        |  |       |      |       |       |      |       |       |
+// |       |     |LC(L)|LA+LG(F)|    |      |        |  |       |      |       |       |      |       |       |
 //
 // SYMBOL ROW (2026-09-08): shift+digit baked into each cell, seated one row
 // under the digit it belongs to, so the layer reads as a second number row
@@ -293,7 +293,7 @@
 &bt BT_SEL 3 &kp F1 &kp F2 &kp F3 &kp F4 &kp F5                  &kp F6 &kp F7 &kp F8 &kp F9 &kp F10 &kp F11
 &none  &kp LS(N1) &kp LS(N2) &kp LS(N3) &kp LS(N4) &kp LS(N5)    &kp LS(N6) &kp RS(N7) &kp LS(N8) &kp LS(N9) &kp LS(N0) &kp F12
 &trans &trans &trans &kp LG(K) &trans    &trans                  &trans &trans &trans &trans  &trans  &trans
-&none  &none  &kp LC(L) &kp LA(LG(M)) &none  &none  &none    &none   &none  &none  &none  &none   &none   &none
+&none  &none  &kp LC(L) &kp LA(LG(F)) &none  &none  &none    &none   &none  &none  &none  &none   &none   &none
                      &none     &none     &none  &none    &none   &none  &none  &none
             >;
 

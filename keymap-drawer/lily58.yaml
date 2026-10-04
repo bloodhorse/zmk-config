@@ -65,7 +65,7 @@ layers:
   - Alt+2
   - Alt+3
   - Alt+4
-  - Alt+5
+  - Alt+Gui+M
   - F6
   - F7
   - F8
@@ -75,8 +75,8 @@ layers:
   - Alt+↹
   - F11
   - F12
-  - Alt+E
-  - Alt+R
+  - Alt+D
+  - Alt+C
   - ⏎
   - {t: ▽, type: trans}
   - '7'
@@ -85,10 +85,10 @@ layers:
   - {t: ▽, type: trans}
   - F12
   - {t: ▽, type: trans}
-  - Alt+A
+  - Alt+N
+  - Alt+R
+  - Alt+T
   - Alt+S
-  - Alt+D
-  - Alt+F
   - Alt+G
   - {t: ▽, type: trans}
   - '4'
@@ -100,8 +100,8 @@ layers:
   - Gui+K
   - Gui+I
   - F17
-  - Alt+V
-  - Alt+B
+  - Alt+W
+  - Alt+Z
   - Alt+␣
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
@@ -137,8 +137,8 @@ layers:
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
-  - Alt+Y
-  - Alt+Gui+U
+  - Alt+J
+  - Alt+Gui+Y
   - ↑
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
@@ -217,7 +217,7 @@ layers:
   - ''
   - ''
   - Ctl+L
-  - Alt+Gui+M
+  - Alt+Gui+F
   - ''
   - ''
   - ''

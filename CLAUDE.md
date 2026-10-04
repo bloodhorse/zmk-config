@@ -128,6 +128,16 @@ Karabiner reloads on its own.
   | **what bekh presses** | b l d c v | j y o u , | n r t s g | p h a e i | x q m w z | k f ' ; . |
 
   Digits, symbols on the number row, modifiers and thumbs are the same in both.
+
+  **The exception is any chord with alt in it** (since 2026-10-05). The board
+  has no physical Alt, so every alt chord is a baked `LA()` cell, and Karabiner
+  no longer translates option chords coming from the Lily58: the cell is
+  literal. `LA(T)` is alt+t — in Studio, in the keymap file, in the dump — and
+  `LA(LG(M))` is alt+cmd+m. Never run an alt cell through the table. Plain,
+  cmd-only and ctrl-only cells (`LG(K)`, `LC(L)`) still go through it, because
+  bekh holds real Cmd and Ctrl and Karabiner cannot tell a held key from a
+  baked one. The three raw-scancode rules that key on option (kvmtype, alt+v,
+  the screenshot chord) are split per device for the same reason.
 - **Rule order in Karabiner is precedence.** A physical-key rule belongs *above*
   the Gallium block: up there it sees raw scancodes and behaves identically under
   EN and ЙЦУКЕН. Below, it fires on the wrong keys in English only.
