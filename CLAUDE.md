@@ -243,11 +243,20 @@ Where the doors are:
 - **CURSE / HEAVEN** — only through the thumb hold-taps at pos 53/54, plus
   `&tog 1` at HEAVEN pos 55, the single escape hatch if a hold-tap misbehaves.
   The base layer has no plain `&mo` to either; pos 11 is `]`.
-- CURSE's left hand is aerospace sims (`LA(letter)`), num row `LA(ESC)`/`LA(1-5)`
-  for workspaces. alt+shift+number needs no cells: real shift composes (right
-  shift any order; left shift before Space, since CAPS squats on CURSE pos 36).
-  The space-as-real-Alt idea is settled — simulate with `LA()` cells; a balanced
-  mod-tap build only ever pays if alt+mouse chords start mattering.
+- **CURSE is the alt layer, filled once (2026-10-05): every letter seat that is
+  not numpad is `LA(` its own Gallium letter `)`**, so Space-hold + a key is
+  alt + that key and a new alt chord never needs a cell. The seats without it:
+  the numpad's nine (y o u / h a e / f ' ;), and v, which is Enter (the
+  left-hand Enter, and shift/cmd + it must stay shift/cmd+Enter). Num row is
+  `LA(ESC)`/`LA(1-4)` for workspaces. Stacks need no cells either — real
+  Shift, Cmd and Ctrl compose over an alt cell and pass through Karabiner
+  untranslated (right shift any order; left shift before Space, since CAPS
+  squats on CURSE pos 36). Don't add `LA(LG(x))`-style cells; hold the real mod.
+- Space-hold as a real Alt was re-argued 2026-10-05 and left alone: a key gets
+  one hold, and Space's is CURSE's door (numpad, CAPS, the left-hand Enter);
+  a real Alt would also turn every fast roll off Space into an alt chord. bekh
+  does not want alt+mouse. What hurt was naming cells in QWERTY and binding
+  each new chord, and both are gone. Reopen only if that changes.
 
 Number row is plain digits and `]`; the unshifted-symbols row was tried and
 reverted on 2026-09-02 because it broke cmd+digit — that, the cross-language

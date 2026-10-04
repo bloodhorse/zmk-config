@@ -73,12 +73,12 @@ layers:
   - F10
   - F11
   - Alt+↹
-  - F11
-  - F12
+  - Alt+B
+  - Alt+L
   - Alt+D
   - Alt+C
   - ⏎
-  - {t: ▽, type: trans}
+  - Alt+J
   - '7'
   - '8'
   - '9'
@@ -90,21 +90,21 @@ layers:
   - Alt+T
   - Alt+S
   - Alt+G
-  - {t: ▽, type: trans}
+  - Alt+P
   - '4'
   - '5'
   - '6'
-  - {t: ▽, type: trans}
+  - Alt+I
   - {t: ▽, type: trans}
   - Caps Lock
-  - Gui+K
-  - Gui+I
-  - F17
+  - Alt+X
+  - Alt+Q
+  - Alt+M
   - Alt+W
   - Alt+Z
   - Alt+␣
   - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
+  - Alt+K
   - '1'
   - '2'
   - '3'

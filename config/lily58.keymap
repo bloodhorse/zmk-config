@@ -201,23 +201,23 @@
         curse_layer {
 // ------------------------------------------------------------------------------------------------------------
 // |LA(ESC)|LA(1)|LA(2)|LA(3) |LA(4) |LA+LG(M)|                   |  F6  |  F7   |  F8   |  F9  |  F10  |  F11  |
-// |LA(TAB)| F11 | F12 |LA(D) |LA(C) | RET |                   |      |   7   |   8   |  9   |       |  F12  |
-// |       |LA(N)|LA(R)|LA(T) |LA(S) |LA(G) |                   |      |   4   |   5   |  6   |       |       |
-// | CAPS  |LG(K)|LG(I)| F17  |LA(W) |LA(Z) |LA(SPC) |  |       |      |   1   |   2   |  3   |       |       |
+// |LA(TAB)|LA(B)|LA(L)|LA(D) |LA(C) | RET |                   |LA(J) |   7   |   8   |  9   |       |  F12  |
+// |       |LA(N)|LA(R)|LA(T) |LA(S) |LA(G) |                   |LA(P) |   4   |   5   |  6   | LA(I) |       |
+// | CAPS  |LA(X)|LA(Q)|LA(M) |LA(W) |LA(Z) |LA(SPC) |  |       |LA(K) |   1   |   2   |  3   |       |       |
 //                      |      |      |  S   |   `    |  |   '   |  0   |LA(BSPC)|  KP. |
 //
 // Left hand is aerospace: LA(letter) window/workspace commands, LA(ESC)+LA(1-5)
 // for workspace switching. Right hand is the numpad.
 // CAPS squats on the left shift seat (pos 36) — that is why a left-shifted
 // chord has to be pressed shift-before-Space; right shift composes in any order.
-// pos 37/38 LG(K)/LG(I) and pos 52 plain S: Studio GUI edits by bekh, found by
-// verify and mirrored 2026-09-12 (52 was LG(Q) here before).
+// pos 52 plain S: Studio GUI edit by bekh, found by verify and mirrored
+// 2026-09-12 (52 was LG(Q) here before).
             display-name = "CURSE";
             bindings = <
 &kp LA(ESC) &kp LA(N1) &kp LA(N2) &kp LA(N3)    &kp LA(N4) &kp LA(LG(M))                     &kp F6  &kp F7 &kp F8 &kp F9 &kp F10 &kp F11
-&kp LA(TAB) &kp F11    &kp F12    &kp LA(D)     &kp LA(C)  &kp RET                        &trans  &kp N7 &kp N8 &kp N9 &trans  &kp F12
-&trans      &kp LA(N)  &kp LA(R)  &kp LA(T)     &kp LA(S)  &kp LA(G)                      &trans  &kp N4 &kp N5 &kp N6 &trans  &trans
-&kp CAPS    &kp LG(K)  &kp LG(I)  &kp F17       &kp LA(W)  &kp LA(Z) &kp LA(SPACE) &trans &trans  &kp N1 &kp N2 &kp N3 &trans  &trans
+&kp LA(TAB) &kp LA(B)  &kp LA(L)  &kp LA(D)     &kp LA(C)  &kp RET                        &kp LA(J) &kp N7 &kp N8 &kp N9 &trans  &kp F12
+&trans      &kp LA(N)  &kp LA(R)  &kp LA(T)     &kp LA(S)  &kp LA(G)                      &kp LA(P) &kp N4 &kp N5 &kp N6 &kp LA(I) &trans
+&kp CAPS    &kp LA(X)  &kp LA(Q)  &kp LA(M)     &kp LA(W)  &kp LA(Z) &kp LA(SPACE) &trans &kp LA(K) &kp N1 &kp N2 &kp N3 &trans  &trans
                                   &trans        &trans     &kp S     &kp GRAVE     &kp SQT &kp N0 &kp LA(BSPC) &kp KP_DOT
             >;
 
