@@ -22,12 +22,9 @@ That means edits go one of two ways:
   RPC** where a binding changed (a conditional_layers node needs no rebinding —
   it lives in firmware, not settings)
 
-Layer *content* is always runtime — retargeting, adding, or clearing any key
-on CURSE or HEAVEN never needs a build. Since 2026-08-31 the thumb hold-taps
-are the whitelist-free `ltb` ladder (balanced, five terms compiled in), so
-there is no compiled position list left to outgrow; the only thing that still
-needs a build is a genuinely new behavior. Tuning the hold term = rebinding
-Space/Enter to another rung over RPC.
+Layer *content* is always runtime. The thumb hold-taps are the `ltb` ladder
+(balanced, five terms compiled in), so tuning a hold term is rebinding the key
+to another rung over RPC; only a genuinely new behavior needs a build.
 
 After anything, run the checker:
 
@@ -42,12 +39,10 @@ mirror is true, `settings_reset` costs nothing but BT bonds. Keep it honest —
 **a Studio GUI edit never reaches this repo.**
 
 **Working order, every session: dump the board → change the board → bring the
-file up to it.** bekh edits in Studio a lot between sessions, so this file and
-CLAUDE.md are stale by default; a plan drawn from memory of the doc lands on
-keys that moved (2026-09-12: the doc said the `shit` door was pos 24, the board
-had it on both outer thumbs and pos 24 was the backtick). `dump` first, then
-act, then `verify`, then rewrite the mirror from what the board says — and fold
-in whatever drift `verify` finds along the way, it is bekh's edits, not noise.
+file up to it.** bekh edits in Studio a lot between sessions — and during
+them — so the keymap file and this doc are stale by default, and a plan drawn
+from the doc lands on keys that moved. Whatever drift `verify` finds is bekh's
+edits, not noise: fold it in.
 
 ## Setup
 
@@ -100,13 +95,11 @@ live directory *is* the repo, no mirror, no symlink, no daemon. bekh edits
 Karabiner only from sessions in this project, so the agent is the committer:
 
 - **commit and push immediately after each edit**, not at session end — a
-  session can die mid-way, and an uncommitted edit with a scratchpad `.bak` is
-  exactly how the repo rotted for two weeks in Aug–Sep 2026
+  session can die mid-way
 - whenever a session touches Karabiner, `git -C ~/.config/karabiner status
   --short` first — anything dirty gets swept into the next commit with a message
   that says what it was
-- no `.bak` files next to `karabiner.json` — git is the history, and the pile
-  has been killed twice now
+- no `.bak` files next to `karabiner.json` — git is the history
 - `automatic_backups/` is gitignored; `assets/complex_modifications/` is tracked
   (it holds the importable rule sources)
 
@@ -118,10 +111,8 @@ Karabiner reloads on its own.
 - **Two alphabets.** Karabiner rules AND `config/lily58.keymap` AND every
   `zmkctl dump` are QWERTY scancodes — the board sends QWERTY, Karabiner turns
   it into Gallium. bekh reads and speaks Gallium. **Never tell bekh a key by the
-  name in the file: translate.** 2026-09-12 the agent said "hold backtick, tap
-  A/S/D/F/G" for cells bound as `&kp A..G` — the physical keys are `n r t s g`,
-  and bekh pressed the keys that *type* a s d f g, half of them on the other
-  hand. Nothing worked, and the binding was right the whole time.
+  name in the file: translate**, or bekh presses the wrong keys and a correct
+  binding looks broken.
 
   | file / karabiner | q w e r t | y u i o p | a s d f g | h j k l ; | z x c v b | n m , . / |
   |---|---|---|---|---|---|---|
@@ -147,27 +138,20 @@ Karabiner reloads on its own.
   `input_source_if ^en$`, so under Russian the physical positions are plain
   ЙЦУКЕН: `[` is х, `;` is ж, `/` is `.`. A key that looks free in English is
   often a live Cyrillic letter. Modifier seats are the only ones free in both.
-- **Deleting a layer in Studio does not survive a reflash** while the keymap
-  file still defines it: media (id 3) was deleted in the kitchen and came back
-  with firmware defaults on the 2026-09-01 flash — it is now `shit`, the same
-  slot renamed and reused. Retired layer ids are never recycled either — Studio's
-  next new layer takes the next reserved slot.
-- **A reserved slot Studio activated holds zeroed bindings, and they fall
-  through.** Cells in such a layer read back as `Unknown { behavior_id: 0 }` —
-  behavior id 0 is not in the board's behavior list, so the API cannot name it.
-  In effect it is `&trans`, not `&none`: ZMK v0.3.0 `behavior.c` returns 1 for
-  a missing behavior and the keymap loop continues to the next layer down.
-  `cell_from_board` still maps that string to `&none` (a naming convention for
-  `verify`, nothing more) — when such a layer goes into the keymap file for a
-  build, write its empty cells as `&trans` or the flash changes how it feels.
-- **Layers themselves are Studio-GUI-only.** The python api (`zmk-studio-api`
-  0.5.1) has get/set key, save, discard, reset — no add, rename, remove or
-  reorder of layers. Adding a layer or naming it is bekh in the GUI, then the
-  agent binds cells over RPC. Read the names back from `get_keymap_bytes`
-  (the printable runs are the layer names, in slot order) before trusting a
-  name from the doc. A layer added in Studio cannot be deleted from the GUI;
-  removing one for good takes a build without it plus a reset of Studio's
-  saved keymap (done 2026-10-05, which is how the board got back to five).
+- **Layers themselves are Studio-GUI-only, and they are sticky.** The python
+  api (`zmk-studio-api` 0.5.1) has get/set key, save, discard, reset — no add,
+  rename, remove or reorder. Adding or naming a layer is bekh in the GUI, then
+  the agent binds cells over RPC. Read names back from `get_keymap_bytes` (the
+  printable runs, in slot order) before trusting one from the doc. A layer
+  deleted in Studio comes back on a reflash while the keymap file defines it,
+  and one added in Studio cannot be deleted from the GUI at all: removing a
+  layer for good takes a build without it plus a reset of the saved keymap.
+- **A layer Studio created holds zeroed bindings, and they fall through.**
+  Its cells read back as `Unknown { behavior_id: 0 }`. In effect that is
+  `&trans`, not `&none` (ZMK v0.3.0 `behavior.c` returns 1 for a missing
+  behavior, so the keymap loop continues downward). `cell_from_board` maps it
+  to `&none` only as a naming convention for `verify` — when such a layer goes
+  into the keymap file, write its empty cells as `&trans`.
 - **Wiping saved settings: ask at the moment of doing it, even when it is in
   the plan.** `settings_reset.uf2` erases the saved keymap AND every Bluetooth
   bond, including the halves' bond to each other — so wiping one half forces
@@ -176,28 +160,21 @@ Karabiner reloads on its own.
   first next time. Either way `verify` must say MATCH before the wipe, and the
   board cannot be read once it is in bootloader mode — check before bekh
   double-taps.
-- **A `conditional_layers` node owns its then-layer.** ZMK's listener runs on
-  every layer state change and *deactivates* the then-layer whenever the
-  if-layers aren't all held — so no other door can open that slot: an `&mo` or
-  a hold-tap to it turns it on and the listener turns it off in the same tick,
-  and nothing tells you. 2026-09-12: FUCK sat in such a slot with a door that
-  silently did nothing. No such node is compiled in since 2026-10-05; if one
-  comes back, its then-layer can carry no door of its own.
-- **The keymap-drawer Action rewrites the commit you just pushed.** It fires on
-  any push touching `config/*.keymap`, regenerates `keymap-drawer/lily58.{svg,yaml}`,
-  and — because the workflow sets `amend_commit: true` — folds them into *your*
-  commit with `--amend`, then force-pushes. Same content, new SHA. Your local
-  branch is left pointing at a commit that no longer exists upstream, and the two
-  are siblings off the same parent, not parent-and-child.
-  **Recovery is `git reset --hard origin/main`, never a merge** — the remote
-  commit already contains everything yours did, so there is nothing to keep. A
-  `git pull` instead invents a conflict in `keymap-drawer/`, files neither side
-  hand-edited.
-- **It pushes with `--force-with-lease`, so a fast second push kills the drawer.**
-  Push a keymap change, then push again within ~40s, and the amend is rejected
-  with `! [rejected] main -> main (stale info)`. Nothing is corrupted and your
-  branch stays linear — but **the SVG is now stale**, silently, because the run
-  went red while your commits went through. Fix: re-run it by hand, then reset.
+- **A `conditional_layers` node owns its then-layer.** ZMK deactivates the
+  then-layer whenever the if-layers aren't all held, so any other door to that
+  slot opens and closes in the same tick, silently. None is compiled in now;
+  if one comes back, its then-layer can carry no door of its own.
+- **The keymap-drawer Action rewrites the commit you just pushed.** On any push
+  touching `config/*.keymap` it regenerates `keymap-drawer/lily58.{svg,yaml}`,
+  amends them into *your* commit and force-pushes: same content, new SHA, and
+  your local branch is now a sibling of the remote one. **After every keymap
+  push, wait for the run, then `git fetch origin && git reset --hard
+  origin/main` — never merge or pull**, the remote commit already contains
+  yours. Skip the reset and the next session's first push is rejected.
+- **Push keymap changes once.** A second push within ~40s makes the drawer's
+  `--force-with-lease` amend fail: your commits land, the run goes red, and the
+  SVG is silently stale. Stack local commits and push them together. If it
+  happened, re-run by hand, then reset:
 
   ```bash
   gh workflow run "Draw ZMK keymaps" --ref main   # wait for it, then:
@@ -272,9 +249,7 @@ symbol problem and the custom ЙЦУКЕН plan live in
 [`docs/musings_over_ru_layout.md`](docs/musings_over_ru_layout.md) — read it before touching either.
 
 Parked, in bekh's words: alt+Z fullscreen sim — "think later"; CAPS off CURSE's
-shift seat if the left-shift ordering annoys. The old `motog 1 1` plan for seat
-50 is **stale** — that seat is a `shit` door now and CURSE lost its board-side
-door, so re-decide the seat before reviving it.
+shift seat if the left-shift ordering annoys.
 
 Open threads: whether balanced@280 wears well (spaces vanishing = rebind a rung up:
 `zmkctl set 0 53 layer_tap_balanced_320 1 SPACE`); whether the FUCK door at 280
