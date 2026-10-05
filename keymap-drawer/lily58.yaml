@@ -36,7 +36,7 @@ layers:
   - K
   - L
   - ;
-  - Sft+7
+  - {t: Sft+7, h: FUCK}
   - $$mdi:apple-keyboard-shift$$
   - Z
   - X

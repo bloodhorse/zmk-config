@@ -220,8 +220,12 @@ Where the doors are:
   `]` corner, F12 under it. Row below is shift+digit baked in (the symbol row).
   The Esc corner is `BT_SEL 3` (bekh's Studio edit), so Esc does not work with
   shit held. Volume lives on the rotary encoder, bound on every layer.
-- **`FUCK` (slot 4)** — pos 24 held (`ltb280 4 LS(GRAVE)`; the tap is `~`,
-  bekh's Studio edit, it was the backtick). Carries cmd+1..5 on the left home
+- **`FUCK` (slot 4)** — two doors, mirrored on the home-row pinkies: pos 24
+  held (`ltb280 4 LS(GRAVE)`; the tap is `~`, bekh's Studio edit, it was the
+  backtick) and pos 35 held (`ltb280 4 LS(N7)`; the tap is still `?`). The
+  right one was meant to open a new layer, DAMN, but Studio's add-layer is
+  capped — this firmware has no spare slot, so a sixth layer is a build.
+  Carries cmd+1..5 on the left home
   row, each under its digit: hold the key and press **n r t s g**. One-handed
   tab switching, the reason the layer exists. Num row has cmd+shift+3 and
   cmd+shift+4 under their digits. Every other cell is `&trans`.
