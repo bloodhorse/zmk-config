@@ -135,7 +135,7 @@ Karabiner reloads on its own.
   synthetic key events). It cannot be switched off from outside the app. The
   fix costs no latency: a Karabiner rule turns the alt chord into the same key
   with ctrl+opt+cmd, and the target app's hotkey is rebound to that. Done for
-  alt+g (Raycast clipboard history). Not done for alt+t (iTerm drop-down) or
+  alt+g (Raycast clipboard history) and alt+t (iTerm drop-down). Not done for
   the AeroSpace alt bindings — same recipe if bekh asks. Don't go through
   shell commands or AppleScript for this: iTerm's hidden hotkey window is not
   reachable from AppleScript, and each `osascript` call costs ~130 ms.
