@@ -151,30 +151,38 @@ Karabiner reloads on its own.
   file still defines it: media (id 3) was deleted in the kitchen and came back
   with firmware defaults on the 2026-09-01 flash — it is now `shit`, the same
   slot renamed and reused. Retired layer ids are never recycled either — Studio's
-  next new layer takes the next reserved slot, which is how LIMBO ended up in
-  `extra_2` (slot 4).
-- **A reserved slot Studio activated holds zeroed bindings, not `&none`.** Cells
-  in such a layer read back as `Unknown { behavior_id: 0 }` — behavior id 0 is
-  not in the board's behavior list at all, so the API cannot name it. It is an
-  empty cell in effect; `cell_from_board` maps exactly that string to `&none` so
-  the layer can be verified instead of skipped.
+  next new layer takes the next reserved slot.
+- **A reserved slot Studio activated holds zeroed bindings, and they fall
+  through.** Cells in such a layer read back as `Unknown { behavior_id: 0 }` —
+  behavior id 0 is not in the board's behavior list, so the API cannot name it.
+  In effect it is `&trans`, not `&none`: ZMK v0.3.0 `behavior.c` returns 1 for
+  a missing behavior and the keymap loop continues to the next layer down.
+  `cell_from_board` still maps that string to `&none` (a naming convention for
+  `verify`, nothing more) — when such a layer goes into the keymap file for a
+  build, write its empty cells as `&trans` or the flash changes how it feels.
 - **Layers themselves are Studio-GUI-only.** The python api (`zmk-studio-api`
   0.5.1) has get/set key, save, discard, reset — no add, rename, remove or
   reorder of layers. Adding a layer or naming it is bekh in the GUI, then the
   agent binds cells over RPC. Read the names back from `get_keymap_bytes`
   (the printable runs are the layer names, in slot order) before trusting a
-  name from the doc: Studio renamed LIMBO to `WELL` on its own at some point,
-  and a layer bekh added by hand in Studio on 2026-09-12 (slot 5) could not be
-  deleted from the GUI either — it became FUCK's home instead. Only a reflash
-  + `settings_reset` removes a layer for good.
-- **The `conditional_layers` node OWNS its then-layer, slot 4.** ZMK's listener
-  runs on every layer state change and *deactivates* the then-layer whenever
-  the if-layers aren't all held — so no other door can open slot 4: an `&mo 4`
-  or a hold-tap to 4 turns it on and the listener turns it off in the same
-  tick, and nothing tells you. 2026-09-12: FUCK was bound into slot 4 with a
-  backtick door that silently did nothing until it moved to slot 5. Never put
-  a layer with its own door in slot 4 while that node is compiled in; dropping
-  the node is a build.
+  name from the doc. A layer added in Studio cannot be deleted from the GUI;
+  removing one for good takes a build without it plus a reset of Studio's
+  saved keymap (done 2026-10-05, which is how the board got back to five).
+- **Wiping saved settings: ask at the moment of doing it, even when it is in
+  the plan.** `settings_reset.uf2` erases the saved keymap AND every Bluetooth
+  bond, including the halves' bond to each other — so wiping one half forces
+  the same wipe on the other. The api's `reset` call should restore the keymap
+  to firmware defaults without touching bonds; it is untested here, try it
+  first next time. Either way `verify` must say MATCH before the wipe, and the
+  board cannot be read once it is in bootloader mode — check before bekh
+  double-taps.
+- **A `conditional_layers` node owns its then-layer.** ZMK's listener runs on
+  every layer state change and *deactivates* the then-layer whenever the
+  if-layers aren't all held — so no other door can open that slot: an `&mo` or
+  a hold-tap to it turns it on and the listener turns it off in the same tick,
+  and nothing tells you. 2026-09-12: FUCK sat in such a slot with a door that
+  silently did nothing. No such node is compiled in since 2026-10-05; if one
+  comes back, its then-layer can carry no door of its own.
 - **The keymap-drawer Action rewrites the commit you just pushed.** It fires on
   any push touching `config/*.keymap`, regenerates `keymap-drawer/lily58.{svg,yaml}`,
   and — because the workflow sets `amend_commit: true` — folds them into *your*
@@ -216,30 +224,30 @@ current layout landed and why, and what is still open.
 
 ## Resume pointer
 
-**Mirror true as of 2026-09-12**: `verify` returns MATCH across all six bound
-layers, so a MISMATCH from here on is bekh's Studio edits — dump, then fold them
-in. `docs/kitchen-dump-2026-09-01.txt` is superseded by `config/lily58.keymap`
-itself — kept only as a record of what the kitchen looked like mid-cook.
+**Mirror true as of 2026-10-05**, on freshly flashed firmware with Studio's
+saved state wiped: the board is running the keymap file's defaults, `verify`
+returns MATCH, and a MISMATCH from here on is bekh's Studio edits — dump, then
+fold them in. `docs/kitchen-dump-2026-09-01.txt` is superseded by
+`config/lily58.keymap` itself — kept only as a record of what the kitchen
+looked like mid-cook.
 
-Six bound layers: 0 `ground`, 1 `CURSE`, 2 `HEAVEN`, 3 `shit`, 4 empty (the
-tri-layer's slot, LIMBO in the file), 5 `FUCK`. Names come from the board, not
-from here — and as of the last session the board still had slot 4 named FUCK
-and slot 5 nameless; bekh renames them in Studio (4 → LIMBO, 5 → FUCK).
+Five layers, names from firmware: 0 `ground`, 1 `CURSE`, 2 `HEAVEN`, 3 `shit`,
+4 `FUCK`. The Space+Enter tri-layer node and the empty slot it guarded are
+gone. bekh uses the board wired; Bluetooth bonds were wiped with the flash and
+not re-paired.
 
 Where the doors are:
 
 - **`shit` (slot 3)** — `&mo 3` on both outer thumbs, pos 50 and 57. Num row
   is F1–F12 with **F1–F10 under the digit they are named after**; F11 on the
   `]` corner, F12 under it. Row below is shift+digit baked in (the symbol row).
-  Volume lives on the rotary encoder, bound on every layer.
-- **`FUCK` (slot 5)** — backtick held at pos 24 (`ltb280 5 GRAVE`, tap is
-  still backtick). Carries cmd+1..5 on the left home row, each under its digit:
-  hold ` and press **n r t s g**. One-handed tab switching, the reason the
-  layer exists. **The block in the keymap file only becomes firmware default
-  on the next build**; today it lives solely in Studio flash settings.
-- **Slot 4** — empty, opened by Space+Enter through the compiled tri-layer node
-  and by nothing else (the node owns it, see traps). Was LIMBO's alt-arrow
-  word-jump cross, erased 2026-09-12. Same build caveat.
+  The Esc corner is `BT_SEL 3` (bekh's Studio edit), so Esc does not work with
+  shit held. Volume lives on the rotary encoder, bound on every layer.
+- **`FUCK` (slot 4)** — pos 24 held (`ltb280 4 LS(GRAVE)`; the tap is `~`,
+  bekh's Studio edit, it was the backtick). Carries cmd+1..5 on the left home
+  row, each under its digit: hold the key and press **n r t s g**. One-handed
+  tab switching, the reason the layer exists. Num row has cmd+shift+3 and
+  cmd+shift+4 under their digits. Every other cell is `&trans`.
 - **CURSE / HEAVEN** — only through the thumb hold-taps at pos 53/54, plus
   `&tog 1` at HEAVEN pos 55, the single escape hatch if a hold-tap misbehaves.
   The base layer has no plain `&mo` to either; pos 11 is `]`.
@@ -270,7 +278,10 @@ door, so re-decide the seat before reviving it.
 
 Open threads: whether balanced@280 wears well (spaces vanishing = rebind a rung up:
 `zmkctl set 0 53 layer_tap_balanced_320 1 SPACE`); whether the FUCK door at 280
-eats slow backtick taps (same fix, any rung); HEAVEN pos 2's stray `0xCE`
-(Keypad @, ignored by macOS); a build to land FUCK in firmware and, while at
-it, drop the Space+Enter tri-layer node — it guards an empty slot now, and it
-is the reason slot 4 can never hold a layer with a door.
+eats slow `~` taps (same fix, any rung); HEAVEN pos 2's stray `0xCE`
+(Keypad @, ignored by macOS); whether fast rolls off Space now misfire as alt
+chords on j p i k x q m b l, which were transparent or harmless before the
+alt fill (the fix is the same rung up); shit's alt+cmd+f on the key that types
+m, which looks like a QWERTY-naming slip for alt+cmd+m and bekh has not ruled
+on; the alt changes of 2026-10-05 are verified by `verify` and Karabiner's
+reload log only — bekh has not reported pressing through them.
