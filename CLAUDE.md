@@ -129,6 +129,16 @@ Karabiner reloads on its own.
   bekh holds real Cmd and Ctrl and Karabiner cannot tell a held key from a
   baked one. The three raw-scancode rules that key on option (kvmtype, alt+v,
   the screenshot chord) are split per device for the same reason.
+- **Password fields kill alt-only hotkeys.** Secure input makes macOS drop any
+  global hotkey whose modifiers are only Option or Option+Shift; one with Ctrl
+  or Cmd in it still fires (measured 2026-10-05 with test Carbon hotkeys and
+  synthetic key events). It cannot be switched off from outside the app. The
+  fix costs no latency: a Karabiner rule turns the alt chord into the same key
+  with ctrl+opt+cmd, and the target app's hotkey is rebound to that. Done for
+  alt+g (Raycast clipboard history). Not done for alt+t (iTerm drop-down) or
+  the AeroSpace alt bindings — same recipe if bekh asks. Don't go through
+  shell commands or AppleScript for this: iTerm's hidden hotkey window is not
+  reachable from AppleScript, and each `osascript` call costs ~130 ms.
 - **Rule order in Karabiner is precedence.** A physical-key rule belongs *above*
   the Gallium block: up there it sees raw scancodes and behaves identically under
   EN and ЙЦУКЕН. Below, it fires on the wrong keys in English only.
