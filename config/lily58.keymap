@@ -190,7 +190,7 @@
             bindings = <
 &kp ESC   &kp N1 &kp N2 &kp N3   &kp N4   &kp N5                        &kp N6 &kp N7   &kp N8    &kp N9  &kp N0   &kp RBKT
 &kp TAB   &kp Q  &kp W  &kp E    &kp R    &kp T                         &kp Y  &kp U    &kp I     &kp O   &kp P    &kp LBKT
-&ltb280 4 LS(GRAVE) &kp A &kp S &kp D &kp F  &kp G                         &kp H  &kp J    &kp K     &kp L   &kp SEMI &ltb280 4 LS(N7)
+&ltb280 4 GRAVE &kp A &kp S &kp D &kp F  &kp G                         &kp H  &kp J    &kp K     &kp L   &kp SEMI &ltb280 4 LS(N7)
 &kp LSHFT &kp Z  &kp X  &kp C    &kp V    &kp B  &kp EQUAL   &kp MINUS  &kp N  &kp M    &kp COMMA &kp DOT &kp FSLH &kp RSHFT
                         &mo 3    &kp LCTRL &kp LGUI &ltb280 1 SPACE   &ltb280 2 RET &kp RGUI &kp BSPC &mo 3
             >;
@@ -216,9 +216,9 @@
             bindings = <
 &kp LA(ESC) &kp LA(N1) &kp LA(N2) &kp LA(N3)    &kp LA(N4) &kp LA(LG(M))                     &kp F6  &kp F7 &kp F8 &kp F9 &kp F10 &kp F11
 &kp LA(TAB) &kp LA(B)  &kp LA(L)  &kp LA(D)     &kp LA(C)  &kp RET                        &kp LA(J) &kp N7 &kp N8 &kp N9 &trans  &kp F12
-&trans      &kp LA(N)  &kp LA(R)  &kp LA(T)     &kp LA(S)  &kp LA(G)                      &kp LA(P) &kp N4 &kp N5 &kp N6 &kp LA(I) &trans
-&kp CAPS    &kp LA(X)  &kp LA(Q)  &kp LA(M)     &kp LA(W)  &kp LA(Z) &kp LA(SPACE) &trans &kp LA(K) &kp N1 &kp N2 &kp N3 &trans  &trans
-                                  &trans        &trans     &kp S     &kp GRAVE     &kp SQT &kp N0 &kp LA(BSPC) &kp KP_DOT
+&kp LS(GRAVE) &kp LA(N)  &kp LA(R)  &kp LA(T)     &kp LA(S)  &kp LA(G)                      &kp LA(P) &kp N4 &kp N5 &kp N6 &kp LA(I) &trans
+&trans      &kp LA(X)  &kp LA(Q)  &kp LA(M)     &kp LA(W)  &kp LA(Z) &kp LA(SPACE) &trans &kp LA(K) &kp N1 &kp N2 &kp N3 &trans  &trans
+                                  &trans        &trans     &kp CAPS  &kp GRAVE     &kp SQT &kp N0 &kp LA(BSPC) &kp KP_DOT
             >;
 
             sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN>;
@@ -293,7 +293,7 @@
 &bt BT_SEL 3 &kp F1 &kp F2 &kp F3 &kp F4 &kp F5                  &kp F6 &kp F7 &kp F8 &kp F9 &kp F10 &kp F11
 &none  &kp LS(N1) &kp LS(N2) &kp LS(N3) &kp LS(N4) &kp LS(N5)    &kp LS(N6) &kp RS(N7) &kp LS(N8) &kp LS(N9) &kp LS(N0) &kp F12
 &trans &trans &trans &kp LG(K) &trans    &trans                  &trans &trans &trans &trans  &trans  &trans
-&none  &none  &kp LC(L) &kp LA(LG(F)) &none  &none  &none    &none   &none  &none  &none  &none   &none   &none
+&none  &none  &kp LC(L) &kp LA(LG(F)) &none  &none  &kp LC(LA(SPACE))    &none   &none  &none  &none  &none   &none   &none
                      &none     &none     &none  &none    &none   &none  &none  &none
             >;
 
@@ -314,10 +314,10 @@
             display-name = "FUCK";
             bindings = <
 &trans &trans      &trans      &kp LG(LS(N3)) &kp LG(LS(N4)) &trans          &trans &trans &trans &trans &trans &trans
-&trans &trans      &trans      &trans      &trans      &trans                  &trans &trans &trans &trans &trans &trans
-&trans &kp LG(N1) &kp LG(N2) &kp LG(N3) &kp LG(N4) &kp LG(N5)             &trans &trans &trans &trans &trans &trans
-&trans &trans      &trans      &trans      &trans      &trans  &trans    &trans  &trans &trans &trans &trans &trans &trans
-                  &trans &trans &trans &trans                        &trans   &trans &trans &trans
+&trans &trans      &trans      &trans      &trans      &trans                  &trans &trans &kp LA(KP_N8) &trans &trans &trans
+&trans &kp LC(LS(A)) &kp LG(N2) &kp LG(N3) &kp LG(N4) &kp LG(N5)             &trans &kp LA(KP_N4) &kp LA(KP_N5) &kp LA(KP_N6) &trans &trans
+&trans &trans      &trans      &trans      &trans      &trans  &trans    &trans  &trans &trans &kp LA(KP_N2) &trans &trans &trans
+                  &trans &trans &trans &kp LA(GRAVE)                 &trans   &trans &trans &trans
             >;
 
             sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN>;
