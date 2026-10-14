@@ -22,9 +22,22 @@ That means edits go one of two ways:
   RPC** where a binding changed (a conditional_layers node needs no rebinding —
   it lives in firmware, not settings)
 
-Layer *content* is always runtime. The thumb hold-taps are the `ltb` ladder
-(balanced, five terms compiled in), so tuning a hold term is rebinding the key
+Layer *content* is always runtime. The hold-taps are ladders — `ltb` (layer
+hold, balanced, five terms) for Enter and the FUCK doors, `mtb` (alt hold,
+balanced, 240/280/320) for Space — so tuning a hold term is rebinding the key
 to another rung over RPC; only a genuinely new behavior needs a build.
+
+Studio's saved state only holds cells that were edited. A cell nobody touched
+follows the firmware default, so after a flash it takes the new keymap value
+with no RPC at all — "bind over RPC" is only needed where the cell had been
+edited before. New behaviors appended at the end of the `behaviors` block left
+every saved binding intact (verified by `verify` after the 2026-10-14 flash);
+pruning or reordering is still what shifts ids.
+
+Flashing: only the left half (central) exposes Studio's serial port, so all
+`zmkctl` work happens with the left half on USB. The bootloader mounts as
+`/Volumes/NICENANO`; a background loop that waits for it and copies
+`lily58_{left,right}_nice_oled.uf2` in turn lets bekh just double-tap.
 
 After anything, run the checker:
 
@@ -85,6 +98,13 @@ Don't emulate a layer in Karabiner. It has no layers, only variables, so a layer
 becomes N hand-enumerated conditional remaps — a second copy of the layout that
 will drift from the first.
 
+The one deliberate exception is the rule "Lily58: alt numpad + …": when Space
+became a real Alt, CURSE's non-alt cells moved there as static option remaps,
+scoped to the Lily58 — alt + the right-hand block types bare digits (`0` on
+alt+RGUI), alt+Enter types `'`, alt+`=` sends alt+Space (the launcher). Ten-odd
+remaps that won't rot; the left-hand Enter is the global alt+v = Enter rule.
+The numpad `.` was dropped.
+
 **Karabiner rules get edited and enabled directly**, never handed back to the
 GUI: enabling is inserting the rule object into
 `profiles[0].complex_modifications.rules` at the index that gives it the right
@@ -120,15 +140,13 @@ Karabiner reloads on its own.
 
   Digits, symbols on the number row, modifiers and thumbs are the same in both.
 
-  **The exception is any chord with alt in it** (since 2026-10-05). The board
-  has no physical Alt, so every alt chord is a baked `LA()` cell, and Karabiner
-  no longer translates option chords coming from the Lily58: the cell is
-  literal. `LA(T)` is alt+t — in Studio, in the keymap file, in the dump — and
-  `LA(LG(M))` is alt+cmd+m. Never run an alt cell through the table. Plain,
-  cmd-only and ctrl-only cells (`LG(K)`, `LC(L)`) still go through it, because
-  bekh holds real Cmd and Ctrl and Karabiner cannot tell a held key from a
-  baked one. The three raw-scancode rules that key on option (kvmtype, alt+v,
-  the screenshot chord) are split per device for the same reason.
+  **Alt chords go through the table too.** Space-hold is a real Alt, and
+  Karabiner's "Gallium mod-combos (Lily58)" rule translates option like cmd
+  and ctrl — it cannot tell a held mod from a baked one, so a baked `LA()`
+  cell is named in QWERTY like every other cell: HEAVEN's `LA(Y)` is alt+j,
+  `LA(LG(U))` alt+cmd+y, shit's `LA(LG(M))` alt+cmd+f. Keypad and arrow keys
+  aren't in the table, so FUCK's alt+keypad tiling cells read literally. No
+  Karabiner rule is split per device for alt any more.
 - **Password fields kill alt-only hotkeys.** Secure input makes macOS drop any
   global hotkey whose modifiers are only Option or Option+Shift; one with Ctrl
   or Cmd in it still fires (measured 2026-10-05 with test Carbon hotkeys and
@@ -157,6 +175,11 @@ Karabiner reloads on its own.
   deleted in Studio comes back on a reflash while the keymap file defines it,
   and one added in Studio cannot be deleted from the GUI at all: removing a
   layer for good takes a build without it plus a reset of the saved keymap.
+- **The api's `Keycode` enum only knows named values.** A baked chord like
+  `LA(LG(M))` (`0x0C070010`: mods in the top byte, then page, then id) raises
+  `ValueError` through `KeyPress`. `zmkctl kp L POS 0x…` sends any 0x value as
+  `Raw` on the Key Press behavior instead; `zmkctl set` takes a keycode name
+  for both params (`set 0 53 mod_tap_balanced_280 LALT SPACE`).
 - **A layer Studio created holds zeroed bindings, and they fall through.**
   Its cells read back as `Unknown { behavior_id: 0 }`. In effect that is
   `&trans`, not `&none` (ZMK v0.3.0 `behavior.c` returns 1 for a missing
@@ -212,66 +235,74 @@ current layout landed and why, and what is still open.
 
 ## Resume pointer
 
-**Mirror true as of 2026-10-05**, on freshly flashed firmware with Studio's
-saved state wiped: the board is running the keymap file's defaults, `verify`
-returns MATCH, and a MISMATCH from here on is bekh's Studio edits — dump, then
-fold them in. `docs/kitchen-dump-2026-09-01.txt` is superseded by
-`config/lily58.keymap` itself — kept only as a record of what the kitchen
-looked like mid-cook.
+**Mirror true as of 2026-10-14**, after a flash that kept Studio's saved state:
+`verify` returns MATCH, and a MISMATCH from here on is bekh's Studio edits —
+dump, then fold them in. `docs/kitchen-dump-2026-09-01.txt` is a record of the
+kitchen mid-cook, superseded by `config/lily58.keymap`.
+[`docs/dual-role-thumbs.md`](docs/dual-role-thumbs.md) still describes Space
+holding CURSE; the thumb arithmetic in it holds, the Space seat does not.
 
 Five layers, names from firmware: 0 `ground`, 1 `CURSE`, 2 `HEAVEN`, 3 `shit`,
-4 `FUCK`. The Space+Enter tri-layer node and the empty slot it guarded are
-gone. bekh uses the board wired; Bluetooth bonds were wiped with the flash and
-not re-paired.
+4 `FUCK`. bekh uses the board wired; Bluetooth is not paired.
+
+**Space (pos 53) is `mtb280 LALT SPACE`: tap Space, hold a real Left Alt.**
+Every alt chord works without a cell and every real mod stacks in any order.
+The misfire profile is the one CURSE's alt fill already had — a fast roll off
+Space that releases the next key first becomes an alt chord.
 
 Where the doors are:
 
 - **`shit` (slot 3)** — `&mo 3` on both outer thumbs, pos 50 and 57. Num row
   is F1–F12 with **F1–F10 under the digit they are named after**; F11 on the
   `]` corner, F12 under it. Row below is shift+digit baked in (the symbol row).
-  The Esc corner is `BT_SEL 3` (bekh's Studio edit), so Esc does not work with
-  shit held. Volume lives on the rotary encoder, bound on every layer.
+  **CAPS sits on the left-shift seat (pos 36).** The Esc corner is `BT_SEL 3`
+  (bekh's Studio edit), so Esc does not work with shit held. Volume lives on
+  the rotary encoder, bound on every layer.
 - **`FUCK` (slot 4)** — two doors, mirrored on the home-row pinkies: pos 24
-  held (`ltb280 4 LS(GRAVE)`; the tap is `~`, bekh's Studio edit, it was the
-  backtick) and pos 35 held (`ltb280 4 LS(N7)`; the tap is still `?`). The
-  right one was meant to open a new layer, DAMN, but Studio's add-layer is
-  capped — this firmware has no spare slot, so a sixth layer is a build.
-  Carries cmd+1..5 on the left home
-  row, each under its digit: hold the key and press **n r t s g**. One-handed
-  tab switching, the reason the layer exists. Num row has cmd+shift+3 and
-  cmd+shift+4 under their digits. Every other cell is `&trans`.
-- **CURSE / HEAVEN** — only through the thumb hold-taps at pos 53/54, plus
-  `&tog 1` at HEAVEN pos 55, the single escape hatch if a hold-tap misbehaves.
-  The base layer has no plain `&mo` to either; pos 11 is `]`.
-- **CURSE is the alt layer, filled once (2026-10-05): every letter seat that is
-  not numpad is `LA(` its own Gallium letter `)`**, so Space-hold + a key is
-  alt + that key and a new alt chord never needs a cell. The seats without it:
-  the numpad's nine (y o u / h a e / f ' ;), and v, which is Enter (the
-  left-hand Enter, and shift/cmd + it must stay shift/cmd+Enter). Num row is
-  `LA(ESC)`/`LA(1-4)` for workspaces. Stacks need no cells either — real
-  Shift, Cmd and Ctrl compose over an alt cell and pass through Karabiner
-  untranslated (right shift any order; left shift before Space, since CAPS
-  squats on CURSE pos 36). Don't add `LA(LG(x))`-style cells; hold the real mod.
-- Space-hold as a real Alt was re-argued 2026-10-05 and left alone: a key gets
-  one hold, and Space's is CURSE's door (numpad, CAPS, the left-hand Enter);
-  a real Alt would also turn every fast roll off Space into an alt chord. bekh
-  does not want alt+mouse. What hurt was naming cells in QWERTY and binding
-  each new chord, and both are gone. Reopen only if that changes.
+  held (`ltb280 4 GRAVE`) and pos 35 held (`ltb280 4 LS(N7)`, the tap is `?`).
+  Studio's add-layer is capped — this firmware has no spare slot, so a sixth
+  layer is a build. Carries cmd+1..5 on the left home row, each under its
+  digit: hold the key and press **n r t s g**. One-handed tab switching, the
+  reason the layer exists. Num row has cmd+shift+3 and cmd+shift+4 under their
+  digits; alt+keypad 4 5 6 8 2 are tiling cells.
+- **HEAVEN** — Enter-hold (pos 54, `ltb280 2 RET`). Arrow cross on the right.
+- **CURSE** — no hold door any more. The only way in is `&tog 1` at HEAVEN
+  pos 55. Its content (the alt cells, numpad, left-hand Enter) is dead weight
+  now that alt is real and the rest moved to Karabiner.
 
 Number row is plain digits and `]`; the unshifted-symbols row was tried and
 reverted on 2026-09-02 because it broke cmd+digit — that, the cross-language
 symbol problem and the custom ЙЦУКЕН plan live in
-[`docs/musings_over_ru_layout.md`](docs/musings_over_ru_layout.md) — read it before touching either.
+[`docs/musings_over_ru_layout.md`](docs/musings_over_ru_layout.md) — read it
+before touching either. bekh barely uses Russian now.
 
-Parked, in bekh's words: alt+Z fullscreen sim — "think later"; CAPS off CURSE's
-shift seat if the left-shift ordering annoys.
+Parked, in bekh's words: alt+Z fullscreen sim — "think later".
 
-Open threads: whether balanced@280 wears well (spaces vanishing = rebind a rung up:
-`zmkctl set 0 53 layer_tap_balanced_320 1 SPACE`); whether the FUCK door at 280
-eats slow `~` taps (same fix, any rung); HEAVEN pos 2's stray `0xCE`
-(Keypad @, ignored by macOS); whether fast rolls off Space now misfire as alt
-chords on j p i k x q m b l, which were transparent or harmless before the
-alt fill (the fix is the same rung up); shit's alt+cmd+f on the key that types
-m, which looks like a QWERTY-naming slip for alt+cmd+m and bekh has not ruled
-on; the alt changes of 2026-10-05 are verified by `verify` and Karabiner's
-reload log only — bekh has not reported pressing through them.
+Open threads:
+
+- **nothing from 2026-10-14 has been pressed through yet** — real alt, the
+  Karabiner rewrite, the alt numpad, alt+`=`, CAPS on shit are verified by
+  `verify` and Karabiner's reload log only
+- **alt+tab opens nothing right now.** The Karabiner alt+tab → alt+F20 rule
+  is gone (bekh wants plain alt+tab), but hyprshit's switcher still binds
+  `f20` / `alt-f20` in `~/tower/forge/hyprshit/config/keys`; the fix is
+  `alt-tab launch windows` there plus the F20 paragraph in its
+  `docs/launcher.md` — waiting on bekh's ok to touch hyprshit
+- **Karabiner cleanup** — bekh wants the dead rules gone and has not picked
+  them yet. Off already: the old F17/F18 pair, Colemak Mod-DH, tap-cmd → Clear.
+  Likely dead: "Lily58 spares → EN symbols" (the inert RU-scheme half),
+  ctrl+cmd+esc → force quit (a no-alt workaround). Ask about: side pad, AB
+  Shutter3, side-keyboard Num5, the four EN/RU toggles (Space+[, F17,
+  ctrl+shift tap, cmd+tab), ctrl+shift+P TTS pause, F16 → Raycast, cmd+shift+3
+  main display, the second profile "hop"
+- the launcher on alt+Space dies in password fields like any alt-only hotkey —
+  same ctrl+opt+cmd recipe if bekh wants it
+- Space at 280: spaces vanishing or rolls turning into alt chords → a rung up,
+  `zmkctl set 0 53 mod_tap_balanced_320 LALT SPACE`; same question for the
+  FUCK door eating slow taps (any `ltb` rung)
+- shit's alt+cmd+f on the key that types m still looks like a slip for
+  alt+cmd+m; bekh has not ruled
+- HEAVEN pos 2's stray `0xCE` (Keypad @, ignored by macOS)
+- the Arch machine was wired against the old baked alt cells; a message for
+  that session describing the switch was handed to bekh — its alt bindings
+  need re-deriving from "hold Space + the key bekh calls X → alt+X"
