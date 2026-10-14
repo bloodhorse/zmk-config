@@ -234,6 +234,10 @@ def cell_from_token(t):
     if m and m.group(1) not in ("lt", "mt", "mo", "tog", "kp", "bt"):
         cell = cell_from_token("&kp " + m.group(3).strip())
         return ("custom", m.group(1), int(m.group(2))) + cell[1:]
+    m = re.match(r"&([a-z_][a-z_0-9]*) ([A-Z]\w*) (.+)$", t)
+    if m and m.group(1) not in ("lt", "mt", "kp") and m.group(2) in KEYCODES:
+        cell = cell_from_token("&kp " + m.group(3).strip())
+        return ("custom", m.group(1), KEYCODES[m.group(2)]) + cell[1:]
     m = re.match(r"&(lt|mt) (\S+) (.+)$", t)
     if m:
         kind, first, tap = m.group(1), m.group(2), m.group(3).strip()
@@ -286,6 +290,12 @@ def cell_from_board(b):
                   r'param2: Keycode\(HidUsage \{ page: (\d+), id: (\d+), modifiers: (\d+)', s)
     if m:
         return ("custom", m.group(1)) + tuple(int(g) for g in m.groups()[1:])
+    m = re.search(r'Custom \{ behavior_id: \d+, display_name: "([a-z_0-9]+)", '
+                  r'param1: Keycode\(HidUsage \{ page: (\d+), id: (\d+), modifiers: \d+ \}\), '
+                  r'param2: Keycode\(HidUsage \{ page: (\d+), id: (\d+), modifiers: (\d+)', s)
+    if m:
+        g = [int(x) for x in m.groups()[1:]]
+        return ("custom", m.group(1), (g[0], g[1])) + tuple(g[2:])
     m = re.search(r"LayerTap \{ layer_id: (\d+), tap: HidUsage \{ page: (\d+), id: (\d+), modifiers: (\d+)", s)
     if m:
         return ("lt",) + tuple(int(g) for g in m.groups())
