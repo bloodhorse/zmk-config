@@ -137,8 +137,8 @@ layers:
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
-  - Alt+J
-  - Alt+Gui+Y
+  - Alt+Y
+  - Alt+Gui+U
   - ↑
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
@@ -214,10 +214,10 @@ layers:
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
-  - ''
+  - Caps Lock
   - ''
   - Ctl+L
-  - Alt+Gui+F
+  - Alt+Gui+M
   - ''
   - ''
   - Ctl+Alt+␣

@@ -174,10 +174,16 @@ def set_kp(client, layer, pos, name):
     APOSTROPHE, DQT, LPAR, LBRC, BSLH, PIPE …) or a raw 0xMMPPIIII value —
     modifiers ride in the top byte, so shifted symbols are one keycode.
     """
-    kc = z.Keycode(int(name, 0)) if name.startswith("0x") else getattr(z.Keycode, name, None)
-    if kc is None:
-        raise SystemExit(f"unknown keycode {name!r} — see dir(zmk_studio_api.Keycode)")
-    client.set_key_at(layer, pos, z.KeyPress(kc))
+    if name.startswith("0x"):
+        # the Keycode enum only knows the named values; a baked chord like
+        # LA(LG(M)) = 0x0C070010 has to go in raw through the Key Press behavior
+        binding = z.Raw(behavior_id(client, "Key Press"), int(name, 16), 0)
+    else:
+        kc = getattr(z.Keycode, name, None)
+        if kc is None:
+            raise SystemExit(f"unknown keycode {name!r} — see dir(zmk_studio_api.Keycode)")
+        binding = z.KeyPress(kc)
+    client.set_key_at(layer, pos, binding)
     client.save_changes()
     print(client.get_key_at(layer, pos))
 

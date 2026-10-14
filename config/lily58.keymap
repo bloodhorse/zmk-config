@@ -191,7 +191,9 @@
 // thumbs (set in Studio 2026-09-08, mirrored from the board): 'shit' has a
 // door on each outer thumb (pos 50 and 57), LCTRL at 51, LGUI at 52, RGUI at
 // 55. Alt is Space's hold (pos 53); Karabiner translates option chords through
-// the Gallium table like cmd and ctrl.
+// the Gallium table like cmd and ctrl — so a baked LA() cell is named in
+// QWERTY again: HEAVEN's LA(Y) is alt+j, LA(LG(U)) alt+cmd+y, shit's
+// LA(LG(M)) alt+cmd+f. The drawings above each layer show what macOS gets.
 //
 // pos 35 (never RCTRL in practice) is '?' — LS(N7), literally the ЙЦУКЕН chord,
 // just folded onto one key. It had to be a MODIFIER seat: modifiers don't change
@@ -269,7 +271,7 @@
             display-name = "HEAVEN";
             bindings = <
 &trans  &trans  &kp 0x700CE &trans &trans &trans                &bt BT_CLR   &bt BT_SEL 0 &bt BT_PRV  &bt BT_NXT   &kp RBKT &kp KP_PLUS
-&trans  &trans  &trans  &trans &trans &trans                    &kp LA(J)    &kp LA(LG(Y)) &kp UP     &trans       &trans &trans
+&trans  &trans  &trans  &trans &trans &trans                    &kp LA(Y)    &kp LA(LG(U)) &kp UP     &trans       &trans &trans
 &trans  &trans  &trans  &trans &trans &trans                    &kp LA(LEFT) &kp LEFT     &kp DOWN    &kp RIGHT    &kp LA(RIGHT) &trans
 &trans  &trans  &trans  &trans &trans &trans &trans   &kp F16   &kp F13      &kp F18      &kp LS(BSLH) &kp LG(I)   &kp K  &trans
                         &trans &trans &trans &kp GRAVE   &kp SQT   &tog 1     &kp DEL      &trans
@@ -288,7 +290,7 @@
 // |BT_SEL3|  F1 |  F2 |  F3  |  F4  |  F5  |                   |  F6  |  F7   |  F8   |  F9  |  F10  |  F11  |
 // |       |  !  |  @  |  #   |  $   |  %   |                   |  ^   |  &    |  *    |  (   |   )   |  F12  |
 // |       |     |     |LG(K) |      |      |                   |      |       |       |      |       |       |
-// |       |     |LC(L)|LA+LG(F)|    |      |        |  |       |      |       |       |      |       |       |
+// | CAPS  |     |LC(L)|LA+LG(M)|    |      |        |  |       |      |       |       |      |       |       |
 //
 // SYMBOL ROW (2026-09-08): shift+digit baked into each cell, seated one row
 // under the digit it belongs to, so the layer reads as a second number row
@@ -322,7 +324,7 @@
 &bt BT_SEL 3 &kp F1 &kp F2 &kp F3 &kp F4 &kp F5                  &kp F6 &kp F7 &kp F8 &kp F9 &kp F10 &kp F11
 &none  &kp LS(N1) &kp LS(N2) &kp LS(N3) &kp LS(N4) &kp LS(N5)    &kp LS(N6) &kp RS(N7) &kp LS(N8) &kp LS(N9) &kp LS(N0) &kp F12
 &trans &trans &trans &kp LG(K) &trans    &trans                  &trans &trans &trans &trans  &trans  &trans
-&none  &none  &kp LC(L) &kp LA(LG(F)) &none  &none  &kp LC(LA(SPACE))    &none   &none  &none  &none  &none   &none   &none
+&kp CAPS  &none  &kp LC(L) &kp LA(LG(M)) &none  &none  &kp LC(LA(SPACE))    &none   &none  &none  &none  &none   &none   &none
                      &none     &none     &none  &none    &none   &none  &none  &none
             >;
 
