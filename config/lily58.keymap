@@ -135,6 +135,34 @@
             tapping-term-ms = <200>;
             bindings = <&mo>, <&tog>;
         };
+        // Space as a real Alt — 2026-10-14. Same balanced regime and quick-tap
+        // as the ltb ladder, so the misfire profile is the one CURSE already
+        // had; three rungs for the same runtime-tuning trick. Appended last so
+        // no existing behavior id moves.
+        mtb240: mod_tap_balanced_240 {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            flavor = "balanced";
+            tapping-term-ms = <240>;
+            quick-tap-ms = <200>;
+            bindings = <&kp>, <&kp>;
+        };
+        mtb280: mod_tap_balanced_280 {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            flavor = "balanced";
+            tapping-term-ms = <280>;
+            quick-tap-ms = <200>;
+            bindings = <&kp>, <&kp>;
+        };
+        mtb320: mod_tap_balanced_320 {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            flavor = "balanced";
+            tapping-term-ms = <320>;
+            quick-tap-ms = <200>;
+            bindings = <&kp>, <&kp>;
+        };
     };
 
     keymap {
@@ -149,10 +177,10 @@
 //                      | SHIT |LCTRL | LGUI |SPC/CUR |  |RET/HVN| RGUI | BSPC  | SHIT  |
 //
 // LAYER DOORS — the base layer carries no plain &mo to CURSE or HEAVEN.
-// Both live exclusively on the thumb hold-taps: Space (pos 53) holds CURSE,
-// Enter (pos 54) holds HEAVEN. pos 11 (was &mo 2) is ']'.
-// Consequence worth knowing: if a thumb hold-tap ever misbehaves, there is no
-// fallback route to CURSE or HEAVEN except HEAVEN's own &tog 1 at pos 55.
+// Enter (pos 54) holds HEAVEN. Space (pos 53) holds a real LALT since
+// 2026-10-14 (mtb280), so CURSE has no hold door any more: its only way in is
+// HEAVEN's &tog 1 at pos 55. Its old numpad and the left-hand Enter moved to
+// Karabiner as option+key remaps from the Lily58. pos 11 (was &mo 2) is ']'.
 //
 // pos 24, the home-row pinky, is '~' on tap (LS(GRAVE), bekh's Studio edit) and the FUCK door on hold
 // (ltb280, same rung as the thumbs) — 2026-09-12. Backtick is rare enough
@@ -162,7 +190,8 @@
 //
 // thumbs (set in Studio 2026-09-08, mirrored from the board): 'shit' has a
 // door on each outer thumb (pos 50 and 57), LCTRL at 51, LGUI at 52, RGUI at
-// 55. No Alt on the base layer — alt chords go through CURSE's LA() cells.
+// 55. Alt is Space's hold (pos 53); Karabiner translates option chords through
+// the Gallium table like cmd and ctrl.
 //
 // pos 35 (never RCTRL in practice) is '?' — LS(N7), literally the ЙЦУКЕН chord,
 // just folded onto one key. It had to be a MODIFIER seat: modifiers don't change
@@ -192,7 +221,7 @@
 &kp TAB   &kp Q  &kp W  &kp E    &kp R    &kp T                         &kp Y  &kp U    &kp I     &kp O   &kp P    &kp LBKT
 &ltb280 4 GRAVE &kp A &kp S &kp D &kp F  &kp G                         &kp H  &kp J    &kp K     &kp L   &kp SEMI &ltb280 4 LS(N7)
 &kp LSHFT &kp Z  &kp X  &kp C    &kp V    &kp B  &kp EQUAL   &kp MINUS  &kp N  &kp M    &kp COMMA &kp DOT &kp FSLH &kp RSHFT
-                        &mo 3    &kp LCTRL &kp LGUI &ltb280 1 SPACE   &ltb280 2 RET &kp RGUI &kp BSPC &mo 3
+                        &mo 3    &kp LCTRL &kp LGUI &mtb280 LALT SPACE &ltb280 2 RET &kp RGUI &kp BSPC &mo 3
             >;
 
             sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN>;

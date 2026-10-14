@@ -186,12 +186,12 @@ def set_custom(client, layer, pos, name, p1, p2):
     """Bind a custom (devicetree) behavior by display name and save.
 
     zmkctl set L POS NODE_NAME PARAM1 PARAM2
-      e.g. set 0 53 layer_tap_balanced_280 1 SPACE
+      e.g. set 0 53 mod_tap_balanced_280 LALT SPACE
     NODE_NAME is the devicetree node name (what 'behaviors' prints), not the
-    &label. PARAM2 takes a keycode name from KEYCODES, 0x-hex, or an int.
+    &label. Both params take a keycode name from KEYCODES, 0x-hex, or an int.
     """
     bid = behavior_id(client, name)
-    client.set_key_at(layer, pos, z.Raw(bid, int(p1), _param2(p2)))
+    client.set_key_at(layer, pos, z.Raw(bid, _param2(p1), _param2(p2)))
     client.save_changes()
     print(client.get_key_at(layer, pos))
 
