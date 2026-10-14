@@ -193,7 +193,7 @@
 // 55. Alt is Space's hold (pos 53); Karabiner translates option chords through
 // the Gallium table like cmd and ctrl — so a baked LA() cell is named in
 // QWERTY again: HEAVEN's LA(Y) is alt+j, LA(LG(U)) alt+cmd+y, shit's
-// LA(LG(M)) alt+cmd+f. The drawings above each layer show what macOS gets.
+// LA(LG(C)) alt+cmd+m (the hyprshit mode, on the key bekh calls m). The drawings above each layer show what macOS gets.
 //
 // pos 35 (never RCTRL in practice) is '?' — LS(N7), literally the ЙЦУКЕН chord,
 // just folded onto one key. It had to be a MODIFIER seat: modifiers don't change
@@ -231,7 +231,7 @@
 
         curse_layer {
 // ------------------------------------------------------------------------------------------------------------
-// |LA(ESC)|LA(1)|LA(2)|LA(3) |LA(4) |LA+LG(M)|                   |  F6  |  F7   |  F8   |  F9  |  F10  |  F11  |
+// |LA(ESC)|LA(1)|LA(2)|LA(3) |LA(4) |LA(5) |                   |  F6  |  F7   |  F8   |  F9  |  F10  |  F11  |
 // |LA(TAB)|LA(B)|LA(L)|LA(D) |LA(C) | RET |                   |LA(J) |   7   |   8   |  9   |       |  F12  |
 // |       |LA(N)|LA(R)|LA(T) |LA(S) |LA(G) |                   |LA(P) |   4   |   5   |  6   | LA(I) |       |
 // | CAPS  |LA(X)|LA(Q)|LA(M) |LA(W) |LA(Z) |LA(SPC) |  |       |LA(K) |   1   |   2   |  3   |       |       |
@@ -245,7 +245,7 @@
 // 2026-09-12 (52 was LG(Q) here before).
             display-name = "CURSE";
             bindings = <
-&kp LA(ESC) &kp LA(N1) &kp LA(N2) &kp LA(N3)    &kp LA(N4) &kp LA(LG(M))                     &kp F6  &kp F7 &kp F8 &kp F9 &kp F10 &kp F11
+&kp LA(ESC) &kp LA(N1) &kp LA(N2) &kp LA(N3)    &kp LA(N4) &kp LA(N5)                         &kp F6  &kp F7 &kp F8 &kp F9 &kp F10 &kp F11
 &kp LA(TAB) &kp LA(B)  &kp LA(L)  &kp LA(D)     &kp LA(C)  &kp RET                        &kp LA(J) &kp N7 &kp N8 &kp N9 &trans  &kp F12
 &kp LS(GRAVE) &kp LA(N)  &kp LA(R)  &kp LA(T)     &kp LA(S)  &kp LA(G)                      &kp LA(P) &kp N4 &kp N5 &kp N6 &kp LA(I) &trans
 &trans      &kp LA(X)  &kp LA(Q)  &kp LA(M)     &kp LA(W)  &kp LA(Z) &kp LA(SPACE) &trans &kp LA(K) &kp N1 &kp N2 &kp N3 &trans  &trans
@@ -290,7 +290,7 @@
 // |BT_SEL3|  F1 |  F2 |  F3  |  F4  |  F5  |                   |  F6  |  F7   |  F8   |  F9  |  F10  |  F11  |
 // |       |  !  |  @  |  #   |  $   |  %   |                   |  ^   |  &    |  *    |  (   |   )   |  F12  |
 // |       |     |     |LG(K) |      |      |                   |      |       |       |      |       |       |
-// | CAPS  |     |LC(L)|LA+LG(M)|    |      |        |  |       |      |       |       |      |       |       |
+// | CAPS  |     |LC(L)|LA+LG(C)|    |      |        |  |       |      |       |       |      |       |       |
 //
 // SYMBOL ROW (2026-09-08): shift+digit baked into each cell, seated one row
 // under the digit it belongs to, so the layer reads as a second number row
@@ -324,7 +324,7 @@
 &bt BT_SEL 3 &kp F1 &kp F2 &kp F3 &kp F4 &kp F5                  &kp F6 &kp F7 &kp F8 &kp F9 &kp F10 &kp F11
 &none  &kp LS(N1) &kp LS(N2) &kp LS(N3) &kp LS(N4) &kp LS(N5)    &kp LS(N6) &kp RS(N7) &kp LS(N8) &kp LS(N9) &kp LS(N0) &kp F12
 &trans &trans &trans &kp LG(K) &trans    &trans                  &trans &trans &trans &trans  &trans  &trans
-&kp CAPS  &none  &kp LC(L) &kp LA(LG(M)) &none  &none  &kp LC(LA(SPACE))    &none   &none  &none  &none  &none   &none   &none
+&kp CAPS  &none  &kp LC(L) &kp LA(LG(C)) &none  &none  &kp LC(LA(SPACE))    &none   &none  &none  &none  &none   &none   &none
                      &none     &none     &none  &none    &none   &none  &none  &none
             >;
 

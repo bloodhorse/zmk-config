@@ -144,7 +144,7 @@ Karabiner reloads on its own.
   Karabiner's "Gallium mod-combos (Lily58)" rule translates option like cmd
   and ctrl — it cannot tell a held mod from a baked one, so a baked `LA()`
   cell is named in QWERTY like every other cell: HEAVEN's `LA(Y)` is alt+j,
-  `LA(LG(U))` alt+cmd+y, shit's `LA(LG(M))` alt+cmd+f. Keypad and arrow keys
+  `LA(LG(U))` alt+cmd+y, shit's `LA(LG(C))` alt+cmd+m. Keypad and arrow keys
   aren't in the table, so FUCK's alt+keypad tiling cells read literally. No
   Karabiner rule is split per device for alt any more.
 - **Password fields kill alt-only hotkeys.** Secure input makes macOS drop any
@@ -256,7 +256,8 @@ Where the doors are:
   is F1–F12 with **F1–F10 under the digit they are named after**; F11 on the
   `]` corner, F12 under it. Row below is shift+digit baked in (the symbol row).
   **CAPS sits on the left-shift seat (pos 36).** The Esc corner is `BT_SEL 3`
-  (bekh's Studio edit), so Esc does not work with shit held. Volume lives on
+  (bekh's Studio edit), so Esc does not work with shit held. shit + the key
+  bekh calls m is `LA(LG(C))` = alt+cmd+m, hyprshit's mode. Volume lives on
   the rotary encoder, bound on every layer.
 - **`FUCK` (slot 4)** — two doors, mirrored on the home-row pinkies: pos 24
   held (`ltb280 4 GRAVE`) and pos 35 held (`ltb280 4 LS(N7)`, the tap is `?`).
@@ -300,8 +301,6 @@ Open threads:
 - Space at 280: spaces vanishing or rolls turning into alt chords → a rung up,
   `zmkctl set 0 53 mod_tap_balanced_320 LALT SPACE`; same question for the
   FUCK door eating slow taps (any `ltb` rung)
-- shit's alt+cmd+f on the key that types m still looks like a slip for
-  alt+cmd+m; bekh has not ruled
 - HEAVEN pos 2's stray `0xCE` (Keypad @, ignored by macOS)
 - the Arch machine was wired against the old baked alt cells; a message for
   that session describing the switch was handed to bekh — its alt bindings

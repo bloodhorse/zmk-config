@@ -65,7 +65,7 @@ layers:
   - Alt+2
   - Alt+3
   - Alt+4
-  - Alt+Gui+M
+  - Alt+5
   - F6
   - F7
   - F8
@@ -217,7 +217,7 @@ layers:
   - Caps Lock
   - ''
   - Ctl+L
-  - Alt+Gui+M
+  - Alt+Gui+C
   - ''
   - ''
   - Ctl+Alt+␣
