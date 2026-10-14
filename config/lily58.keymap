@@ -3,26 +3,11 @@
  *
  * SPDX-License-Identifier: MIT
  *
- * MIRROR of the live board state as managed by ZMK Studio.
- * Source of truth is the Studio flash settings on the board itself; this file
- * is the backup/documentation copy, dumped over Studio RPC (tools/zmkctl.py).
- * If reflashed, Studio's saved state still overrides these defaults — which is
- * also the day this file starts mattering, so it has to be true before a build.
- *
- * Verified cell-by-cell against the board 2026-09-12: all 58 positions on all
- * five bound layers compared as numeric (page, id, mods), not display names.
- * Edits made in the Studio GUI do NOT reach this file — re-verify after any.
- * bekh edits in Studio often, so the working order is always: dump the board,
- * then change it, then bring this file up to it. Never edit from memory.
- *
- * Layer NAMES are Studio-GUI-only and this file cannot set them on a live
- * board; read them back from get_keymap_bytes before trusting the
- * display-name here.
- *
- * HEAVEN pos 2 is a bare keyboard-page usage 0xCE (Keypad @), which macOS
- * ignores. It reads like a Studio slip that ate the old F15 (and F14 next to
- * it) rather than a decision; recorded here as-is because this file's job is
- * to say what the board does, not what it ought to.
+ * MIRROR of the live board. The source of truth is ZMK Studio's saved state
+ * on the board, which overrides these defaults even after a reflash. Keep it
+ * true with `tools/zmkctl.py verify`; a Studio GUI edit never reaches this
+ * file. Cells are QWERTY scancodes; Karabiner makes them Gallium, chords
+ * included. See CLAUDE.md and docs/.
  */
 
 #include <behaviors.dtsi>
@@ -31,12 +16,9 @@
 
 / {
     behaviors {
-        // Tap-toggle duals for slow, deliberate keys only (thumbs/layer keys) —
-        // hold resolves instantly via balanced flavor when chorded, tap fires on
-        // clean press-release. Board-wide doctrine stays: no hold-taps on typing keys.
-        // Nothing binds the gtog ladder at the moment; it stays compiled in
-        // because pruning a behavior shifts every id above it, and Studio's
-        // saved bindings reference ids. Dead weight is cheaper than a reshuffle.
+        // Behavior ids come from this order and Studio's saved bindings
+        // reference them: append new behaviors at the end, never prune or
+        // reorder. gtog* and motog are unbound and stay for that reason.
         gtog: gui_tap_toggle {
             compatible = "zmk,behavior-hold-tap";
             #binding-cells = <2>;
@@ -44,8 +26,6 @@
             tapping-term-ms = <200>;
             bindings = <&kp>, <&tog>;
         };
-        // Tapping-term ladder — same behavior at faster terms, so tuning the
-        // hold-engage delay is a runtime rebind (Studio/RPC), never a reflash.
         gtog180: gui_tap_toggle_180 {
             compatible = "zmk,behavior-hold-tap";
             #binding-cells = <2>;
@@ -67,27 +47,8 @@
             tapping-term-ms = <140>;
             bindings = <&kp>, <&tog>;
         };
-        // Thumb hold-layers — balanced regime, 2026-08-31. The previous design
-        // (hold-preferred + a compiled position whitelist, zero clocks) made
-        // every key added to a layer a whitelist edit -> rebuild -> flash both
-        // halves. That tax lost: bekh types slowly now, so a timer's misfire
-        // window is cheap, and with no whitelist every position is
-        // layer-capable — layer content is pure Studio RPC, forever.
-        //
-        // balanced semantics:
-        //   other key pressed AND released while thumb is down -> hold, no wait
-        //   thumb released first (fast roll)                   -> tap
-        //   thumb held alone past the term                     -> hold
-        //   thumb released alone within the term               -> tap, on release
-        //
-        // The term's only real job is how long a solo press may dwell before
-        // the tap is forfeited: spaces vanishing = raise it. quick-tap-ms:
-        // tap, then press again within 200ms -> forced tap, held = key repeat.
-        //
-        // Five rungs so tuning the term is a runtime rebind (Studio RPC),
-        // never a reflash — the gtog ladder trick. ltb280 is the default;
-        // one behavior serves both thumbs (the layer is a binding parameter).
-        // Prune = behavior IDs shift under Studio's saved bindings; don't.
+        // Layer hold-tap ladder: same balanced behavior at five terms, so tuning
+        // a hold is a rebind over RPC, never a build (docs/board.md).
         ltb200: layer_tap_balanced_200 {
             compatible = "zmk,behavior-hold-tap";
             #binding-cells = <2>;
@@ -135,10 +96,7 @@
             tapping-term-ms = <200>;
             bindings = <&mo>, <&tog>;
         };
-        // Space as a real Alt — 2026-10-14. Same balanced regime and quick-tap
-        // as the ltb ladder, so the misfire profile is the one CURSE already
-        // had; three rungs for the same runtime-tuning trick. Appended last so
-        // no existing behavior id moves.
+        // Mod hold-tap ladder, same regime. Space = mtb280 LALT SPACE.
         mtb240: mod_tap_balanced_240 {
             compatible = "zmk,behavior-hold-tap";
             #binding-cells = <2>;
@@ -172,51 +130,13 @@
 // ------------------------------------------------------------------------------------------------------------
 // |  ESC  |  1  |  2  |  3   |  4   |  5   |                   |  6   |  7    |  8    |  9   |   0   |   ]   |
 // |  TAB  |  Q  |  W  |  E   |  R   |  T   |                   |  Y   |  U    |  I    |  O   |   P   |   [   |
-// | ~/FUCK|  A  |  S  |  D   |  F   |  G   |                   |  H   |  J    |  K    |  L   |   ;   |   ?   |
+// | ~/FUCK|  A  |  S  |  D   |  F   |  G   |                   |  H   |  J    |  K    |  L   |   ;   |?/FUCK |
 // | SHIFT |  Z  |  X  |  C   |  V   |  B   |   =    |  |   -   |  N   |  M    |  ,    |  .   |   /   | SHIFT |
-//                      | SHIT |LCTRL | LGUI |SPC/CUR |  |RET/HVN| RGUI | BSPC  | SHIT  |
+//                      | SHIT |LCTRL | LGUI |SPC/ALT |  |RET/HVN| RGUI | BSPC  | SHIT  |
 //
-// LAYER DOORS — the base layer carries no plain &mo to CURSE or HEAVEN.
-// Enter (pos 54) holds HEAVEN. Space (pos 53) holds a real LALT since
-// 2026-10-14 (mtb280), so CURSE has no hold door any more: its only way in is
-// HEAVEN's &tog 1 at pos 55. Its old numpad and the left-hand Enter moved to
-// Karabiner as option+key remaps from the Lily58. pos 11 (was &mo 2) is ']'.
-//
-// pos 24, the home-row pinky, is '~' on tap (LS(GRAVE), bekh's Studio edit) and the FUCK door on hold
-// (ltb280, same rung as the thumbs) — 2026-09-12. Backtick is rare enough
-// that losing key-repeat on it costs nothing; a ``` fence is three taps.
-// Pinky-hold + same-hand home row is the shift-chord shape, and the whole
-// point is a left-hand-only cmd+digit: bekh's right hand is on the mouse.
-//
-// thumbs (set in Studio 2026-09-08, mirrored from the board): 'shit' has a
-// door on each outer thumb (pos 50 and 57), LCTRL at 51, LGUI at 52, RGUI at
-// 55. Alt is Space's hold (pos 53); Karabiner translates option chords through
-// the Gallium table like cmd and ctrl — so a baked LA() cell is named in
-// QWERTY again: HEAVEN's LA(Y) is alt+j, LA(LG(U)) alt+cmd+y, shit's
-// LA(LG(C)) alt+cmd+m (the hyprshit mode, on the key bekh calls m). The drawings above each layer show what macOS gets.
-//
-// pos 35 (never RCTRL in practice) is '?' — LS(N7), literally the ЙЦУКЕН chord,
-// just folded onto one key. It had to be a MODIFIER seat: modifiers don't change
-// with the host input source, so this is the only free real estate that stays
-// free in both layouts. Every symbol seat is a live Cyrillic letter under
-// ЙЦУКЕН — '[' is х (5.5/day), ';' is ж, '/' is '.' — and the two genuinely
-// dead ones (']' 2.1, ъ 0.6) sit in the worst reach on the board.
-// See stats/keycount-2026-07.md.
-// Under a US input source this key types '&'. The board cannot see the layout;
-// cross-layout '?' would need Karabiner's input_source_if.
-//
-// This lived in Karabiner for one afternoon; Karabiner was instant but kept a
-// second copy of both layers in scancodes — two sources of truth, one of which
-// was going to rot. Firmware won, first as hold-preferred + whitelist, since
-// 2026-08-31 as the balanced ladder (Studio can set a hold-tap's parameters
-// but never its flavor or term, hence five compiled rungs).
-//
-// F13 left the board entirely: it is RAlt+H in Karabiner now, so the
-// superwhisper trigger is a right-thumb chord instead of a pinky-corner hold.
-//
-// Arrows also live on RAlt + I/J/K/L in Karabiner (mod stripped, so the OS sees
-// a bare arrow — aerospace never fires). HEAVEN keeps its own arrow cross as
-// the fallback path whenever Karabiner is off.
+// pos 35 '?' is LS(N7), the ЙЦУКЕН chord on one key; Karabiner's EN-gated
+// shift+7 -> ? covers English. It had to be a modifier seat: every symbol
+// seat is a live Cyrillic letter under ЙЦУКЕН.
             display-name = "ground";
             bindings = <
 &kp ESC   &kp N1 &kp N2 &kp N3   &kp N4   &kp N5                        &kp N6 &kp N7   &kp N8    &kp N9  &kp N0   &kp RBKT
@@ -230,19 +150,9 @@
         };
 
         curse_layer {
-// ------------------------------------------------------------------------------------------------------------
-// |LA(ESC)|LA(1)|LA(2)|LA(3) |LA(4) |LA(5) |                   |  F6  |  F7   |  F8   |  F9  |  F10  |  F11  |
-// |LA(TAB)|LA(B)|LA(L)|LA(D) |LA(C) | RET |                   |LA(J) |   7   |   8   |  9   |       |  F12  |
-// |       |LA(N)|LA(R)|LA(T) |LA(S) |LA(G) |                   |LA(P) |   4   |   5   |  6   | LA(I) |       |
-// | CAPS  |LA(X)|LA(Q)|LA(M) |LA(W) |LA(Z) |LA(SPC) |  |       |LA(K) |   1   |   2   |  3   |       |       |
-//                      |      |      |  S   |   `    |  |   '   |  0   |LA(BSPC)|  KP. |
-//
-// Left hand is aerospace: LA(letter) window/workspace commands, LA(ESC)+LA(1-5)
-// for workspace switching. Right hand is the numpad.
-// CAPS squats on the left shift seat (pos 36) — that is why a left-shifted
-// chord has to be pressed shift-before-Space; right shift composes in any order.
-// pos 52 plain S: Studio GUI edit by bekh, found by verify and mirrored
-// 2026-09-12 (52 was LG(Q) here before).
+// Dead weight: no hold door, reachable only through HEAVEN's &tog 1 (pos 55).
+// Its alt cells and numpad went redundant when Space became a real alt and
+// Karabiner took the numpad.
             display-name = "CURSE";
             bindings = <
 &kp LA(ESC) &kp LA(N1) &kp LA(N2) &kp LA(N3)    &kp LA(N4) &kp LA(N5)                         &kp F6  &kp F7 &kp F8 &kp F9 &kp F10 &kp F11
@@ -259,15 +169,11 @@
 // ------------------------------------------------------------------------------------------------------------
 // |       |     | KP@ |      |      |      |                   |BT_CLR|BT_SEL0|BT_PRV |BT_NXT|   ]   |  KP+  |
 // |       |     |     |      |      |      |                   |LA(J) |LA+LG(Y)|  ^   |      |       |       |
-// |       |     |     |      |      |      |                   |LA(<-)|  <-   |   v   |  ->  |LA(->) |       |   inverted-T arrow cross
+// |       |     |     |      |      |      |                   |LA(<-)|  <-   |   v   |  ->  |LA(->) |       |
 // |       |     |     |      |      |      |        |  |  F16  | F13  |  F18  |   |   |LG(I) |   K   |       |
 //                      |      |      |      |    `   |  |   '   | tog1 |  DEL  |       |
 //
-// tog1 at pos 55 is the numpad latch — and it is the ONE door to CURSE that
-// does not go through a thumb hold-tap, so it doubles as the escape hatch.
-// Reachable now that HEAVEN is held on the opposite thumb (pos 54).
-// pos 19 LA(LG(U)), pos 47 LG(I), pos 48 plain K: Studio GUI edits by bekh,
-// found by verify and mirrored 2026-09-12.
+// Door: Enter held (pos 54). pos 2 is a bare 0xCE (Keypad @), ignored by macOS.
             display-name = "HEAVEN";
             bindings = <
 &trans  &trans  &kp 0x700CE &trans &trans &trans                &bt BT_CLR   &bt BT_SEL 0 &bt BT_PRV  &bt BT_NXT   &kp RBKT &kp KP_PLUS
@@ -282,43 +188,16 @@
 
         shit_layer {
 // ------------------------------------------------------------------------------------------------------------
-// The junk drawer, firmware slot 3. Was 'media' until it was deleted in the
-// Studio kitchen and came back on the 2026-09-01 reflash with firmware
-// defaults; bekh renamed it and bolted doors on it (&mo 3 on both outer
-// thumbs, pos 50 and 57), which is what turned it from an inert slot into the
-// layer he actually reaches.
 // |BT_SEL3|  F1 |  F2 |  F3  |  F4  |  F5  |                   |  F6  |  F7   |  F8   |  F9  |  F10  |  F11  |
 // |       |  !  |  @  |  #   |  $   |  %   |                   |  ^   |  &    |  *    |  (   |   )   |  F12  |
 // |       |     |     |LG(K) |      |      |                   |      |       |       |      |       |       |
 // | CAPS  |     |LC(L)|LA+LG(C)|    |      |        |  |       |      |       |       |      |       |       |
 //
-// SYMBOL ROW (2026-09-08): shift+digit baked into each cell, seated one row
-// under the digit it belongs to, so the layer reads as a second number row
-// with the shift pre-pressed. It replaces nothing on the base and needs no
-// build — ten &kp cells. LC(L)/LG(I) were in the way at pos 14/15 and moved
-// straight down two rows to pos 38/39, same columns, nothing lost.
-//
-// The '&' cell (pos 19) is RS(N7), not LS(N7), and that is load-bearing:
-// Karabiner rule 12 ("shift+7 → ?") is keyed on LEFT shift specifically, so a
-// board LS(N7) gets rewritten to '?' under EN — which is exactly what base
-// pos 35 relies on. Right shift slides past the rule and '&' comes out.
-// RS(N7) is not a member of zmk_studio_api's Keycode enum, so `zmkctl kp`
-// cannot write it; it went in as a raw Key Press:
-//   zmkctl set 3 19 "Key Press" $((0x20070024)) 0
-//
-// CROSS-LANGUAGE, unsolved and deferred by bekh: five of these ten change glyph
-// under ЙЦУКЕН (@→" #→№ $→; ^→: &→?). The fix is the custom .keylayout in
-// docs/musings_over_ru_layout.md, not anything on the board.
-//
-// 2026-09-08: the whole num row was media/brightness consumer-page usages
-// (BRI_DN/BRI_UP, keyboard illumination, VOL/RW/PLAY/FF/MUTE); wiped for F1-F12.
-// F1-F10 sit under the digit they are named after — that alignment is the whole
-// point. The two overflow keys stack down the right edge in order: F11 on the
-// ']' corner (pos 11), F12 directly under it on the '[' seat (pos 23) — reading
-// order continues off the end of the row and turns down, so the sequence stays
-// countable. F11 sat on the ESC corner for a few hours and bekh hated it: the
-// ESC corner is muscle memory for ESC, and the layer key is on the same hand.
-// Volume survives on the rotary encoder (sensor-bindings, every layer).
+// Door: &mo 3 on both outer thumbs (50, 57). F1-F10 under their digits.
+// LA(LG(C)) is alt+cmd+m after Karabiner, hyprshit's mode.
+// The '&' cell is RS(N7), not LS(N7), on purpose: Karabiner's shift+7 -> ?
+// is keyed on left shift. The api's Keycode enum can't name it; it went in raw
+// (zmkctl kp 3 19 0x20070024).
             display-name = "shit";
             bindings = <
 &bt BT_SEL 3 &kp F1 &kp F2 &kp F3 &kp F4 &kp F5                  &kp F6 &kp F7 &kp F8 &kp F9 &kp F10 &kp F11
@@ -333,15 +212,14 @@
 
         fuck_layer {
 // ------------------------------------------------------------------------------------------------------------
-// FUCK, firmware slot 4.
-// Door: pos 24 held (ltb280).
-// cmd+digit for tab switching: cmd+1..5 on the left home row, each under the
-// digit it sends, left hand only — the right hand is on the mouse, and
-// cmd+number-row was the stretch this layer exists to kill.
-// Physical keys, in Gallium: hold ` and press n r t s g.
 // |       |     |     |LG+LS(3)|LG+LS(4)|  |                   |      |       |       |      |       |       |
-// |       |     |     |      |      |      |                   |      |       |       |      |       |       |
-// |       |LG(1)|LG(2)|LG(3) |LG(4) |LG(5) |                   |      |       |       |      |       |       |
+// |       |     |     |      |      |      |                   |      |       | A+KP8 |      |       |       |
+// |       |LC+LS(A)|LG(2)|LG(3)|LG(4)|LG(5)|                   |      | A+KP4 | A+KP5 | A+KP6|       |       |
+// |       |     |     |      |      |      |        |  |       |      |       | A+KP2 |      |       |       |
+//                      |      |      |      | LA(`)  |  |       |      |       |       |
+//
+// Doors: pos 24 and pos 35 held (ltb280). cmd+digit under each digit for
+// one-handed tab switching; alt+keypad cells on the right are tiling.
             display-name = "FUCK";
             bindings = <
 &trans &trans      &trans      &kp LG(LS(N3)) &kp LG(LS(N4)) &trans          &trans &trans &trans &trans &trans &trans
