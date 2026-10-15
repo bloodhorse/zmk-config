@@ -64,8 +64,10 @@ right precedence.
   or Cmd in it still fires, and it can't be switched off from outside the app.
   The fix costs no latency: a Karabiner rule turns the alt chord into the same
   key with ctrl+opt+cmd, and the target app's hotkey gets rebound to that.
-  It's done for alt+g (Maccy) and alt+t (iTerm drop-down). Not done for the
-  launcher on alt+Space or hyprshit's alt bindings: same recipe if bekh asks.
+  It's done for alt+g (hyprshit's clip, bound as `ctrl-alt-cmd-g`; shitd holds
+  it as a Carbon hotkey that fires when its key tap goes blind in a password
+  field) and alt+t (iTerm drop-down). Not done for hyprshit's other alt
+  bindings, the launcher on alt+Space among them: same recipe if bekh asks.
   Don't route this through shell commands or AppleScript. iTerm's hotkey
   window isn't reachable from AppleScript, and each `osascript` call costs
   ~130 ms.
