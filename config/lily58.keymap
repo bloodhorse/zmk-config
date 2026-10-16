@@ -223,9 +223,9 @@
             display-name = "FUCK";
             bindings = <
 &trans &trans      &trans      &kp LG(LS(N3)) &kp LG(LS(N4)) &trans          &trans &trans &trans &trans &trans &trans
-&trans &trans      &trans      &trans      &trans      &trans                  &trans &trans &kp LA(KP_N8) &trans &trans &trans
-&trans &kp LC(LS(A)) &kp LG(N2) &kp LG(N3) &kp LG(N4) &kp LG(N5)             &trans &kp LA(KP_N4) &kp LA(KP_N5) &kp LA(KP_N6) &trans &trans
-&trans &trans      &trans      &trans      &trans      &trans  &trans    &trans  &trans &trans &kp LA(KP_N2) &trans &trans &trans
+&trans &trans      &trans      &trans      &trans      &trans                  &trans &trans &kp KP_N8 &trans &trans &trans
+&trans &kp LC(LS(A)) &kp LG(N2) &kp LG(N3) &kp LG(N4) &kp LG(N5)             &trans &kp KP_N4 &kp KP_N5 &kp KP_N6 &trans &trans
+&trans &trans      &trans      &trans      &trans      &trans  &trans    &trans  &trans &trans &kp KP_N2 &trans &trans &trans
                   &trans &trans &trans &kp LA(GRAVE)                 &trans   &trans &trans &trans
             >;
 
