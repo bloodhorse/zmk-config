@@ -62,7 +62,16 @@ Doors: either home-row pinky held (pos 24, pos 35).
   r t s g. Under the 1 (the key bekh calls n) sits ctrl+shift+n, which
   summons Arc through hyprshit.
 - Number row: cmd+shift+3 and cmd+shift+4 under their digits.
-- alt+keypad 8 / 4 5 6 / 2 on the right: tiling cells.
+- **Monitor toggles on the top row, b l d, laid out like the screens.** l
+  (pos 14) is hyper+F14, the centre Mi Monitor; d (pos 15) is hyper+F15, the
+  MacBook's built-in on the right; b (pos 13) is held for a third screen and
+  stays transparent. They live on a held layer and not in hyprshit's mode
+  because door + l l l has to toggle in a run, and the mode closes after
+  every key. Hyper, because bare F14/F15 are brightness on macOS and shit's
+  b l d are `! @ #`. On the mac hyprshit dims the screen; on the mini the
+  chord arrives through keyd and runs blackout.
+- The right hand is all transparent. Tiling focus and carry went to
+  cmd+alt / ctrl+alt + CURSE's numpad seats through keyd on the mini.
 - Space with FUCK held is alt+`, hyprshit's special workspace.
 
 ## HEAVEN (slot 2)

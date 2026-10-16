@@ -360,5 +360,11 @@ if __name__ == "__main__":
         set_kp(c, int(sys.argv[2]), int(sys.argv[3]), sys.argv[4])
     elif cmd == "set":
         set_custom(c, int(sys.argv[2]), int(sys.argv[3]), sys.argv[4], sys.argv[5], sys.argv[6])
+    elif cmd == "trans":
+        for pos in sys.argv[3:]:
+            c.set_key_at(int(sys.argv[2]), int(pos), z.Transparent())
+        c.save_changes()
+        for pos in sys.argv[3:]:
+            print(pos, c.get_key_at(int(sys.argv[2]), int(pos)))
     else:
         print(f"unknown command: {cmd}")

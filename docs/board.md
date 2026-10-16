@@ -56,6 +56,7 @@ forfeited. If spaces vanish, go one rung up.
 .venv/bin/python tools/zmkctl.py get L POS            # one cell
 .venv/bin/python tools/zmkctl.py behaviors            # id + node name of every behavior
 .venv/bin/python tools/zmkctl.py kp L POS NAME|0x…    # plain key press, saved
+.venv/bin/python tools/zmkctl.py trans L POS…         # back to transparent, saved
 .venv/bin/python tools/zmkctl.py set L POS NODE P1 P2 # custom behavior, saved
 ```
 

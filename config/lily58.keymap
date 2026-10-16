@@ -213,19 +213,19 @@
         fuck_layer {
 // ------------------------------------------------------------------------------------------------------------
 // |       |     |     |LG+LS(3)|LG+LS(4)|  |                   |      |       |       |      |       |       |
-// |       |     |     |      |      |      |                   |      |       | A+KP8 |      |       |       |
-// |       |LC+LS(A)|LG(2)|LG(3)|LG(4)|LG(5)|                   |      | A+KP4 | A+KP5 | A+KP6|       |       |
-// |       |     |     |      |      |      |        |  |       |      |       | A+KP2 |      |       |       |
+// |       |     |HYP+F14|HYP+F15|    |      |                   |      |       |       |      |       |       |
+// |       |LC+LS(A)|LG(2)|LG(3)|LG(4)|LG(5)|                   |      |       |       |      |       |       |
+// |       |     |     |      |      |      |        |  |       |      |       |       |      |       |       |
 //                      |      |      |      | LA(`)  |  |       |      |       |       |
 //
 // Doors: pos 24 and pos 35 held (ltb280). cmd+digit under each digit for
-// one-handed tab switching; alt+keypad cells on the right are tiling.
+// one-handed tab switching; hyper+F14/F15 toggle the centre and right screens.
             display-name = "FUCK";
             bindings = <
 &trans &trans      &trans      &kp LG(LS(N3)) &kp LG(LS(N4)) &trans          &trans &trans &trans &trans &trans &trans
-&trans &trans      &trans      &trans      &trans      &trans                  &trans &trans &kp KP_N8 &trans &trans &trans
-&trans &kp LC(LS(A)) &kp LG(N2) &kp LG(N3) &kp LG(N4) &kp LG(N5)             &trans &kp KP_N4 &kp KP_N5 &kp KP_N6 &trans &trans
-&trans &trans      &trans      &trans      &trans      &trans  &trans    &trans  &trans &trans &kp KP_N2 &trans &trans &trans
+&trans &trans      &kp LC(LS(LA(LG(F14)))) &kp LC(LS(LA(LG(F15)))) &trans &trans  &trans &trans &trans &trans &trans &trans
+&trans &kp LC(LS(A)) &kp LG(N2) &kp LG(N3) &kp LG(N4) &kp LG(N5)             &trans &trans &trans &trans &trans &trans
+&trans &trans      &trans      &trans      &trans      &trans  &trans    &trans  &trans &trans &trans &trans &trans &trans
                   &trans &trans &trans &kp LA(GRAVE)                 &trans   &trans &trans &trans
             >;
 

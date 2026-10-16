@@ -91,8 +91,9 @@ Wired; Bluetooth isn't paired.
 Open:
 
 - **Not pressed through yet:** the real alt on Space, the Karabiner alt numpad,
-  alt+`=`, CAPS on shit, shit+m → hyprshit's mode. All verified only by
-  `verify` and Karabiner's reload.
+  alt+`=`, CAPS on shit, shit+m → hyprshit's mode, FUCK+l / FUCK+d (the
+  monitor dims) on the mac. All verified only by `verify` and Karabiner's
+  reload. FUCK+l is seen arriving on the mini through `keyd monitor`.
 - Space at 280: vanishing spaces or rolls turning into alt chords → a rung up.
 - Karabiner cleanup: the list is in `docs/karabiner.md`, waiting on bekh's picks.
 - CURSE's slot is free for a new tenant; HEAVEN pos 2's stray `0xCE` is undecided.
