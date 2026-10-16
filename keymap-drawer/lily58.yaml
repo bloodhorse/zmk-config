@@ -253,7 +253,7 @@ layers:
   - {t: ▽, type: trans}
   - Hyper+F14
   - Hyper+F15
-  - {t: ▽, type: trans}
+  - Hyper+F16
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
