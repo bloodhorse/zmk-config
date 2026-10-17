@@ -75,7 +75,8 @@ F13     335/day     Escape  260/day
 - **Enter holds HEAVEN** (`ltp150 2 RET`).
 - **shit on both outer thumbs**, plain `&mo`: zero delay, and the bend to the
   outer seat doesn't matter for a deliberate layer.
-- The home-row pinkies (24, 35) hold FUCK with the same `ltp150` rung. They
+- The home-row pinkies (24, 35) hold F20, hyprshit's `fuck`, on the same
+  regime (`mtp150 F20`). They
   tap `~` and `?`, both rare enough that losing key repeat costs nothing.
 
 The design rule underneath: **hot key, cold hold.** SpaceFN earns its bad

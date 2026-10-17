@@ -198,7 +198,7 @@
             bindings = <
 &kp ESC   &kp N1 &kp N2 &kp N3   &kp N4   &kp N5                        &kp N6 &kp N7   &kp N8    &kp N9  &kp N0   &kp RBKT
 &kp TAB   &kp Q  &kp W  &kp E    &kp R    &kp T                         &kp Y  &kp U    &kp I     &kp O   &kp P    &kp LBKT
-&ltp150 4 GRAVE &kp A &kp S &kp D &kp F  &kp G                         &kp H  &kp J    &kp K     &kp L   &kp SEMI &ltp150 4 LS(N7)
+&mtp150 F20 GRAVE &kp A &kp S &kp D &kp F  &kp G                         &kp H  &kp J    &kp K     &kp L   &kp SEMI &mtp150 F20 LS(N7)
 &kp LSHFT &kp Z  &kp X  &kp C    &kp V    &kp B  &kp EQUAL   &kp MINUS  &kp N  &kp M    &kp COMMA &kp DOT &kp FSLH &kp RSHFT
                         &mo 3    &kp LCTRL &kp LGUI &mtp150 LALT SPACE &ltp150 2 RET &kp RGUI &kp BSPC &mo 3
             >;
@@ -268,22 +268,16 @@
         };
 
         fuck_layer {
-// ------------------------------------------------------------------------------------------------------------
-// |       |     |     |LG+LS(3)|LG+LS(4)|  |                   |      |       |       |      |       |       |
-// |       |     |HYP+F14|HYP+F15|HYP+F16|      |                   |      |       |       |      |       |       |
-// |       |LC+LS(A)|LG(2)|LG(3)|LG(4)|LG(5)|                   |      |       |       |LA(F18)|      |       |
-// |       |     |     |      |      |      |        |  |       |      |       |       |      |       |       |
-//                      |      |      |      | LA(`)  |  |       |      |       |       |
-//
-// Doors: pos 24 and pos 35 held (ltp150). cmd+digit under each digit for
-// one-handed tab switching; hyper+F14/F15 toggle the centre and right screens, hyper+F16 clears the desktop.
+// Empty. The doors (pos 24, pos 35) no longer open it: they hold F20 (mtp150),
+// and hyprshit's shitd reads held F20 as its own modifier, fuck (config/keys
+// there); the mini's keyd reads it as a layer of its own. Kept so slot ids stay.
             display-name = "FUCK";
             bindings = <
-&trans &trans      &trans      &kp LG(LS(N3)) &kp LG(LS(N4)) &trans          &trans &trans &trans &trans &trans &trans
-&trans &trans      &kp LC(LS(LA(LG(F14)))) &kp LC(LS(LA(LG(F15)))) &kp LC(LS(LA(LG(F16)))) &trans  &trans &trans &trans &trans &trans &trans
-&trans &kp LC(LS(A)) &kp LG(N2) &kp LG(N3) &kp LG(N4) &kp LG(N5)             &trans &trans &trans &kp LA(F18) &trans &trans
-&trans &trans      &trans      &trans      &trans      &trans  &trans    &trans  &trans &trans &trans &trans &trans &trans
-                  &trans &trans &trans &kp LA(GRAVE)                 &trans   &trans &trans &trans
+&trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+&trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+&trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+&trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+                  &trans &trans &trans &trans                 &trans   &trans &trans &trans
             >;
 
             sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN>;

@@ -18,7 +18,7 @@ OUT = ROOT / "docs/chords.txt"
 HAND = ROOT / "docs/chords.hand"
 HYPRSHIT_KEYS = Path.home() / ".config/hyprshit/keys"
 
-MODS = ["alt", "ctrl", "shift", "cmd"]
+MODS = ["fuck", "alt", "ctrl", "shift", "cmd"]
 FKEYS = [f"f{n}" for n in range(13, 21)]
 
 KEYCODES = {
@@ -79,7 +79,9 @@ def hyprshit():
         if not line or line.startswith("#"):
             continue
         words = line.split(None, 2)
-        if words[0] == "mode" and len(words) > 2:
+        if words[0] == "hold" and len(words) > 2:
+            claims.append((words[2], "hyprshit", f"held as {words[1]} (eaten, a modifier of ours)"))
+        elif words[0] == "mode" and len(words) > 2:
             mods, key, _ = parse(words[1])
             claims.append(("mode " + spell(mods, key), "hyprshit", words[2]))
         elif len(words) > 1:
@@ -165,9 +167,14 @@ def main():
     rest = [c for c in glob if keyof(c[0]) not in FKEYS]
     mode = [c for c in claims if c[0].startswith("mode ")]
 
-    combos = [set(s) for n in range(len(MODS) + 1) for s in combinations(MODS, n)]
+    real = [m for m in MODS if m != "fuck"]
+    combos = [set(s) for n in range(len(real) + 1) for s in combinations(real, n)]
     free = []
+    held = {c for c, _, w in claims if w.startswith("held as")}
     for f in FKEYS:
+        if f in held:
+            free.append(f"   {f:<5}none: held as a modifier, every chord on it is eaten")
+            continue
         open_ = [spell(m, "") or "bare" for m in combos if spell(m, f) not in owners]
         free.append(f"   {f:<5}" + " ".join(s.rstrip("-") for s in open_))
 

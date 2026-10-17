@@ -9,29 +9,26 @@
    f14                       macos     brightness down (built-in)
    alt-f14                   hyprshit  ws f14
    alt-shift-f14             hyprshit  move f14
-   alt-ctrl-shift-cmd-f14    hyprshit  exec /Users/bekh/bin/display-dim-toggle "--nameLike=Mi Monitor"
    f15                       macos     brightness up (built-in)
    alt-f15                   hyprshit  ws f15
    alt-shift-f15             hyprshit  move f15
-   alt-ctrl-shift-cmd-f15    hyprshit  exec /Users/bekh/bin/display-dim-toggle --nameLike=Built-in
    alt-f16                   hyprshit  ws f16
    alt-shift-f16             hyprshit  move f16
    alt-f17                   hyprshit  ws f17
    alt-shift-f17             hyprshit  move f17
-   alt-f18                   hyprshit  app com.apple.finder
-   alt-shift-f18             hyprshit  exec osascript -e 'tell application "Finder" to close every window'
    alt-f19                   hyprshit  ws section
    alt-shift-f19             hyprshit  move section
+   f20                       hyprshit  held as fuck (eaten, a modifier of ours)
 
 ## free f-seats (modifier sets nobody holds; f21+ do not exist on macOS)
    f13  ctrl cmd alt-ctrl alt-cmd ctrl-shift ctrl-cmd shift-cmd alt-ctrl-shift alt-ctrl-cmd alt-shift-cmd ctrl-shift-cmd alt-ctrl-shift-cmd
-   f14  ctrl shift cmd alt-ctrl alt-cmd ctrl-shift ctrl-cmd shift-cmd alt-ctrl-shift alt-ctrl-cmd alt-shift-cmd ctrl-shift-cmd
-   f15  ctrl shift cmd alt-ctrl alt-cmd ctrl-shift ctrl-cmd shift-cmd alt-ctrl-shift alt-ctrl-cmd alt-shift-cmd ctrl-shift-cmd
+   f14  ctrl shift cmd alt-ctrl alt-cmd ctrl-shift ctrl-cmd shift-cmd alt-ctrl-shift alt-ctrl-cmd alt-shift-cmd ctrl-shift-cmd alt-ctrl-shift-cmd
+   f15  ctrl shift cmd alt-ctrl alt-cmd ctrl-shift ctrl-cmd shift-cmd alt-ctrl-shift alt-ctrl-cmd alt-shift-cmd ctrl-shift-cmd alt-ctrl-shift-cmd
    f16  bare ctrl shift cmd alt-ctrl alt-cmd ctrl-shift ctrl-cmd shift-cmd alt-ctrl-shift alt-ctrl-cmd alt-shift-cmd ctrl-shift-cmd alt-ctrl-shift-cmd
    f17  bare ctrl shift cmd alt-ctrl alt-cmd ctrl-shift ctrl-cmd shift-cmd alt-ctrl-shift alt-ctrl-cmd alt-shift-cmd ctrl-shift-cmd alt-ctrl-shift-cmd
-   f18  bare ctrl shift cmd alt-ctrl alt-cmd ctrl-shift ctrl-cmd shift-cmd alt-ctrl-shift alt-ctrl-cmd alt-shift-cmd ctrl-shift-cmd alt-ctrl-shift-cmd
+   f18  bare alt ctrl shift cmd alt-ctrl alt-shift alt-cmd ctrl-shift ctrl-cmd shift-cmd alt-ctrl-shift alt-ctrl-cmd alt-shift-cmd ctrl-shift-cmd alt-ctrl-shift-cmd
    f19  bare ctrl shift cmd alt-ctrl alt-cmd ctrl-shift ctrl-cmd shift-cmd alt-ctrl-shift alt-ctrl-cmd alt-shift-cmd ctrl-shift-cmd alt-ctrl-shift-cmd
-   f20  bare alt ctrl shift cmd alt-ctrl alt-shift alt-cmd ctrl-shift ctrl-cmd shift-cmd alt-ctrl-shift alt-ctrl-cmd alt-shift-cmd ctrl-shift-cmd alt-ctrl-shift-cmd
+   f20  none: held as a modifier, every chord on it is eaten
 
 ## everything else
    ctrl--                    hyprshit  key cmd--
@@ -42,10 +39,12 @@
    alt-2                     hyprshit  ws 2
    alt-shift-2               hyprshit  move 2
    alt-3                     hyprshit  ws 3
+   fuck-3                    hyprshit  key shift-cmd-3
    alt-shift-3               hyprshit  move 3
    shift-cmd-3               macos     screenshot to file #28 (default)
    ctrl-shift-cmd-3          macos     screenshot to clipboard #29 (default)
    alt-4                     hyprshit  ws 4
+   fuck-4                    hyprshit  key shift-cmd-4
    alt-shift-4               hyprshit  move 4
    shift-cmd-4               macos     area screenshot to file #30
    ctrl-shift-cmd-4          macos     area screenshot to clipboard #31 (default)
@@ -71,33 +70,42 @@
    alt-shift-`               hyprshit  move special
    fn-ctrl-c                 macos     window tiling #238
    alt-d                     hyprshit  app com.bekh.augury
+   fuck-d                    hyprshit  exec /Users/bekh/bin/display-dim-toggle --nameLike=Built-in
    ctrl-down                 macos     app windows #33 (default)
+   fuck-e                    hyprshit  app com.apple.finder
+   fuck-shift-e              hyprshit  exec osascript -e 'tell application "Finder" to close every window'
    alt-esc                   hyprshit  ws esc
    alt-shift-esc             hyprshit  move esc
    fn-ctrl-f                 macos     window tiling #237
    f11                       macos     show desktop #36 (default)
+   fuck-g                    hyprshit  key cmd-5
    alt-ctrl-cmd-g            hyprshit  launch clip
    alt-j                     hyprshit  exec /Users/bekh/bin/jot-toggle.sh
    alt-k                     hyprshit  ws kitty
    alt-shift-k               hyprshit  move kitty
+   fuck-l                    hyprshit  exec /Users/bekh/bin/display-dim-toggle "--nameLike=Mi Monitor"
    ctrl-left                 hyprshit  ws prev
    fn-alt-ctrl-left          macos     window tiling #240
    cmd-m                     hyprshit  nop
    alt-cmd-m                 hyprshit  mode
    alt-shift-m               hyprshit  app com.mimestream.Mimestream
    alt-n                     hyprshit  app company.thebrowser.Browser
-   ctrl-shift-n              hyprshit  summon company.thebrowser.Browser
+   fuck-n                    hyprshit  summon company.thebrowser.Browser
    alt-shift-p               hyprshit  exec /Users/bekh/bin/span-play
    fn-q                      macos     quick note #190 (default)
    alt-r                     hyprshit  exec ~/tower/forge/kitty/launcher/tl
    fn-ctrl-r                 macos     window tiling #239
+   fuck-r                    hyprshit  key cmd-2
    ctrl-right                hyprshit  ws next
    fn-alt-ctrl-right         macos     window tiling #241
    alt-s                     hyprshit  app com.bekh.bare
+   fuck-s                    hyprshit  key cmd-4
    alt-space                 hyprshit  launch apps
    cmd-space                 macos     previous input source #60
+   fuck-space                hyprshit  ws special
    alt-cmd-space             macos     finder search #65 (default)
    alt-shift-space           hyprshit  launch menu
+   fuck-t                    hyprshit  key cmd-3
    alt-ctrl-cmd-t            iterm     hotkey window (Hotkey Window)
    alt-tab                   hyprshit  launch windows
    ctrl-up                   macos     mission control #32 (default)

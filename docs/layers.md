@@ -31,9 +31,9 @@ broke cmd+digit. That, the cross-language symbol problem and the custom
   a real Left Alt, so every alt chord works without a cell. The misfire to
   watch for: after a pause, a roll off Space into the next word becomes an alt
   chord (`docs/board.md` has the regime).
-- **pos 24**, the left home-row pinky: `~` on tap, FUCK on hold (`ltp150 4`).
+- **pos 24**, the left home-row pinky: `~` on tap, F20 on hold (`mtp150 F20 GRAVE`).
 - **pos 35**, the right home-row pinky: `?` on tap (`LS(N7)`, which is the
-  ЙЦУКЕН chord, and Karabiner's EN-gated `shift+7 → ?` covers English), FUCK on
+  ЙЦУКЕН chord, and Karabiner's EN-gated `shift+7 → ?` covers English), F20 on
   hold. It had to be a modifier seat: every symbol seat is a live Cyrillic
   letter under ЙЦУКЕН.
 
@@ -54,25 +54,31 @@ reaches.
   above, cmd+a (pos 27).
 - Volume is on the rotary encoder, bound on every layer.
 
-## FUCK (slot 4), one-handed tab switching
+## FUCK — a held F20, not a layer
 
-Doors: either home-row pinky held (pos 24, pos 35).
+The home-row pinkies (pos 24, pos 35) hold **F20** (`mtp150 F20 …`), and
+slot 4 is empty, kept only so the slot ids don't move. The meaning lives off
+the board: on the mac shitd reads held F20 as its own modifier `fuck` and the
+bindings are `fuck-<key>` lines in hyprshit's `config/keys` (Gallium letters,
+like every other chord there); on the mini keyd's `[fuck]` layer in
+`/etc/keyd/default.conf` (plus `fuck.*` lines for kitty and dropterm in
+`~/.config/keyd/app.conf`) keys on the physical QWERTY spot and emits what the
+old layer's chords became there. The two are kept in step by hand.
 
-- cmd+2..5 on the left home row, each under its digit: hold `~` and press
-  r t s g. Under the 1 (the key bekh calls n) sits ctrl+shift+n, which
-  summons Arc through hyprshit.
-- Number row: cmd+shift+3 and cmd+shift+4 under their digits.
-- **Monitor toggles on the top row, b l d, laid out like the screens.** l
-  (pos 14) is hyper+F14, the centre Mi Monitor; d (pos 15) is hyper+F15, the
-  MacBook's built-in on the right; b (pos 13) is held for a third screen and
-  stays transparent. They live on a held layer and not in hyprshit's mode
-  because door + l l l has to toggle in a run, and the mode closes after
-  every key. Hyper, because bare F14/F15 are brightness on macOS and shit's
-  b l d are `! @ #`. On the mac hyprshit dims the screen; on the mini the
-  chord arrives through keyd and runs blackout.
-- The right hand is all transparent. Tiling focus and carry went to
-  cmd+alt / ctrl+alt + CURSE's numpad seats through keyd on the mini.
-- Space with FUCK held is alt+`, hyprshit's special workspace.
+What sits on it (Gallium names):
+
+- r t s g → tab 2..5 (cmd+digit on the mac, ctrl+digit on the mini).
+- n → summon Arc on the mac; ctrl+shift+n (kitty's new window) on the mini.
+- 3 / 4 → screenshots (full / region).
+- l → dim the centre Mi Monitor on the mac, blackout on the mini; d → dim the
+  built-in (mac only); c → the mini's `desk` (mac: nothing).
+- e → Finder (mac only), shift+e closes every Finder window.
+- Space → the special workspace.
+
+A run (door + l l l) toggles in a run: every press while F20 is down fires.
+Under secure input (a password field) the mac's fuck chords are dead, since
+the tap is blind there. On the mini F20 is xkb's `XF86AudioMicMute`: if keyd
+is down, a held pinky flips the mic.
 
 ## HEAVEN (slot 2)
 

@@ -17,11 +17,11 @@ How a change gets onto the Lily58 and stays true: RPC vs build, flashing,
 Hold terms are tuned at runtime because the hold-taps come as ladders,
 compiled once at several terms:
 
-- `ltb200…ltb360`: layer hold, balanced, quick-tap 200. Enter and the FUCK doors.
+- `ltb200…ltb360`: layer hold, balanced, quick-tap 200. Unbound now.
 - `mtb240/280/320`: mod hold, balanced, quick-tap 200. Unbound now.
 - `ltp100/150/200`, `mtp100/150/200`: layer and mod hold, **hold-preferred**,
   term 280, quick-tap 200, the ladder on `require-prior-idle-ms`. Space =
-  `mtp150 LALT SPACE`, Enter = `ltp150 2 RET`, both pinkies `ltp150 4`.
+  `mtp150 LALT SPACE`, Enter = `ltp150 2 RET`, both pinkies `mtp150 F20`.
 - `gtog*`, `motog`: unused. They stay compiled because pruning shifts ids.
 
 Retuning a key is rebinding it to another rung:
