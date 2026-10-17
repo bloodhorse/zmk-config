@@ -87,7 +87,12 @@ def hyprshit():
         elif len(words) > 1:
             mods, key, _ = parse(words[0])
             claims.append((spell(mods, key), "hyprshit", line.split(None, 1)[1]))
-    return claims
+    # a bare line on a held key is its tap alone, part of the same claim
+    held = {c: i for i, (c, _, w) in enumerate(claims) if w.startswith("held as")}
+    for c, _, w in [x for x in claims if x[0] in held and not x[2].startswith("held as")]:
+        h = claims[held[c]]
+        claims[held[c]] = (h[0], h[1], h[2] + f"; tapped alone: {w}")
+    return [x for x in claims if x[0] not in held or x[2].startswith("held as")]
 
 
 def cocoa(keycode, flags):
