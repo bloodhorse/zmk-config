@@ -104,6 +104,9 @@ bekh double-taps.
 
 ## Traps
 
+- **A `trans` over a whole layer (58 cells) can time out on the save**
+  (`No response from device`), Studio having grabbed the port back. It's
+  idempotent: kill Studio and run it again, then `verify`.
 - **Wiping saved settings: ask at the moment of doing it, even when it's in
   the plan.** `settings_reset.uf2` erases the saved keymap AND every Bluetooth
   bond, including the halves' bond to each other, so wiping one half forces

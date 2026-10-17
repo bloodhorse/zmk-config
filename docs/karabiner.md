@@ -37,6 +37,9 @@ project, so the agent is the committer:
   `assets/complex_modifications/` is tracked)
 - rollback: `git -C ~/.config/karabiner checkout HEAD~1 -- karabiner.json`.
   Karabiner reloads on its own
+- a script edit through Python's `json.dump(indent=4)` reformats the whole
+  file (a 20k-line diff for five deleted rules). Check `git diff --stat`
+  before committing; a whole-file stat means the dump style is wrong for it
 
 Rules get edited and enabled directly, never handed back to the GUI. Enabling
 a rule means inserting the rule object into

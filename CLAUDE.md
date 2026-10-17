@@ -166,6 +166,9 @@ Open:
   and shit chord through the real board, mac and mini (only synthetic fuck-x
   and shit-x are seen firing; shit-x flipped caps). The alt on
   Space is in daily use (alt-w, alt-tab, alt-d in shitd's log).
+- **F18 answers twice:** neru's hints and gamevoice's push-to-talk both bind
+  bare F18 (`chords.txt` shows it as the one clash). Unless gamevoice only
+  listens in games, one of them moves to F14–F17.
 - Karabiner cleanup: the list is in `docs/karabiner.md`, waiting on bekh's picks.
 - CURSE's slot is free for a new tenant; HEAVEN pos 2's stray `0xCE` is undecided.
 - The Arch machine was wired against the old baked alt cells; its alt

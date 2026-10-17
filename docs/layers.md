@@ -59,6 +59,20 @@ pressed as a combination is an `alt-`/`fuck-`/`shit-` line in `config/keys`.
 F13 is dictation, F18 neru's hints and gamevoice's push-to-talk, F19 shit,
 F20 fuck; F14–F17 are free.
 
+A key that becomes a hold is eaten under **every** modifier, so it needs a key
+nothing uses at all, bare or chorded. The spare keycodes in
+`musings_over_ru_layout.md` are no escape: Karabiner's dormant "Lily58 spares
+→ EN symbols" rule turns `keypad_comma`, `international1` and `international3`
+into symbols, so a hold there arrives as a quote. Help (keycode 114) is the
+one untouched spare.
+
+On the mini, a keyd layer's output never goes back through `[main]` or the
+bridges: a `[fuck]`/`[shit]` seat must emit what keyd *used to make* of the
+old baked chord (meta+digit there was ctrl+digit), never the raw chord the
+board sent. Its F-keys: F18 is xkb's `XF86Launch9` (hints), F20 is
+`XF86AudioMicMute`, F19 has no consumer; with keyd down, a held pinky flips
+the mic.
+
 ## FUCK — a held F20, not a layer
 
 The home-row pinkies (pos 24, pos 35) hold **F20** (`mtp150 F20 …`), and
