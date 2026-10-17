@@ -61,13 +61,11 @@ slot 4 is empty, kept only so the slot ids don't move. The meaning lives off
 the board: on the mac shitd reads held F20 as its own modifier `fuck` and the
 bindings are `fuck-<key>` lines in hyprshit's `config/keys` (Gallium letters,
 like every other chord there); on the mini keyd's `[fuck]` layer in
-`/etc/keyd/default.conf` (plus `fuck.*` lines for kitty and dropterm in
-`~/.config/keyd/app.conf`) keys on the physical QWERTY spot and emits what the
+`/etc/keyd/default.conf` keys on the physical QWERTY spot and emits what the
 old layer's chords became there. The two are kept in step by hand.
 
 What sits on it (Gallium names):
 
-- r t s g → tab 2..5 (cmd+digit on the mac, ctrl+digit on the mini).
 - n → summon Arc on the mac; ctrl+shift+n (kitty's new window) on the mini.
 - 3 / 4 → screenshots (full / region).
 - l → dim the centre Mi Monitor on the mac, blackout on the mini; d → dim the

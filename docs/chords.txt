@@ -78,7 +78,6 @@
    alt-shift-esc             hyprshit  move esc
    fn-ctrl-f                 macos     window tiling #237
    f11                       macos     show desktop #36 (default)
-   fuck-g                    hyprshit  key cmd-5
    alt-ctrl-cmd-g            hyprshit  launch clip
    alt-j                     hyprshit  exec /Users/bekh/bin/jot-toggle.sh
    alt-k                     hyprshit  ws kitty
@@ -95,17 +94,14 @@
    fn-q                      macos     quick note #190 (default)
    alt-r                     hyprshit  exec ~/tower/forge/kitty/launcher/tl
    fn-ctrl-r                 macos     window tiling #239
-   fuck-r                    hyprshit  key cmd-2
    ctrl-right                hyprshit  ws next
    fn-alt-ctrl-right         macos     window tiling #241
    alt-s                     hyprshit  app com.bekh.bare
-   fuck-s                    hyprshit  key cmd-4
    alt-space                 hyprshit  launch apps
    cmd-space                 macos     previous input source #60
    fuck-space                hyprshit  ws special
    alt-cmd-space             macos     finder search #65 (default)
    alt-shift-space           hyprshit  launch menu
-   fuck-t                    hyprshit  key cmd-3
    alt-ctrl-cmd-t            iterm     hotkey window (Hotkey Window)
    alt-tab                   hyprshit  launch windows
    ctrl-up                   macos     mission control #32 (default)
