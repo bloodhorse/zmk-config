@@ -338,6 +338,9 @@ puchi_corne_flash_right:
 	@ while [ ! -d ${puchi_mount} ]; do sleep 1; printf "."; done; printf "\n"
 	cp -av firmware/puchi_corne_right.uf2 ${puchi_mount}
 
+chords:
+	.venv/bin/python tools/chords.py
+
 clean_firmware:
 	find firmware/*.uf2 -type f -delete
 
