@@ -102,12 +102,13 @@ bekh says the intent in his words ("put Finder on FUCK+e"). Then:
 
 1. `grep` `docs/chords.txt` for the chord.
 2. A line in hyprshit's `config/keys`, spelled with the Gallium letter:
-   `alt-x …` for a Space chord, `fuck-x …` for a pinky one. The board isn't
+   `alt-x …` for a Space chord, `fuck-x …` for a pinky one, `shit-x …` for
+   an outer thumb. The board isn't
    touched. Only something no chord can reach gets a board seat (`zmkctl`,
    which saves), on an F-key.
 3. `make chords`, and commit both repos.
-4. Ask "mini too?": a fuck chord there is a line in keyd's `[fuck]`
-   (`docs/layers.md`, FUCK).
+4. Ask "mini too?": a fuck or shit chord there is a line in keyd's
+   `[fuck]` / `[shit]` (`docs/layers.md`).
 
 ## Map
 
@@ -139,11 +140,10 @@ bekh says the intent in his words ("put Finder on FUCK+e"). Then:
 ## Resume pointer
 
 Mirror is true (`verify` MATCH). Five layers: 0 `ground`, 1 `CURSE`,
-2 `HEAVEN`, 3 `shit`, 4 `FUCK`. Space holds a real alt; shit is on both outer
-thumbs, FUCK on both home-row pinkies, HEAVEN on Enter, CURSE is a dead slot.
-Wired; Bluetooth isn't paired. **The pinkies hold F20**: FUCK is shitd's
-`fuck` modifier on the mac and keyd's `[fuck]` layer on the mini, slot 4 is
-empty (`docs/layers.md`, FUCK).
+2 `HEAVEN`, 3 `shit`, 4 `FUCK`. Space holds a real alt, HEAVEN is on Enter, CURSE is a dead slot.
+Wired; Bluetooth isn't paired. **The pinkies hold F20, the outer thumbs F19**:
+fuck and shit are shitd's own modifiers on the mac and keyd layers on the
+mini; slots 3 and 4 are empty (`docs/layers.md`, which also has the F-row rule).
 
 **Soaking: every door on hold-preferred, `mtp150`/`ltp150`.** Flashed and
 bound; bekh's first pass says it works. What to watch, from `docs/board.md`:
@@ -162,9 +162,9 @@ Next, each waiting on bekh's go:
 
 Open:
 
-- **Not pressed through yet:** the Karabiner alt numpad, alt+`=`, CAPS on
-  shit, shit+m → hyprshit's mode, every fuck chord through the real board
-  (mac and mini; only a synthetic fuck-x is seen firing). The alt on
+- **Not pressed through yet:** the Karabiner alt numpad, alt+`=`, every fuck
+  and shit chord through the real board, mac and mini (only synthetic fuck-x
+  and shit-x are seen firing; shit-x flipped caps). The alt on
   Space is in daily use (alt-w, alt-tab, alt-d in shitd's log).
 - Karabiner cleanup: the list is in `docs/karabiner.md`, waiting on bekh's picks.
 - CURSE's slot is free for a new tenant; HEAVEN pos 2's stray `0xCE` is undecided.

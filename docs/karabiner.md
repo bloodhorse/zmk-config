@@ -76,9 +76,10 @@ right precedence.
 
 bekh wants the dead ones gone and hasn't picked them yet.
 
-- **Off already:** F17→EN / F18→RU (the old pair), Colemak Mod-DH, tap-cmd → Clear.
+- **Gone:** F16 → Raycast, the F17 toggle and the F17→EN / F18→RU pair, § → F19.
+- **Off already:** Colemak Mod-DH, tap-cmd → Clear.
 - **Likely dead:** "Lily58 spares → EN symbols" (the inert half of the RU
   scheme), ctrl+cmd+esc → force quit (a workaround from when there was no alt).
 - **Ask about:** side pad, AB Shutter3, side-keyboard Num5, the four EN/RU
-  toggles (Space+[, F17, ctrl+shift tap, cmd+tab), ctrl+shift+P TTS pause,
-  F16 → Raycast, cmd+shift+3 main display, the second profile "hop".
+  toggles left (Space+[, ctrl+shift tap, cmd+tab), ctrl+shift+P TTS pause,
+  cmd+shift+3 main display, the second profile "hop".

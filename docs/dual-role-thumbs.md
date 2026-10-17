@@ -73,8 +73,8 @@ F13     335/day     Escape  260/day
   cell and every mod stacks in any order, which made CURSE's baked alt cells
   pointless.
 - **Enter holds HEAVEN** (`ltp150 2 RET`).
-- **shit on both outer thumbs**, plain `&mo`: zero delay, and the bend to the
-  outer seat doesn't matter for a deliberate layer.
+- **shit on both outer thumbs**, a plain `&kp F19` (hyprshit's `shit`): zero
+  delay, and the bend to the outer seat doesn't matter for a deliberate hold.
 - The home-row pinkies (24, 35) hold F20, hyprshit's `fuck`, on the same
   regime (`mtp150 F20`). They
   tap `~` and `?`, both rare enough that losing key repeat costs nothing.

@@ -26,8 +26,8 @@ digits and `]`. An unshifted-symbols row was tried and reverted because it
 broke cmd+digit. That, the cross-language symbol problem and the custom
 ЙЦУКЕН plan live in [`musings_over_ru_layout.md`](musings_over_ru_layout.md).
 
-- **Thumbs:** `50 shit · 51 LCTRL · 52 LGUI · 53 Space/LALT | 54 Enter/HEAVEN ·
-  55 RGUI · 56 BSPC · 57 shit`. Space is `mtp150 LALT SPACE`: tap Space, hold
+- **Thumbs:** `50 F19/shit · 51 LCTRL · 52 LGUI · 53 Space/LALT | 54 Enter/HEAVEN ·
+  55 RGUI · 56 BSPC · 57 F19/shit`. Space is `mtp150 LALT SPACE`: tap Space, hold
   a real Left Alt, so every alt chord works without a cell. The misfire to
   watch for: after a pause, a roll off Space into the next word becomes an alt
   chord (`docs/board.md` has the regime).
@@ -37,22 +37,27 @@ broke cmd+digit. That, the cross-language symbol problem and the custom
   hold. It had to be a modifier seat: every symbol seat is a live Cyrillic
   letter under ЙЦУКЕН.
 
-## shit (slot 3), the junk drawer
+## shit — a held F19, not a layer
 
-Door: `&mo 3` on both outer thumbs (50, 57). This is the layer bekh actually
-reaches.
+The outer thumbs (50, 57) send a plain **F19** (`&kp F19`, zero delay), and
+slot 3 is empty. On the mac shitd reads held F19 as its modifier `shit`
+(`shit-<key>` lines in hyprshit's `config/keys`); on the mini keyd's `[shit]`
+layer in `/etc/keyd/default.conf` (and `shit.*` lines for kitty and dropterm
+in `~/.config/keyd/app.conf`) keys on the physical seat. Kept in step by hand.
 
-- Number row: F1–F10 **under the digit they're named after**, F11 on the `]`
-  corner, F12 under it. The Esc corner is `BT_SEL 3`, so Esc does nothing
-  with shit held.
-- Row below: shift+digit baked in, a second number row with shift pre-pressed.
-  The `&` cell is `RS(N7)`, not `LS(N7)`, and that's load-bearing: Karabiner's
-  `shift+7 → ?` is keyed on left shift, so the right shift slips past and `&`
-  comes out.
-- CAPS on the left-shift seat (pos 36). **shit + m is alt+cmd+m, hyprshit's
-  mode** (cell `LA(LG(C))`). Next to it, ctrl+e (pos 38); on the home row
-  above, cmd+a (pos 27).
-- Volume is on the rotary encoder, bound on every layer.
+What sits on it (Gallium names):
+
+- digits 1..0 → F1..F10, `]` → F11, `[` → F12. On the mini keyd turns those
+  into brightness, playback, mute and volume, as it always did.
+- t → cmd+a, q → ctrl+e, `=` (the left centre key) → ctrl+alt+space.
+- m → hyprshit's mode (the mini: its mode submap).
+- x → caps lock (moved off the shift seat: shitd can't key on a modifier).
+- Volume stays on the rotary encoder, bound on every layer.
+
+**The F-row rule:** one key that fires something is an F-key wire; anything
+pressed as a combination is an `alt-`/`fuck-`/`shit-` line in `config/keys`.
+F13 is dictation, F18 neru's hints and gamevoice's push-to-talk, F19 shit,
+F20 fuck; F14–F17 are free.
 
 ## FUCK — a held F20, not a layer
 

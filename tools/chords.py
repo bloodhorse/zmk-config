@@ -18,7 +18,7 @@ OUT = ROOT / "docs/chords.txt"
 HAND = ROOT / "docs/chords.hand"
 HYPRSHIT_KEYS = Path.home() / ".config/hyprshit/keys"
 
-MODS = ["fuck", "alt", "ctrl", "shift", "cmd"]
+MODS = ["fuck", "shit", "alt", "ctrl", "shift", "cmd"]
 FKEYS = [f"f{n}" for n in range(13, 21)]
 
 KEYCODES = {
@@ -167,7 +167,7 @@ def main():
     rest = [c for c in glob if keyof(c[0]) not in FKEYS]
     mode = [c for c in claims if c[0].startswith("mode ")]
 
-    real = [m for m in MODS if m != "fuck"]
+    real = [m for m in MODS if m not in ("fuck", "shit")]
     combos = [set(s) for n in range(len(real) + 1) for s in combinations(real, n)]
     free = []
     held = {c for c, _, w in claims if w.startswith("held as")}

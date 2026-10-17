@@ -3,67 +3,69 @@
 
 ## f-keys
    f13                       hyprshit  dictate toggle
-   alt-f13                   hyprshit  ws f13
    shift-f13                 hyprshit  launch dictate
-   alt-shift-f13             hyprshit  move f13
-   f14                       macos     brightness down (built-in)
-   alt-f14                   hyprshit  ws f14
-   alt-shift-f14             hyprshit  move f14
-   f15                       macos     brightness up (built-in)
-   alt-f15                   hyprshit  ws f15
-   alt-shift-f15             hyprshit  move f15
-   alt-f16                   hyprshit  ws f16
-   alt-shift-f16             hyprshit  move f16
-   alt-f17                   hyprshit  ws f17
-   alt-shift-f17             hyprshit  move f17
-   alt-f19                   hyprshit  ws section
-   alt-shift-f19             hyprshit  move section
+!! f18                       neru      hints (shift: right click, cmd: grid)
+!! f18                       gamevoice push-to-talk
+   f19                       hyprshit  held as shit (eaten, a modifier of ours)
    f20                       hyprshit  held as fuck (eaten, a modifier of ours)
 
 ## free f-seats (modifier sets nobody holds; f21+ do not exist on macOS)
-   f13  ctrl cmd alt-ctrl alt-cmd ctrl-shift ctrl-cmd shift-cmd alt-ctrl-shift alt-ctrl-cmd alt-shift-cmd ctrl-shift-cmd alt-ctrl-shift-cmd
-   f14  ctrl shift cmd alt-ctrl alt-cmd ctrl-shift ctrl-cmd shift-cmd alt-ctrl-shift alt-ctrl-cmd alt-shift-cmd ctrl-shift-cmd alt-ctrl-shift-cmd
-   f15  ctrl shift cmd alt-ctrl alt-cmd ctrl-shift ctrl-cmd shift-cmd alt-ctrl-shift alt-ctrl-cmd alt-shift-cmd ctrl-shift-cmd alt-ctrl-shift-cmd
-   f16  bare ctrl shift cmd alt-ctrl alt-cmd ctrl-shift ctrl-cmd shift-cmd alt-ctrl-shift alt-ctrl-cmd alt-shift-cmd ctrl-shift-cmd alt-ctrl-shift-cmd
-   f17  bare ctrl shift cmd alt-ctrl alt-cmd ctrl-shift ctrl-cmd shift-cmd alt-ctrl-shift alt-ctrl-cmd alt-shift-cmd ctrl-shift-cmd alt-ctrl-shift-cmd
-   f18  bare alt ctrl shift cmd alt-ctrl alt-shift alt-cmd ctrl-shift ctrl-cmd shift-cmd alt-ctrl-shift alt-ctrl-cmd alt-shift-cmd ctrl-shift-cmd alt-ctrl-shift-cmd
-   f19  bare ctrl shift cmd alt-ctrl alt-cmd ctrl-shift ctrl-cmd shift-cmd alt-ctrl-shift alt-ctrl-cmd alt-shift-cmd ctrl-shift-cmd alt-ctrl-shift-cmd
+   f13  alt ctrl cmd alt-ctrl alt-shift alt-cmd ctrl-shift ctrl-cmd shift-cmd alt-ctrl-shift alt-ctrl-cmd alt-shift-cmd ctrl-shift-cmd alt-ctrl-shift-cmd
+   f14  bare alt ctrl shift cmd alt-ctrl alt-shift alt-cmd ctrl-shift ctrl-cmd shift-cmd alt-ctrl-shift alt-ctrl-cmd alt-shift-cmd ctrl-shift-cmd alt-ctrl-shift-cmd
+   f15  bare alt ctrl shift cmd alt-ctrl alt-shift alt-cmd ctrl-shift ctrl-cmd shift-cmd alt-ctrl-shift alt-ctrl-cmd alt-shift-cmd ctrl-shift-cmd alt-ctrl-shift-cmd
+   f16  bare alt ctrl shift cmd alt-ctrl alt-shift alt-cmd ctrl-shift ctrl-cmd shift-cmd alt-ctrl-shift alt-ctrl-cmd alt-shift-cmd ctrl-shift-cmd alt-ctrl-shift-cmd
+   f17  bare alt ctrl shift cmd alt-ctrl alt-shift alt-cmd ctrl-shift ctrl-cmd shift-cmd alt-ctrl-shift alt-ctrl-cmd alt-shift-cmd ctrl-shift-cmd alt-ctrl-shift-cmd
+   f18  alt ctrl shift cmd alt-ctrl alt-shift alt-cmd ctrl-shift ctrl-cmd shift-cmd alt-ctrl-shift alt-ctrl-cmd alt-shift-cmd ctrl-shift-cmd alt-ctrl-shift-cmd
+   f19  none: held as a modifier, every chord on it is eaten
    f20  none: held as a modifier, every chord on it is eaten
 
 ## everything else
    ctrl--                    hyprshit  key cmd--
    alt-0                     hyprshit  exec /Users/bekh/tower/forge/hyprshit/probes/tile-toggle.sh
+   shit-0                    hyprshit  key f10
    alt-shift-0               hyprshit  move 10
    alt-1                     hyprshit  ws 1
+   shit-1                    hyprshit  key f1
    alt-shift-1               hyprshit  move 1
    alt-2                     hyprshit  ws 2
+   shit-2                    hyprshit  key f2
    alt-shift-2               hyprshit  move 2
    alt-3                     hyprshit  ws 3
    fuck-3                    hyprshit  key shift-cmd-3
+   shit-3                    hyprshit  key f3
    alt-shift-3               hyprshit  move 3
    shift-cmd-3               macos     screenshot to file #28 (default)
    ctrl-shift-cmd-3          macos     screenshot to clipboard #29 (default)
    alt-4                     hyprshit  ws 4
    fuck-4                    hyprshit  key shift-cmd-4
+   shit-4                    hyprshit  key f4
    alt-shift-4               hyprshit  move 4
    shift-cmd-4               macos     area screenshot to file #30
    ctrl-shift-cmd-4          macos     area screenshot to clipboard #31 (default)
    alt-5                     hyprshit  ws 5
+   shit-5                    hyprshit  key f5
    alt-shift-5               hyprshit  move 5
    shift-cmd-5               macos     screenshot options #184 (default)
    alt-6                     hyprshit  ws 6
+   shit-6                    hyprshit  key f6
    alt-shift-6               hyprshit  move 6
    alt-7                     hyprshit  ws 7
+   shit-7                    hyprshit  key f7
    alt-shift-7               hyprshit  move 7
    alt-8                     hyprshit  ws 8
+   shit-8                    hyprshit  key f8
    alt-shift-8               hyprshit  move 8
    alt-9                     hyprshit  ws 9
+   shit-9                    hyprshit  key f9
    alt-shift-9               hyprshit  move 9
    cmd-=                     hyprshit  launch tray
    ctrl-=                    hyprshit  key cmd-=
+   shit-=                    hyprshit  key ctrl-alt-space
    alt-[                     hyprshit  ws minus
+   shit-[                    hyprshit  key f12
    alt-shift-[               hyprshit  move minus
    alt-]                     hyprshit  ws equal
+   shit-]                    hyprshit  key f11
    alt-shift-]               hyprshit  move equal
    alt-`                     hyprshit  ws special
    cmd-`                     macos     next window #27 (default)
@@ -86,12 +88,14 @@
    ctrl-left                 hyprshit  ws prev
    fn-alt-ctrl-left          macos     window tiling #240
    cmd-m                     hyprshit  nop
+   shit-m                    hyprshit  mode
    alt-cmd-m                 hyprshit  mode
    alt-shift-m               hyprshit  app com.mimestream.Mimestream
    alt-n                     hyprshit  app company.thebrowser.Browser
    fuck-n                    hyprshit  summon company.thebrowser.Browser
    alt-shift-p               hyprshit  exec /Users/bekh/bin/span-play
    fn-q                      macos     quick note #190 (default)
+   shit-q                    hyprshit  key ctrl-e
    alt-r                     hyprshit  exec ~/tower/forge/kitty/launcher/tl
    fn-ctrl-r                 macos     window tiling #239
    ctrl-right                hyprshit  ws next
@@ -102,11 +106,13 @@
    fuck-space                hyprshit  ws special
    alt-cmd-space             macos     finder search #65 (default)
    alt-shift-space           hyprshit  launch menu
+   shit-t                    hyprshit  key cmd-a
    alt-ctrl-cmd-t            iterm     hotkey window (Hotkey Window)
    alt-tab                   hyprshit  launch windows
    ctrl-up                   macos     mission control #32 (default)
    fn-alt-ctrl-up            macos     window tiling #245
    alt-w                     hyprshit  app net.kovidgoyal.kitty
+   shit-x                    hyprshit  caps
    alt-z                     hyprshit  place full
    alt-shift-z               hyprshit  app dev.zmk.studio
 
@@ -134,7 +140,6 @@
    mode left                 hyprshit  place left-half
    mode o                    hyprshit  place top-left
    mode right                hyprshit  place right-half
-   mode s                    hyprshit  move section
    mode up                   hyprshit  place top-half
    mode v                    hyprshit  exec /Users/bekh/.local/bin/notch-kill.sh
    mode w                    hyprshit  exec /usr/bin/open -g superwhisper://record
