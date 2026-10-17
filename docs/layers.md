@@ -47,8 +47,13 @@ in `~/.config/keyd/app.conf`) keys on the physical seat. Kept in step by hand.
 
 What sits on it (Gallium names):
 
-- digits 1..0 → F1..F10, `]` → F11, `[` → F12. On the mini keyd turns those
-  into brightness, playback, mute and volume, as it always did.
+- digits 1..0, `]`, `[` → the F row's media meaning: brightness −/+, mission
+  control, spotlight, dictation, F6, rewind, play, forward, mute, volume −/+.
+  On the mac this is Karabiner's top rule, not shitd: it sets `shit` while
+  F19 is down and sends the real media keys. A key shitd posts lands after
+  Karabiner's fn table, so a posted F1 is a bare F1 that nothing listens to;
+  that's how the row died once. On the mini keyd turns them into brightness,
+  playback, mute and volume.
 - t → cmd+a, q → ctrl+e, `=` (the left centre key) → ctrl+alt+space.
 - m → hyprshit's mode (the mini: its mode submap).
 - x → caps lock (moved off the shift seat: shitd can't key on a modifier).

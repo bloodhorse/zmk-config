@@ -22,50 +22,38 @@
 ## everything else
    ctrl--                    hyprshit  key cmd--
    alt-0                     hyprshit  exec /Users/bekh/tower/forge/hyprshit/probes/tile-toggle.sh
-   shit-0                    hyprshit  key f10
    alt-shift-0               hyprshit  move 10
    alt-1                     hyprshit  ws 1
-   shit-1                    hyprshit  key f1
    alt-shift-1               hyprshit  move 1
    alt-2                     hyprshit  ws 2
-   shit-2                    hyprshit  key f2
    alt-shift-2               hyprshit  move 2
    alt-3                     hyprshit  ws 3
    fuck-3                    hyprshit  key shift-cmd-3
-   shit-3                    hyprshit  key f3
    alt-shift-3               hyprshit  move 3
    shift-cmd-3               macos     screenshot to file #28 (default)
    ctrl-shift-cmd-3          macos     screenshot to clipboard #29 (default)
    alt-4                     hyprshit  ws 4
    fuck-4                    hyprshit  key shift-cmd-4
-   shit-4                    hyprshit  key f4
    alt-shift-4               hyprshit  move 4
    shift-cmd-4               macos     area screenshot to file #30
    ctrl-shift-cmd-4          macos     area screenshot to clipboard #31 (default)
    alt-5                     hyprshit  ws 5
-   shit-5                    hyprshit  key f5
    alt-shift-5               hyprshit  move 5
    shift-cmd-5               macos     screenshot options #184 (default)
    alt-6                     hyprshit  ws 6
-   shit-6                    hyprshit  key f6
    alt-shift-6               hyprshit  move 6
    alt-7                     hyprshit  ws 7
-   shit-7                    hyprshit  key f7
    alt-shift-7               hyprshit  move 7
    alt-8                     hyprshit  ws 8
-   shit-8                    hyprshit  key f8
    alt-shift-8               hyprshit  move 8
    alt-9                     hyprshit  ws 9
-   shit-9                    hyprshit  key f9
    alt-shift-9               hyprshit  move 9
    cmd-=                     hyprshit  launch tray
    ctrl-=                    hyprshit  key cmd-=
    shit-=                    hyprshit  key ctrl-alt-space
    alt-[                     hyprshit  ws minus
-   shit-[                    hyprshit  key f12
    alt-shift-[               hyprshit  move minus
    alt-]                     hyprshit  ws equal
-   shit-]                    hyprshit  key f11
    alt-shift-]               hyprshit  move equal
    alt-`                     hyprshit  ws special
    cmd-`                     macos     next window #27 (default)
