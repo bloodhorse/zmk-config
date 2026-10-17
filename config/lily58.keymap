@@ -121,6 +121,63 @@
             quick-tap-ms = <200>;
             bindings = <&kp>, <&kp>;
         };
+        // Hold-preferred ladders: any other key while held is the hold, at once;
+        // a press within the prior-idle window of the last key is a tap on
+        // press. The ladder is on the idle window, the term stays 280.
+        mtp100: mod_tap_preferred_idle_100 {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            flavor = "hold-preferred";
+            tapping-term-ms = <280>;
+            quick-tap-ms = <200>;
+            require-prior-idle-ms = <100>;
+            bindings = <&kp>, <&kp>;
+        };
+        mtp150: mod_tap_preferred_idle_150 {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            flavor = "hold-preferred";
+            tapping-term-ms = <280>;
+            quick-tap-ms = <200>;
+            require-prior-idle-ms = <150>;
+            bindings = <&kp>, <&kp>;
+        };
+        mtp200: mod_tap_preferred_idle_200 {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            flavor = "hold-preferred";
+            tapping-term-ms = <280>;
+            quick-tap-ms = <200>;
+            require-prior-idle-ms = <200>;
+            bindings = <&kp>, <&kp>;
+        };
+        ltp100: layer_tap_preferred_idle_100 {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            flavor = "hold-preferred";
+            tapping-term-ms = <280>;
+            quick-tap-ms = <200>;
+            require-prior-idle-ms = <100>;
+            bindings = <&mo>, <&kp>;
+        };
+        ltp150: layer_tap_preferred_idle_150 {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            flavor = "hold-preferred";
+            tapping-term-ms = <280>;
+            quick-tap-ms = <200>;
+            require-prior-idle-ms = <150>;
+            bindings = <&mo>, <&kp>;
+        };
+        ltp200: layer_tap_preferred_idle_200 {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            flavor = "hold-preferred";
+            tapping-term-ms = <280>;
+            quick-tap-ms = <200>;
+            require-prior-idle-ms = <200>;
+            bindings = <&mo>, <&kp>;
+        };
     };
 
     keymap {
@@ -214,7 +271,7 @@
 // ------------------------------------------------------------------------------------------------------------
 // |       |     |     |LG+LS(3)|LG+LS(4)|  |                   |      |       |       |      |       |       |
 // |       |     |HYP+F14|HYP+F15|HYP+F16|      |                   |      |       |       |      |       |       |
-// |       |LC+LS(A)|LG(2)|LG(3)|LG(4)|LG(5)|                   |      |       |       |      |       |       |
+// |       |LC+LS(A)|LG(2)|LG(3)|LG(4)|LG(5)|                   |      |       |       |LA(F18)|      |       |
 // |       |     |     |      |      |      |        |  |       |      |       |       |      |       |       |
 //                      |      |      |      | LA(`)  |  |       |      |       |       |
 //
@@ -224,7 +281,7 @@
             bindings = <
 &trans &trans      &trans      &kp LG(LS(N3)) &kp LG(LS(N4)) &trans          &trans &trans &trans &trans &trans &trans
 &trans &trans      &kp LC(LS(LA(LG(F14)))) &kp LC(LS(LA(LG(F15)))) &kp LC(LS(LA(LG(F16)))) &trans  &trans &trans &trans &trans &trans &trans
-&trans &kp LC(LS(A)) &kp LG(N2) &kp LG(N3) &kp LG(N4) &kp LG(N5)             &trans &trans &trans &trans &trans &trans
+&trans &kp LC(LS(A)) &kp LG(N2) &kp LG(N3) &kp LG(N4) &kp LG(N5)             &trans &trans &trans &kp LA(F18) &trans &trans
 &trans &trans      &trans      &trans      &trans      &trans  &trans    &trans  &trans &trans &trans &trans &trans &trans
                   &trans &trans &trans &kp LA(GRAVE)                 &trans   &trans &trans &trans
             >;
