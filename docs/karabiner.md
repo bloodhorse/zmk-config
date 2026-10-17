@@ -83,6 +83,6 @@ bekh wants the dead ones gone and hasn't picked them yet.
 - **Off already:** Colemak Mod-DH, tap-cmd → Clear.
 - **Likely dead:** "Lily58 spares → EN symbols" (the inert half of the RU
   scheme), ctrl+cmd+esc → force quit (a workaround from when there was no alt).
-- **Ask about:** side pad, AB Shutter3, side-keyboard Num5, the four EN/RU
+- **Ask about:** side pad, AB Shutter3, side-keyboard Num5, the three EN/RU
   toggles left (Space+[, ctrl+shift tap, cmd+tab), ctrl+shift+P TTS pause,
   cmd+shift+3 main display, the second profile "hop".
