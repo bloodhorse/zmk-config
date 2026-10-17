@@ -27,11 +27,11 @@ broke cmd+digit. That, the cross-language symbol problem and the custom
 ЙЦУКЕН plan live in [`musings_over_ru_layout.md`](musings_over_ru_layout.md).
 
 - **Thumbs:** `50 shit · 51 LCTRL · 52 LGUI · 53 Space/LALT | 54 Enter/HEAVEN ·
-  55 RGUI · 56 BSPC · 57 shit`. Space is `mtb280 LALT SPACE`: tap Space, hold
+  55 RGUI · 56 BSPC · 57 shit`. Space is `mtp150 LALT SPACE`: tap Space, hold
   a real Left Alt, so every alt chord works without a cell. The misfire to
-  watch for: a fast roll off Space that releases the next key first becomes an
-  alt chord.
-- **pos 24**, the left home-row pinky: `~` on tap, FUCK on hold (`ltb280 4`).
+  watch for: after a pause, a roll off Space into the next word becomes an alt
+  chord (`docs/board.md` has the regime).
+- **pos 24**, the left home-row pinky: `~` on tap, FUCK on hold (`ltp150 4`).
 - **pos 35**, the right home-row pinky: `?` on tap (`LS(N7)`, which is the
   ЙЦУКЕН chord, and Karabiner's EN-gated `shift+7 → ?` covers English), FUCK on
   hold. It had to be a modifier seat: every symbol seat is a live Cyrillic
@@ -76,7 +76,7 @@ Doors: either home-row pinky held (pos 24, pos 35).
 
 ## HEAVEN (slot 2)
 
-Door: Enter held (pos 54, `ltb280 2 RET`). An inverted-T arrow cross on the
+Door: Enter held (pos 54, `ltp150 2 RET`). An inverted-T arrow cross on the
 right with alt+arrows beside it, BT controls on the number row, and `&tog 1`
 at pos 55, the only door to CURSE. Pos 2 holds a stray `0xCE` (Keypad @,
 ignored by macOS); undecided.

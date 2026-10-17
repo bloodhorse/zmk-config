@@ -6,6 +6,37 @@ most of the tree (corne, sofle, dongles, `src/`, `snippets/`) is upstream
 ballast. The parts that are actually ours are `config/lily58.keymap`,
 `tools/zmkctl.py`, `stats/` and `docs/`.
 
+This file is also the front door for any keyboard question on bekh's desk: the
+global CLAUDE.md routes every session that touches keys, chords or bindings here.
+
+## The chain, finger to action
+
+1. **The board** (this repo): layers and hold-taps, emitting QWERTY scancodes,
+   some of them baked chords. A chord nobody types by hand, only one seat
+   sends, is a *wire*: ugly is fine there, and F13–F20 are the best wires.
+2. **Karabiner** (`docs/karabiner.md`): turns those scancodes into Gallium,
+   chords included, gated per device and by the `gallium_off` / `game`
+   variables.
+3. **shitd** (`~/tower/forge/hyprshit/config/keys`): the desk's global chords,
+   heard on an HID tap *after* Gallium, so they name Gallium letters. Under
+   secure input (a password field) the tap is blind and only its carbon twins
+   fire.
+4. **macOS and the apps**: their own hotkeys (iTerm's drop-down, the
+   screenshots, mission control).
+5. **The mini** takes the same board through keyd on Arch: anything the board
+   emits for a mac consumer may have a keyd twin there.
+
+**`docs/chords.txt` is who holds what across 3 and 4** (`make chords`); grep it
+before seating or binding anything. "hyper" means ctrl+alt+cmd+shift.
+
+bekh's side of it: he reads and speaks Gallium, and with a modifier held the
+keys are **still Gallium**, since Karabiner translates chords. His fingers
+remember a Cyrillic-era habit of transposing to QWERTY under a modifier, so
+when a chord he binds by name "doesn't fire", check the log for its Gallium
+twin first: the physical E sends `d`, so alt-e landed on alt-d. A chord he
+presses from muscle memory belongs on an F-key, which Gallium leaves alone.
+Keyboard sessions start ad hoc, from whatever project he's in.
+
 ## The one thing to understand first
 
 **The board is the source of truth, not this repo.** The live keymap lives in
@@ -42,8 +73,11 @@ P=$(lsof -t /dev/tty.usbmodem* 2>/dev/null | head -1); [ -n "$P" ] && kill $P
 ```
 
 Kill by the PID, never `pkill -f zmk`: the shell matches its own pattern.
-Studio writes every edit straight to the board, so there's nothing unsaved to
-lose.
+Killing Studio loses nothing, but **a Studio edit bekh hasn't saved lives
+only in the board's RAM**: `dump`/`verify` read it as if it were real, and the
+next reboot or flash drops it back to the saved cell (FUCK+e went that way).
+When `verify` finds drift right before a flash, fold it into the file *and*
+re-set it with `zmkctl` (which saves) before bekh double-taps.
 
 ## Two alphabets
 

@@ -18,13 +18,30 @@ Hold terms are tuned at runtime because the hold-taps come as ladders,
 compiled once at several terms:
 
 - `ltb200…ltb360`: layer hold, balanced, quick-tap 200. Enter and the FUCK doors.
-- `mtb240/280/320`: mod hold, balanced, quick-tap 200. Space = `mtb280 LALT SPACE`.
+- `mtb240/280/320`: mod hold, balanced, quick-tap 200. Unbound now.
+- `ltp100/150/200`, `mtp100/150/200`: layer and mod hold, **hold-preferred**,
+  term 280, quick-tap 200, the ladder on `require-prior-idle-ms`. Space =
+  `mtp150 LALT SPACE`, Enter = `ltp150 2 RET`, both pinkies `ltp150 4`.
 - `gtog*`, `motog`: unused. They stay compiled because pruning shifts ids.
 
 Retuning a key is rebinding it to another rung:
-`zmkctl set 0 53 mod_tap_balanced_320 LALT SPACE`.
+`zmkctl set 0 53 mod_tap_preferred_idle_200 0x0700E2 0x07002C`.
 
-Balanced, in one table:
+Hold-preferred with a prior-idle window, the regime on every door now:
+
+```text
+pressed within the idle window of the last key -> tap, on press, no hold possible
+any other key pressed while held               -> hold, at once, release order irrelevant
+held alone past the term                       -> hold
+released alone within the term                 -> tap, on release
+```
+
+The misfire left: after a pause longer than the window, a roll off the door
+into the next key (space into a word) is a hold. Too many of those → a longer
+window (`200`); a hotkey started right after typing coming out as a tap → a
+shorter one (`100`).
+
+Balanced, the regime it replaced (still compiled, for comparison):
 
 ```text
 other key pressed AND released while held -> hold, no wait

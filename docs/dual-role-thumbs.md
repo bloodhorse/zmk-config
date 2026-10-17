@@ -26,8 +26,13 @@ Measurements come from [`../stats/keycount-2026-07.md`](../stats/keycount-2026-0
   layer edit, while slow typing makes the timer's misfire window cheap.
 - **`require-prior-idle-ms`** turns a hold-tap into tap-on-press when the
   previous key was recent. That removes felt latency inside a typing burst, at
-  the price of behavior that depends on how fast you were going. Not in use;
-  on the table if balanced ever feels laggy in bursts.
+  the price of behavior that depends on how fast you were going. In use on
+  every door, paired with hold-preferred (below).
+- **Balanced loses fast hotkeys.** It reads a flick that lets go of the door
+  before the target (door down, key down, door up, key up) as typing, and a
+  quick chord ends before the term can rescue it. Hold-preferred takes the
+  hold the moment another key goes down; the prior-idle window is what keeps
+  that from turning prose rolls into chords.
 - **Karabiner's `to_if_alone` is stricter than ZMK**: any intervening key
   swallows the tap entirely. A Space→Command dual in Karabiner turns a fast
   roll into `cmd+letter` and no space, and `cmd+W`/`cmd+Q` are one roll away.
@@ -64,13 +69,13 @@ F13     335/day     Escape  260/day
 57 shit    56 BSPC    55 RGUI    54 ENTER / hold = HEAVEN
 ```
 
-- **Space holds a real Left Alt** (`mtb280`). Every alt chord works without a
+- **Space holds a real Left Alt** (`mtp150`). Every alt chord works without a
   cell and every mod stacks in any order, which made CURSE's baked alt cells
   pointless.
-- **Enter holds HEAVEN** (`ltb280 2 RET`).
+- **Enter holds HEAVEN** (`ltp150 2 RET`).
 - **shit on both outer thumbs**, plain `&mo`: zero delay, and the bend to the
   outer seat doesn't matter for a deliberate layer.
-- The home-row pinkies (24, 35) hold FUCK with the same `ltb280` rung. They
+- The home-row pinkies (24, 35) hold FUCK with the same `ltp150` rung. They
   tap `~` and `?`, both rare enough that losing key repeat costs nothing.
 
 The design rule underneath: **hot key, cold hold.** SpaceFN earns its bad
@@ -80,7 +85,8 @@ qualifies because it's always chorded.
 
 ## Still open
 
-- **Does 280 wear well?** A solo Space press that dwells past the term eats
-  the space; a fast roll that releases the next key first turns into an alt
-  chord. Either one → go a rung up (`mtb320`). Same question for the FUCK doors
-  eating slow taps of `~`/`?`.
+- **Does the 150 ms idle window wear well?** Watch for two things: a space
+  after a pause that rolls into the next word and comes out as an alt chord
+  (go to `200`), and a hotkey fired right after typing that comes out as a
+  space (go to `100`). A solo press dwelling past 280 still eats the tap, on
+  every door.
