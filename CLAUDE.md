@@ -95,6 +95,17 @@ Digits, number-row symbols, modifiers and thumbs are the same in both.
 chords, baked or held. So a cell `LA(LG(C))` is alt+cmd+m. Keypad and arrows
 read literally.
 
+## Adding a binding
+
+bekh says the intent in his words ("put Finder on FUCK+e"). Then:
+
+1. `grep` `docs/chords.txt` for the chord, or its `free f-seats` block for a seat.
+2. A chord he presses by hand → a line in hyprshit's `config/keys`, spelled in
+   the Gallium letter. One key on the board → a wire: seat it with `zmkctl`
+   (which saves) on an F-key chord, and bind that chord in `config/keys`.
+3. `make chords`, and commit both repos.
+4. Ask "mini too?" before calling it done.
+
 ## Map
 
 - **Working the board** → `docs/board.md`: before any RPC edit, build, flash,
@@ -127,15 +138,32 @@ read literally.
 Mirror is true (`verify` MATCH). Five layers: 0 `ground`, 1 `CURSE`,
 2 `HEAVEN`, 3 `shit`, 4 `FUCK`. Space holds a real alt; shit is on both outer
 thumbs, FUCK on both home-row pinkies, HEAVEN on Enter, CURSE is a dead slot.
-Wired; Bluetooth isn't paired.
+Wired; Bluetooth isn't paired. FUCK+e is alt+F18, Finder through hyprshit.
+
+**Soaking: every door on hold-preferred, `mtp150`/`ltp150`.** Flashed and
+bound; bekh's first pass says it works. What to watch, from `docs/board.md`:
+a space after a pause rolling into an alt chord (→ `200`), a hotkey right
+after typing coming out as a tap (→ `100`), `?`/`~` mid-word, FUCK runs
+(l l l), quick-tap repeat. A week with neither misfire → it's the regime.
+
+Next, each waiting on bekh's go:
+
+- **FUCK becomes a held F20**, shitd's own `fuck-x` modifier, the layer
+  emptied into `config/keys` (hyprshit `docs/open.md` 10). SHIT stays a board
+  layer (it's typing). The mini's keyd needs `f20 = layer(fuck)` first.
+- **The chord index learns the rest:** the board's seats joined to each chord
+  (`alt-f18 → Finder ← FUCK, e`), Karabiner's non-Gallium rules, and the mini
+  (keyd + Hyprland binds over ssh) as a parity view of what has no twin there.
+- **The chord cleanup:** one table of every multi-modifier chord; bekh calls
+  each one a wire (keep, or move to an F-key) or a hand chord (rename to
+  something natural now that alt is under the thumb). A talking session.
 
 Open:
 
-- **Not pressed through yet:** the real alt on Space, the Karabiner alt numpad,
-  alt+`=`, CAPS on shit, shit+m → hyprshit's mode, FUCK+l / FUCK+d (the
-  monitor dims) on the mac. All verified only by `verify` and Karabiner's
-  reload. FUCK+l is seen arriving on the mini through `keyd monitor`.
-- Space at 280: vanishing spaces or rolls turning into alt chords → a rung up.
+- **Not pressed through yet:** the Karabiner alt numpad, alt+`=`, CAPS on
+  shit, shit+m → hyprshit's mode, FUCK+l / FUCK+d (the monitor dims) on the
+  mac. FUCK+l is seen arriving on the mini through `keyd monitor`. The alt on
+  Space is in daily use (alt-w, alt-tab, alt-d in shitd's log).
 - Karabiner cleanup: the list is in `docs/karabiner.md`, waiting on bekh's picks.
 - CURSE's slot is free for a new tenant; HEAVEN pos 2's stray `0xCE` is undecided.
 - The Arch machine was wired against the old baked alt cells; its alt
