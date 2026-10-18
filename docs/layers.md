@@ -60,7 +60,9 @@ What sits on it (Gallium names):
 - **alt + a tap of shit toggles caps lock** (mac): shitd fires the
   `alt-f19 caps` line when F19 goes down and up within 500 ms with no key,
   click, media key or modifier between, spelled with the modifiers held at
-  release. A bare tap does nothing: it flipped caps by accident. It's not a board hold-tap on purpose: the
+  release. A bare tap does nothing: it flipped caps by accident. The mini
+  does the same in keyd: `f19 = overload(shit, capslock)` in `[sup:M]`, with
+  `overload_tap_timeout = 500`. It's not a board hold-tap on purpose: the
   doors' prior-idle window would turn a shit chord right after typing into a
   tap and flip caps.
 - Volume stays on the rotary encoder, bound on every layer.
