@@ -57,9 +57,10 @@ What sits on it (Gallium names):
 - t → cmd+a, q → ctrl+e, `=` (the left centre key) → ctrl+alt+space.
 - m → hyprshit's mode (the mini: its mode submap).
 - x → caps lock (moved off the shift seat: shitd can't key on a modifier).
-- **A tap of shit alone toggles caps lock** (mac): shitd fires the bare
-  `f19 caps` line when F19 goes down and up within 500 ms with no key, click,
-  media key or modifier between. It's not a board hold-tap on purpose: the
+- **alt + a tap of shit toggles caps lock** (mac): shitd fires the
+  `alt-f19 caps` line when F19 goes down and up within 500 ms with no key,
+  click, media key or modifier between, spelled with the modifiers held at
+  release. A bare tap does nothing: it flipped caps by accident. It's not a board hold-tap on purpose: the
   doors' prior-idle window would turn a shit chord right after typing into a
   tap and flip caps.
 - Volume stays on the rotary encoder, bound on every layer.
