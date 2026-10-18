@@ -19,7 +19,7 @@ layout that will drift from the first.
 The one deliberate exception is **"Lily58: alt numpad + …"**. When Space
 became a real Alt, CURSE's non-alt cells moved there as static option remaps
 scoped to the Lily58. Alt plus the right-hand block types bare digits (`0` on
-alt+RGUI), alt+Enter types `'`, and alt+`=` sends alt+Space (the launcher).
+alt+RGUI), alt+Enter types `'`. alt+`=` is no longer here: shitd binds it straight (the kitty launcher, alt+shift+`=` the old one).
 It's ten-odd remaps that won't rot. The left-hand Enter is the global
 alt+v = Enter rule.
 

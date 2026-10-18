@@ -162,7 +162,7 @@ Next, each waiting on bekh's go:
 
 Open:
 
-- **Not pressed through yet:** the Karabiner alt numpad, alt+`=`, every fuck
+- **Not pressed through yet:** the Karabiner alt numpad, alt+`=` / alt+shift+`=` (shitd's launchers), every fuck
   and shit chord through the real board, mac and mini (only synthetic fuck-x
   and shit-x are seen firing; shit-x flipped caps). The alt on
   Space is in daily use (alt-w, alt-tab, alt-d in shitd's log).

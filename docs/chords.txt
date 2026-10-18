@@ -49,9 +49,11 @@
    alt-shift-8               hyprshit  move 8
    alt-9                     hyprshit  ws 9
    alt-shift-9               hyprshit  move 9
+   alt-=                     hyprshit  exec ~/tower/forge/kitty/launcher/tl
    cmd-=                     hyprshit  launch tray
    ctrl-=                    hyprshit  key cmd-=
    shit-=                    hyprshit  key ctrl-alt-space
+   alt-shift-=               hyprshit  launch apps
    alt-[                     hyprshit  ws minus
    alt-shift-[               hyprshit  move minus
    alt-]                     hyprshit  ws equal
@@ -85,7 +87,6 @@
    alt-shift-p               hyprshit  exec /Users/bekh/bin/span-play
    fn-q                      macos     quick note #190 (default)
    shit-q                    hyprshit  key ctrl-e
-   alt-r                     hyprshit  exec ~/tower/forge/kitty/launcher/tl
    fn-ctrl-r                 macos     window tiling #239
    ctrl-right                hyprshit  ws next
    fn-alt-ctrl-right         macos     window tiling #241
