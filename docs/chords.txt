@@ -44,6 +44,7 @@
    alt-`                     hyprshit  ws special
    cmd-`                     macos     next window #27 (default)
    alt-shift-`               hyprshit  move special
+   shit-b                    hyprshit  bind
    fn-ctrl-c                 macos     window tiling #238
    alt-d                     hyprshit  app com.bekh.augury
    fuck-d                    hyprshit  exec /Users/bekh/bin/display-dim-toggle --nameLike=Built-in
