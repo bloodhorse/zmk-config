@@ -99,7 +99,8 @@ old layer's chords became there. The two are kept in step by hand.
 What sits on it (Gallium names):
 
 - n → summon Arc on the mac; ctrl+shift+n (kitty's new window) on the mini.
-- 3 / 4 → screenshots (full / region).
+- 3 / 4 → screenshots (main display / region) to a file; with ctrl, to the
+  clipboard. Mini: keyd's `[control+fuck]` sends hyper+Pause / hyper+Scroll_Lock.
 - l → dim the centre Mi Monitor on the mac, blackout on the mini; d → dim the
   built-in (mac only); c → the mini's `desk` (mac: nothing).
 - e → Finder (mac only), shift+e closes every Finder window.
