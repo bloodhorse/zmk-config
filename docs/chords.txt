@@ -29,13 +29,15 @@
    alt-2                     hyprshit  ws 2
    alt-shift-2               hyprshit  move 2
    alt-3                     hyprshit  ws 3
-   fuck-3                    hyprshit  key shift-cmd-3
+   fuck-3                    hyprshit  exec screencapture -m ~/Desktop/"Screenshot $(date '+%Y-%m-%d at %H.%M.%S').png"
    alt-shift-3               hyprshit  move 3
+   fuck-ctrl-3               hyprshit  exec screencapture -m -c
    shift-cmd-3               macos     screenshot to file #28 (default)
    ctrl-shift-cmd-3          macos     screenshot to clipboard #29 (default)
    alt-4                     hyprshit  ws 4
    fuck-4                    hyprshit  key shift-cmd-4
    alt-shift-4               hyprshit  move 4
+   fuck-ctrl-4               hyprshit  key ctrl-shift-cmd-4
    shift-cmd-4               macos     area screenshot to file #30
    ctrl-shift-cmd-4          macos     area screenshot to clipboard #31 (default)
    alt-5                     hyprshit  ws 5
