@@ -69,16 +69,17 @@ F13     335/day     Escape  260/day
 57 shit    56 BSPC    55 RGUI    54 ENTER / hold = HEAVEN
 ```
 
-- **Space holds a real Left Alt** (`mtbi200`: balanced, term 200, idle 150).
-  Every alt chord works without a cell and every mod stacks in any order,
-  which made CURSE's baked alt cells pointless. Hold-preferred on Space
-  backfired: after a pause, rolls off Space into the next word came out as
-  alt chords, so Space alone went back to balanced.
-- **Enter holds HEAVEN** (`ltp150 2 RET`).
+- **Space holds a real Left Alt** (`mtb280`: balanced, term 280). Every alt
+  chord works without a cell and every mod stacks in any order, which made
+  CURSE's baked alt cells pointless. Two tunings were tried and dropped:
+  hold-preferred with a 150 ms idle window (after a pause, rolls off Space
+  came out as alt chords), and balanced with term 200 plus that window
+  (worse still, in bekh's hands).
+- **Enter holds HEAVEN** (`ltb280 2 RET`).
 - **shit on both outer thumbs**, a plain `&kp F19` (hyprshit's `shit`): zero
   delay, and the bend to the outer seat doesn't matter for a deliberate hold.
 - The home-row pinkies (24, 35) hold F20, hyprshit's `fuck`, on the same
-  regime (`mtp150 F20`). They
+  regime (`mtb280 F20`). They
   tap `~` and `?`, both rare enough that losing key repeat costs nothing.
 
 The design rule underneath: **hot key, cold hold.** SpaceFN earns its bad
@@ -88,10 +89,6 @@ qualifies because it's always chorded.
 
 ## Still open
 
-- **Does Space's term of 200 wear well?** A space that vanishes into a bare
-  alt means a thumb dwelt past 200: go up. An alt chord that comes out as a
-  space plus a letter means the letter was still down when Space came up,
-  which balanced reads as a roll.
-- **The other doors on hold-preferred, idle 150:** a hotkey fired right after
-  typing that comes out as a tap → `100`. A solo press dwelling past 280 eats
-  the tap.
+- Balanced's known cost: an alt chord comes out as a space plus a letter
+  when the letter is still down as Space comes up, because balanced reads
+  that as a roll. A solo press dwelling past 280 eats the tap.

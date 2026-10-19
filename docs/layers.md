@@ -27,11 +27,10 @@ broke cmd+digit. That, the cross-language symbol problem and the custom
 ЙЦУКЕН plan live in [`musings_over_ru_layout.md`](musings_over_ru_layout.md).
 
 - **Thumbs:** `50 F19/shit · 51 LCTRL · 52 LGUI · 53 Space/LALT | 54 Enter/HEAVEN ·
-  55 RGUI · 56 BSPC · 57 F19/shit`. Space is `mtbi200 LALT SPACE`: tap Space, hold
-  a real Left Alt, so every alt chord works without a cell. It's balanced, not
-  hold-preferred like the other doors, so a roll off Space stays a space
-  (`docs/board.md` has the regime).
-- **pos 24**, the left home-row pinky: `~` on tap, F20 on hold (`mtp150 F20 GRAVE`).
+  55 RGUI · 56 BSPC · 57 F19/shit`. Space is `mtb280 LALT SPACE`: tap Space, hold
+  a real Left Alt, so every alt chord works without a cell. Balanced, so a
+  roll off Space stays a space (`docs/board.md` has the regime).
+- **pos 24**, the left home-row pinky: `~` on tap, F20 on hold (`mtb280 F20 GRAVE`).
 - **pos 35**, the right home-row pinky: `?` on tap (`LS(N7)`, which is the
   ЙЦУКЕН chord, and Karabiner's EN-gated `shift+7 → ?` covers English), F20 on
   hold. It had to be a modifier seat: every symbol seat is a live Cyrillic
@@ -88,7 +87,7 @@ the mic.
 
 ## FUCK — a held F20, not a layer
 
-The home-row pinkies (pos 24, pos 35) hold **F20** (`mtp150 F20 …`), and
+The home-row pinkies (pos 24, pos 35) hold **F20** (`mtb280 F20 …`), and
 slot 4 is empty, kept only so the slot ids don't move. The meaning lives off
 the board: on the mac shitd reads held F20 as its own modifier `fuck` and the
 bindings are `fuck-<key>` lines in hyprshit's `config/keys` (Gallium letters,
@@ -113,7 +112,7 @@ is down, a held pinky flips the mic.
 
 ## HEAVEN (slot 2)
 
-Door: Enter held (pos 54, `ltp150 2 RET`). An inverted-T arrow cross on the
+Door: Enter held (pos 54, `ltb280 2 RET`). An inverted-T arrow cross on the
 right with alt+arrows beside it, BT controls on the number row, and `&tog 1`
 at pos 55, the only door to CURSE. Pos 2 holds a stray `0xCE` (Keypad @,
 ignored by macOS); undecided.

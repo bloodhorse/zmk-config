@@ -96,7 +96,7 @@
             tapping-term-ms = <200>;
             bindings = <&mo>, <&tog>;
         };
-        // Mod hold-tap ladder, same regime. Unbound; Space is mtbi200.
+        // Mod hold-tap ladder, same regime. Space = mtb280 LALT SPACE, pinkies mtb280 F20.
         mtb240: mod_tap_balanced_240 {
             compatible = "zmk,behavior-hold-tap";
             #binding-cells = <2>;
@@ -209,9 +209,9 @@
             bindings = <
 &kp ESC   &kp N1 &kp N2 &kp N3   &kp N4   &kp N5                        &kp N6 &kp N7   &kp N8    &kp N9  &kp N0   &kp RBKT
 &kp TAB   &kp Q  &kp W  &kp E    &kp R    &kp T                         &kp Y  &kp U    &kp I     &kp O   &kp P    &kp LBKT
-&mtp150 F20 GRAVE &kp A &kp S &kp D &kp F  &kp G                         &kp H  &kp J    &kp K     &kp L   &kp SEMI &mtp150 F20 LS(N7)
+&mtb280 F20 GRAVE &kp A &kp S &kp D &kp F  &kp G                         &kp H  &kp J    &kp K     &kp L   &kp SEMI &mtb280 F20 LS(N7)
 &kp LSHFT &kp Z  &kp X  &kp C    &kp V    &kp B  &kp EQUAL   &kp MINUS  &kp N  &kp M    &kp COMMA &kp DOT &kp FSLH &kp RSHFT
-                        &kp F19  &kp LCTRL &kp LGUI &mtbi200 LALT SPACE &ltp150 2 RET &kp RGUI &kp BSPC &kp F19
+                        &kp F19  &kp LCTRL &kp LGUI &mtb280 LALT SPACE &ltb280 2 RET &kp RGUI &kp BSPC &kp F19
             >;
 
             sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN>;

@@ -17,33 +17,21 @@ How a change gets onto the Lily58 and stays true: RPC vs build, flashing,
 Hold terms are tuned at runtime because the hold-taps come as ladders,
 compiled once at several terms:
 
-- `ltb200…ltb360`: layer hold, balanced, quick-tap 200. Unbound now.
-- `mtb240/280/320`: mod hold, balanced, quick-tap 200. Unbound now.
-- `ltp100/150/200`, `mtp100/150/200`: layer and mod hold, **hold-preferred**,
-  term 280, quick-tap 200, the ladder on `require-prior-idle-ms`. Enter =
-  `ltp150 2 RET`, both pinkies `mtp150 F20`.
-- `mtbi200`: mod hold, **balanced**, term 200, quick-tap 200, idle 150.
-  Space = `mtbi200 LALT SPACE`. A single rung, so retuning it is a build.
+- `ltb200…ltb360`: layer hold, balanced, quick-tap 200. Enter = `ltb280 2 RET`.
+- `mtb240/280/320`: mod hold, balanced, quick-tap 200. Space =
+  `mtb280 LALT SPACE`, both pinkies `mtb280 F20`.
+- `ltp100/150/200`, `mtp100/150/200`: layer and mod hold, hold-preferred,
+  term 280, quick-tap 200, the ladder on `require-prior-idle-ms`. Unbound:
+  tried on every door and it backfired.
+- `mtbi200`: mod hold, balanced, term 200, quick-tap 200, idle 150. Unbound:
+  tried on Space alone and bekh called it horrible.
 - `gtog*`, `motog`: unused. They stay compiled because pruning shifts ids.
 
 Retuning a key is rebinding it to another rung:
-`zmkctl set 0 53 mod_tap_preferred_idle_200 0x0700E2 0x07002C`.
+`zmkctl set 0 53 mod_tap_balanced_320 LALT SPACE`. Hex params carry no
+padding: page `07` then the id, `0x07002C`; `0x0700002C` is refused.
 
-Hold-preferred with a prior-idle window, the regime on Enter and the pinkies:
-
-```text
-pressed within the idle window of the last key -> tap, on press, no hold possible
-any other key pressed while held               -> hold, at once, release order irrelevant
-held alone past the term                       -> hold
-released alone within the term                 -> tap, on release
-```
-
-The misfire left: after a pause longer than the window, a roll off the door
-into the next key is a hold. On Space that fired constantly (space into a
-word became an alt chord), which is why Space went back to balanced. A hotkey
-started right after typing coming out as a tap → a shorter window (`100`).
-
-Balanced, Space's regime (its idle window still taps on press first):
+Balanced, the regime on every door:
 
 ```text
 other key pressed AND released while held -> hold, no wait
@@ -54,6 +42,20 @@ released alone within the term            -> tap, on release
 
 The term's only real job is how long a solo press may dwell before the tap is
 forfeited. If spaces vanish, go one rung up.
+
+Hold-preferred with a prior-idle window, tried and dropped:
+
+```text
+pressed within the idle window of the last key -> tap, on press, no hold possible
+any other key pressed while held               -> hold, at once, release order irrelevant
+held alone past the term                       -> hold
+released alone within the term                 -> tap, on release
+```
+
+After a pause longer than the window, a roll off a door into the next key is
+a hold, and on Space that fired constantly. Balanced with term 200 and the
+idle window (`mtbi200`) on Space felt worse still. Both stay compiled only
+because pruning shifts ids.
 
 ## Studio's saved state
 
