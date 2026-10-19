@@ -27,10 +27,10 @@ broke cmd+digit. That, the cross-language symbol problem and the custom
 ЙЦУКЕН plan live in [`musings_over_ru_layout.md`](musings_over_ru_layout.md).
 
 - **Thumbs:** `50 F19/shit · 51 LCTRL · 52 LGUI · 53 Space/LALT | 54 Enter/HEAVEN ·
-  55 RGUI · 56 BSPC · 57 F19/shit`. Space is `mtp150 LALT SPACE`: tap Space, hold
-  a real Left Alt, so every alt chord works without a cell. The misfire to
-  watch for: after a pause, a roll off Space into the next word becomes an alt
-  chord (`docs/board.md` has the regime).
+  55 RGUI · 56 BSPC · 57 F19/shit`. Space is `mtbi200 LALT SPACE`: tap Space, hold
+  a real Left Alt, so every alt chord works without a cell. It's balanced, not
+  hold-preferred like the other doors, so a roll off Space stays a space
+  (`docs/board.md` has the regime).
 - **pos 24**, the left home-row pinky: `~` on tap, F20 on hold (`mtp150 F20 GRAVE`).
 - **pos 35**, the right home-row pinky: `?` on tap (`LS(N7)`, which is the
   ЙЦУКЕН chord, and Karabiner's EN-gated `shift+7 → ?` covers English), F20 on

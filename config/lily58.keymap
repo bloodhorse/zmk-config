@@ -96,7 +96,7 @@
             tapping-term-ms = <200>;
             bindings = <&mo>, <&tog>;
         };
-        // Mod hold-tap ladder, same regime. Unbound since Space went to mtp150.
+        // Mod hold-tap ladder, same regime. Unbound; Space is mtbi200.
         mtb240: mod_tap_balanced_240 {
             compatible = "zmk,behavior-hold-tap";
             #binding-cells = <2>;

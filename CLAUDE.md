@@ -145,11 +145,11 @@ Wired; Bluetooth isn't paired. **The pinkies hold F20, the outer thumbs F19**:
 fuck and shit are shitd's own modifiers on the mac and keyd layers on the
 mini; slots 3 and 4 are empty (`docs/layers.md`, which also has the F-row rule).
 
-**Soaking: every door on hold-preferred, `mtp150`/`ltp150`.** Flashed and
-bound; bekh's first pass says it works. What to watch, from `docs/board.md`:
-a space after a pause rolling into an alt chord (→ `200`), a hotkey right
-after typing coming out as a tap (→ `100`), `?`/`~` mid-word, FUCK runs
-(l l l), quick-tap repeat. A week with neither misfire → it's the regime.
+**Soaking: Space on balanced `mtbi200` (term 200, idle 150); Enter and the
+pinkies stay hold-preferred `ltp150`/`mtp150`.** Hold-preferred on Space
+backfired: after a pause, rolls off it came out as alt chords. What to watch
+(`docs/dual-role-thumbs.md`): spaces vanishing into a bare alt (term up), alt
+chords coming out as space + letter, `?`/`~` mid-word, FUCK runs (l l l).
 
 Next, each waiting on bekh's go:
 
