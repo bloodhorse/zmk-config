@@ -23,34 +23,15 @@
 ## everything else
    ctrl--                    hyprshit  key cmd--
    alt-0                     hyprshit  exec /Users/bekh/tower/forge/hyprshit/probes/tile-toggle.sh
-   alt-shift-0               hyprshit  move 10
-   alt-1                     hyprshit  ws 1
-   alt-shift-1               hyprshit  move 1
-   alt-2                     hyprshit  ws 2
-   alt-shift-2               hyprshit  move 2
-   alt-3                     hyprshit  ws 3
    fuck-3                    hyprshit  exec screencapture -m ~/Desktop/"Screenshot $(date '+%Y-%m-%d at %H.%M.%S').png"
-   alt-shift-3               hyprshit  move 3
    fuck-ctrl-3               hyprshit  exec screencapture -m -c
    shift-cmd-3               macos     screenshot to file #28 (default)
    ctrl-shift-cmd-3          macos     screenshot to clipboard #29 (default)
-   alt-4                     hyprshit  ws 4
    fuck-4                    hyprshit  key shift-cmd-4
-   alt-shift-4               hyprshit  move 4
    fuck-ctrl-4               hyprshit  key ctrl-shift-cmd-4
    shift-cmd-4               macos     area screenshot to file #30
    ctrl-shift-cmd-4          macos     area screenshot to clipboard #31 (default)
-   alt-5                     hyprshit  ws 5
-   alt-shift-5               hyprshit  move 5
    shift-cmd-5               macos     screenshot options #184 (default)
-   alt-6                     hyprshit  ws 6
-   alt-shift-6               hyprshit  move 6
-   alt-7                     hyprshit  ws 7
-   alt-shift-7               hyprshit  move 7
-   alt-8                     hyprshit  ws 8
-   alt-shift-8               hyprshit  move 8
-   alt-9                     hyprshit  ws 9
-   alt-shift-9               hyprshit  move 9
    alt-=                     hyprshit  exec ~/tower/forge/kitty/launcher/tl
    cmd-=                     hyprshit  launch tray
    ctrl-=                    hyprshit  key cmd-=
@@ -93,6 +74,7 @@
    ctrl-right                hyprshit  ws next
    fn-alt-ctrl-right         macos     window tiling #241
    alt-s                     hyprshit  app com.bekh.bare
+   fuck-s                    hyprshit  summon com.bekh.bare
    alt-space                 hyprshit  launch apps
    cmd-space                 macos     previous input source #60
    fuck-space                hyprshit  ws special
@@ -104,21 +86,12 @@
    ctrl-up                   macos     mission control #32 (default)
    fn-alt-ctrl-up            macos     window tiling #245
    alt-w                     hyprshit  app net.kovidgoyal.kitty
+   fuck-w                    hyprshit  summon net.kovidgoyal.kitty
    shit-x                    hyprshit  caps
    alt-z                     hyprshit  place full
    alt-shift-z               hyprshit  app dev.zmk.studio
 
 ## inside hyprshit's mode (only after the mode chord)
-   mode 0                    hyprshit  move 10
-   mode 1                    hyprshit  move 1
-   mode 2                    hyprshit  move 2
-   mode 3                    hyprshit  move 3
-   mode 4                    hyprshit  move 4
-   mode 5                    hyprshit  move 5
-   mode 6                    hyprshit  move 6
-   mode 7                    hyprshit  move 7
-   mode 8                    hyprshit  move 8
-   mode 9                    hyprshit  move 9
    mode =                    hyprshit  place center-70
    mode [                    hyprshit  move minus
    mode ]                    hyprshit  move equal
