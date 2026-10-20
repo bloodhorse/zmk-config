@@ -58,8 +58,6 @@
    f11                       macos     show desktop #36 (default)
    alt-ctrl-cmd-g            hyprshit  launch clip
    alt-j                     hyprshit  exec /Users/bekh/bin/jot-toggle.sh
-   alt-k                     hyprshit  ws kitty
-   alt-shift-k               hyprshit  move kitty
    fuck-l                    hyprshit  exec /Users/bekh/bin/display-dim-toggle "--nameLike=Mi Monitor"
    ctrl-left                 hyprshit  ws prev
    fn-alt-ctrl-left          macos     window tiling #240
@@ -101,9 +99,7 @@
    mode down                 hyprshit  place bottom-half
    mode e                    hyprshit  place right-half
    mode esc                  hyprshit  stay
-   mode g                    hyprshit  app net.kovidgoyal.kitty
    mode h                    hyprshit  place left-half
-   mode k                    hyprshit  move kitty
    mode left                 hyprshit  place left-half
    mode o                    hyprshit  place top-left
    mode right                hyprshit  place right-half
