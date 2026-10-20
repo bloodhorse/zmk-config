@@ -30,12 +30,14 @@
    fuck-ctrl-4               hyprshit  key ctrl-shift-cmd-4
    shift-cmd-4               macos     area screenshot to file #30
    ctrl-shift-cmd-4          macos     area screenshot to clipboard #31 (default)
+   alt-5                     hyprshit  ws five
+   alt-shift-5               hyprshit  move five
    shift-cmd-5               macos     screenshot options #184 (default)
-   alt-=                     hyprshit  exec ~/tower/forge/kitty/launcher/tl
+   alt-=                     hyprshit  launch apps
    cmd-=                     hyprshit  launch tray
    ctrl-=                    hyprshit  key cmd-=
    shit-=                    hyprshit  key ctrl-alt-space
-   alt-shift-=               hyprshit  launch apps
+   alt-shift-=               hyprshit  exec ~/tower/forge/kitty/launcher/tl
    alt-[                     hyprshit  ws minus
    alt-shift-[               hyprshit  move minus
    alt-]                     hyprshit  ws equal
