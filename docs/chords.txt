@@ -51,12 +51,14 @@
    fuck-d                    hyprshit  exec /Users/bekh/bin/display-dim-toggle --nameLike=Built-in
    ctrl-down                 macos     app windows #33 (default)
    fuck-e                    hyprshit  app com.apple.finder
+   alt-shift-e               hyprshit  place right-half
    fuck-shift-e              hyprshit  exec osascript -e 'tell application "Finder" to close every window'
    alt-esc                   hyprshit  ws esc
    alt-shift-esc             hyprshit  move esc
    fn-ctrl-f                 macos     window tiling #237
    f11                       macos     show desktop #36 (default)
    alt-ctrl-cmd-g            hyprshit  launch clip
+   alt-shift-h               hyprshit  place left-half
    alt-j                     hyprshit  exec /Users/bekh/bin/jot-toggle.sh
    fuck-l                    hyprshit  exec /Users/bekh/bin/display-dim-toggle "--nameLike=Mi Monitor"
    ctrl-left                 hyprshit  ws prev
