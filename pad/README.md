@@ -17,7 +17,7 @@ no save command after a key write, so it should hold across a replug; not proven
 
 | key | sends | for |
 |---|---|---|
-| 0 (left) | F17 | the couch key: the room's mic (`~/.hammerspoon/gamevoice.lua`, talk-engine) |
+| 0 (left) | F17 | the couch key: a take for the talk-engine room (`f17 dictate room` in hyprshit's `config/keys`) |
 | 1 | F13 | VoiceInk |
 | 2 | F18 | neru's hints |
 | 16-18 | macros 14, 12, 15 | the knob, probably; untouched |
