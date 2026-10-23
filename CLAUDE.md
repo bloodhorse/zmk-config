@@ -136,6 +136,8 @@ bekh says the intent in his words ("put Finder on FUCK+e"). Then:
   `.keylayout`, built and never cut over. bekh barely uses Russian now.
 - **Measurements** → `stats/keycount-2026-07.md`: when arguing a layout
   choice. Don't argue from feel.
+- **The three-key pad** → `pad/README.md`: the temu pad with a knob (F17 the
+  couch key, F13, F18). `pad/pad` rewires it from the shell, no vendor page.
 
 ## Resume pointer
 

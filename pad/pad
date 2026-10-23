@@ -1,0 +1,100 @@
+#!/usr/bin/env -S uv run --quiet --script
+# /// script
+# requires-python = ">=3.12"
+# dependencies = ["hidapi"]
+# ///
+"""pad: the three-key pad, rewired from the shell (README.md next to this).
+
+  pad                         the keymap: keys 0-2 and the knob
+  pad set <idx> <key>         f1..f24, a..z, 0..9, mute, volup, voldown, play, m<N> (macro),
+                              or raw type:c1:c2:c3
+  -l <layer>                  layer (default 0), either command
+"""
+import sys
+import hid
+
+VID, PID = 0x6D7B, 0xDCFA
+KEYS = [0, 1, 2, 16, 17, 18, 19, 20, 21]
+
+FKEYS = {f"f{i}": 57 + i for i in range(1, 13)} | {f"f{i}": 91 + i for i in range(13, 25)}
+PLAIN = FKEYS | {chr(97 + i): 4 + i for i in range(26)} | {str((i + 1) % 10): 30 + i for i in range(10)}
+CONSUMER = {"mute": 226, "volup": 233, "voldown": 234, "play": 205}
+
+
+def name(q):
+    t, c1, c2, c3 = q
+    if t == 32 and c1 == 0:
+        for n, u in PLAIN.items():
+            if u == c2:
+                return n
+    if t == 48:
+        for n, u in CONSUMER.items():
+            if u == c1:
+                return n
+    if t == 96:
+        return f"m{c1}"
+    if t == 19 and not (c1 or c2 or c3):
+        return "-"
+    return f"{t}:{c1}:{c2}:{c3}"
+
+
+def parse(s):
+    s = s.lower()
+    if s in PLAIN:
+        return [32, 0, PLAIN[s], 0]
+    if s in CONSUMER:
+        return [48, CONSUMER[s], 0, 0]
+    if s[0] == "m" and s[1:].isdigit():
+        return [96, int(s[1:]), 1, 0]
+    q = [int(x) for x in s.split(":")]
+    if len(q) != 4:
+        raise ValueError(s)
+    return q
+
+
+class Pad:
+    def __init__(self):
+        path = next((d["path"] for d in hid.enumerate(VID, PID) if d["usage_page"] == 0xFF00), None)
+        if not path:
+            sys.exit("pad: no SIDE-KEYBOARD on usb")
+        self.h = hid.device()
+        self.h.open_path(path)
+
+    def cmd(self, data):
+        self.h.write(b"\x00" + bytes([6] + data + [0] * (63 - len(data))))
+        r = list(self.h.read(64, 1000))
+        if not r:
+            sys.exit("pad: no answer")
+        return r
+
+    def keymap(self, layer):
+        b = []
+        for off in (0, 56):
+            b += self.cmd([8, 58, off & 255, off >> 8, 0, layer])[8:64]
+        return [b[4 * i:4 * i + 4] for i in range(len(b) // 4)]
+
+    def set(self, idx, layer, q):
+        self.cmd([16, 7, (4 * idx) & 255, (4 * idx) >> 8, 0, layer, 0, *q])
+
+
+def main(argv):
+    layer = 0
+    if "-l" in argv:
+        i = argv.index("-l")
+        layer = int(argv[i + 1])
+        del argv[i:i + 2]
+    pad = Pad()
+    if argv[:1] == ["set"] and len(argv) == 3:
+        idx, q = int(argv[1]), parse(argv[2])
+        pad.set(idx, layer, q)
+        got = pad.keymap(layer)[idx]
+        print(f"{idx}: {name(got)}" + ("" if got == q else f"  (wanted {name(q)})"))
+    elif not argv:
+        km = pad.keymap(layer)
+        for i in KEYS:
+            print(f"{i:>2}  {name(km[i])}")
+    else:
+        sys.exit(__doc__)
+
+
+main(sys.argv[1:])
