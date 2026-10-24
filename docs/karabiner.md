@@ -74,6 +74,11 @@ right precedence.
   Don't route this through shell commands or AppleScript. iTerm's hotkey
   window isn't reachable from AppleScript, and each `osascript` call costs
   ~130 ms.
+- **Karabiner can't see fuck or shit unless told.** They're shitd's modifiers,
+  not macOS's, so an alt rewrite eats shitd's fuck-alt chord too: fuck+alt+g
+  arrived as fuck+ctrl-alt-cmd-g and opened the clipboard. Held F20 and F19
+  set the `fuck` and `shit` variables; a rewrite that must step aside for a
+  shitd chord gets `variable_unless` on them (Alt+G has it for fuck).
 
 ## The mouse in games
 
