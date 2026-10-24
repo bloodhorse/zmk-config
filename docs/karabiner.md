@@ -75,6 +75,14 @@ right precedence.
   window isn't reachable from AppleScript, and each `osascript` call costs
   ~130 ms.
 
+## The mouse in games
+
+The MOU-302's back button (button5) is cmd+[ by Karabiner's own rules, and hyprshit's room key
+when a game is up. With a game **frontmost**, a rule above them sends it as F17 instead (Slay
+the Spire 2, forgeline's unity build, the Unity editor): a cmd chord in a game makes macOS drop
+the keyUps of keys held through it, so the knight kept walking. With the game behind another
+window it stays cmd+[, and hyprshit's gated `cmd-[` catches that case.
+
 ## The rules, and what's up for cleanup
 
 bekh wants the dead ones gone and hasn't picked them yet.
