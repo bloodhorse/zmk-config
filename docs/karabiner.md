@@ -88,6 +88,11 @@ the Spire 2, forgeline's unity build, the Unity editor): a cmd chord in a game m
 the keyUps of keys held through it, so the knight kept walking. With the game behind another
 window it stays cmd+[, and hyprshit's gated `cmd-[` catches that case.
 
+**A `from` with no `modifiers` key matches only the bare button.** The two button5 → cmd+[ rules
+(cable and 2.4G receiver) carry `"modifiers": {"optional": ["any"]}` so shift+back arrives as
+shift+cmd+[ (kitty's forward message jump). Without it, a held modifier makes the rule miss
+silently. The game F17 rule stays bare on purpose.
+
 ## The rules, and what's up for cleanup
 
 bekh wants the dead ones gone and hasn't picked them yet.
