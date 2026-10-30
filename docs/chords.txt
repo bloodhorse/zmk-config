@@ -5,7 +5,7 @@
    f13                       hyprshit  dictate toggle
    shift-f13                 hyprshit  launch dictate
    f17                       hyprshit  dictate room
-   f18                       neru      hints (shift: right click, cmd: grid)
+   f18                       neru      hints (shift: right click, alt: grid)
    f19                       hyprshit  held as shit (eaten, a modifier of ours)
    alt-f19                   hyprshit  caps
    f20                       hyprshit  held as fuck (eaten, a modifier of ours)
@@ -40,6 +40,7 @@
    shit-=                    hyprshit  key ctrl-alt-space
    alt-shift-=               hyprshit  exec ~/tower/forge/kitty/launcher/tl
    alt-[                     hyprshit  ws [
+   cmd-[                     hyprshit  dictate room when com.megacrit.SlayTheSpire2 :7480
    alt-shift-[               hyprshit  move [
    alt-]                     hyprshit  ws ]
    alt-shift-]               hyprshit  move ]
@@ -59,6 +60,8 @@
    alt-shift-esc             hyprshit  move esc
    fn-ctrl-f                 macos     window tiling #237
    f11                       macos     show desktop #36 (default)
+   fuck-g                    hyprshit  exec /Users/bekh/tower/forge/horsefriendwidget/poke focus
+   fuck-alt-g                hyprshit  exec /Users/bekh/tower/forge/horsefriendwidget/poke travel
    alt-ctrl-cmd-g            hyprshit  launch clip
    alt-shift-h               hyprshit  place left-half
    alt-j                     hyprshit  exec /Users/bekh/bin/jot-toggle.sh
