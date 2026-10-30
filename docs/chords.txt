@@ -5,7 +5,7 @@
    f13                       hyprshit  dictate toggle
    shift-f13                 hyprshit  launch dictate
    f17                       hyprshit  dictate room
-   f18                       neru      hints (shift: right click, alt: grid, ctrl: recursive grid)
+   f18                       neru      hints (shift: right click, alt: grid, ctrl: vision hints; again closes)
    f19                       hyprshit  held as shit (eaten, a modifier of ours)
    alt-f19                   hyprshit  caps
    f20                       hyprshit  held as fuck (eaten, a modifier of ours)
