@@ -1,3 +1,3 @@
 # <chord> <owner> <what> — global chords no script can read; tools/chords.py merges them into docs/chords.txt.
 # spell them the way shitd does (alt-ctrl-shift-cmd-<key>, keys as US qwerty types them).
-f18 neru hints (shift: right click, alt: grid)
+f18 neru hints (shift: right click, alt: grid, ctrl: recursive grid)
