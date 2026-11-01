@@ -52,6 +52,7 @@
    alt-shift-c               hyprshit  swap
    alt-d                     hyprshit  app com.bekh.augury
    fuck-d                    hyprshit  exec /Users/bekh/bin/display-dim-toggle --nameLike=Built-in
+   shit-d                    hyprshit  key cmd-up
    ctrl-down                 macos     app windows #33 (default)
    fuck-e                    hyprshit  app com.apple.finder
    alt-shift-e               hyprshit  place right-half
