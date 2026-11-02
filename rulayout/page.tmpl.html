@@ -8,7 +8,7 @@
   * { box-sizing:border-box; }
   body { margin:0; background:var(--bg); color:var(--fg); font:14px/1.4 ui-monospace, "SF Mono", Menlo, monospace; display:flex; flex-direction:column; align-items:center; gap:22px; padding:28px 24px; }
   #left { flex:0 0 auto; width:calc(var(--u) * 14.9); }
-  #right { width:calc(var(--u) * 14.9); }
+  #right { order:-1; width:calc(var(--u) * 14.9); }
   h1 { text-align:center; font-size:15px; font-weight:600; color:var(--blue); margin:0 0 14px; letter-spacing:.04em; }
   #board { position:relative; width:calc(var(--u) * 14.9); height:calc(var(--u) * 5.6); }
   .k { position:absolute; width:calc(var(--u) - 5px); height:calc(var(--u) - 5px); border-radius:8px; background:var(--key); display:flex; align-items:center; justify-content:center; user-select:none; transition:background .12s, box-shadow .12s; }
