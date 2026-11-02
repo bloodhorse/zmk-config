@@ -10,6 +10,7 @@ def encode(text):
     for i, ch in enumerate(ALPHA):
         table[ord(ch)] = i
     table[ord(" ")] = SPACE
+    table[ord("ё")] = ALPHA.index("е")
     a = np.where(a < 0x500, a, ord("\x00"))
     return table[a]
 

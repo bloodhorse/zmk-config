@@ -3,16 +3,16 @@ import numpy as np
 from opt import SEATS, NAMES, GALLIUM, W, Model
 
 TWIN = """
-] ъ
-q б w л e д r с t ц y й u х i о o у p , [ э
-` ё a н s р d т f ж g г h п j в k а l е ; и
-z к x ч c м v ш b з = щ - ю n ь m ф , ы . я / .
+] ё
+q б w л e д r с t ц y й u ю i о o у p , [ э
+` к a н s р d т f ж g г h п j в k а l е ; и
+z х x ч c м v ш b з = щ - ъ n ь m ф , ы . я / .
 """
 MINE = """
-] ъ
-q б w л e м r с t ш y х u й i я o а p , [ э
-` ё a н s р d т f з g г h ь j в k е l о ; и
-z к x ч c д v ж b ц = щ - ф n ю m п , у . ы / .
+] ё
+q б w л e м r с t ш y ф u ю i а o у p , [ щ
+` к a н s р d т f ч g г h я j е k о l и ; в
+z п x й c д v з b ж = ц - ъ n э m х , ы . ь / .
 """
 YCUKEN = dict(zip("йцукенгшщзхфывапролджячсмитьбю.ъё", "qwertyuiop[asdfghjkl;zxcvbnm,./]`"))
 YCUKEN.update({"э": "=", ",": "-"})

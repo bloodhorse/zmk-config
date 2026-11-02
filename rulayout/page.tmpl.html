@@ -138,7 +138,7 @@ function render(partners) {
     return `<tr><td class="l">${names[k]}</td><td class="v">${m[k].toFixed(2)}</td><td class="d ${ds ? (good ? "dn" : "up") : ""}">${ds}</td></tr>`;
   }).join("");
   document.getElementById("worst").innerHTML = SC.sfbList(pos, 10).map(([bg, f, w]) => `<span><span class="sfb">${bg}</span> ${f.toFixed(2)}×${w.toFixed(1)}</span>`).join("");
-  localStorage.setItem("rulayout", JSON.stringify({ map: toMap(), pins: D.alpha.filter((c, i) => pinned[i]) }));
+  localStorage.setItem("rulayout2", JSON.stringify({ map: toMap(), pins: D.alpha.filter((c, i) => pinned[i]) }));
 }
 
 function toMap() { return Object.fromEntries(D.alpha.map((c, i) => [c, NAMES[pos[i]]])); }
@@ -261,7 +261,7 @@ pad.addEventListener("keydown", e => {
 });
 function flash(s) { const d = els[s]; if (!d) return; d.classList.add("hit"); setTimeout(() => d.classList.remove("hit"), 140); }
 
-const saved = JSON.parse(localStorage.getItem("rulayout") || "null");
+const saved = JSON.parse(localStorage.getItem("rulayout2") || "null");
 if (saved) load(saved.map, saved.pins); else load(D.presets["twin draft"].map, D.presets["twin draft"].pins);
 nextLine();
 </script>
