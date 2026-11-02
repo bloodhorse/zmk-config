@@ -131,9 +131,14 @@ bekh says the intent in his words ("put Finder on FUCK+e"). Then:
   rules and the board's seats are not in it yet. Spelled as shitd hears it,
   after Gallium, so a letter there goes back through the table above before
   bekh presses it.
+- **Russian Gallium** → `docs/russian-gallium.md`: bekh's own Russian layout,
+  optimized for this board with Cyrillic letters on their Gallium twins. The
+  interactive page (`russian-gallium/layout.html`), the scorer, the pins and why
+  each one is where it is. Read it before any Russian typing question.
 - **Russian and symbols** → `docs/musings_over_ru_layout.md`: before touching
   the number row or anything cross-language. Holds the custom ЙЦУКЕН
-  `.keylayout`, built and never cut over. bekh barely uses Russian now.
+  `.keylayout`, built and never cut over; its generator is how Russian Gallium
+  gets baked once it stops moving.
 - **Measurements** → `stats/keycount-2026-07.md`: when arguing a layout
   choice. Don't argue from feel.
 - **The three-key pad** → `pad/README.md`: the temu pad with a knob (F17 the

@@ -25,6 +25,7 @@
   @keyframes bad { 0%,100% { background:var(--key); } 50% { background:var(--pink); } }
   .k.next { background:#263848; box-shadow: inset 0 0 0 2px var(--blue); }
   .k.hit { background:#2d4a43; }
+  .k .alt { position:absolute; top:3px; right:6px; font-size:12px; color:var(--blue); }
   .k .freq { position:absolute; bottom:2px; right:5px; font-size:9px; color:var(--dim); }
   .k.partner { box-shadow: inset 0 0 0 2px var(--pink); }
   #score { font-size:40px; font-weight:600; color:var(--mint); }
@@ -97,9 +98,8 @@ keys.push({ n: "=", x: 6 * U, y: 3 * U + 22 });
 const RX = 8.9 * U;
 R.forEach((row, r) => row.forEach((n, c) => keys.push({ n, x: RX + c * U, y: r * U + OFF[5 - c] })));
 keys.push({ n: "-", x: RX - U, y: 3 * U + 22 });
-keys.push({ n: "alt+⏎", x: 6.35 * U, y: 1.5 * U }, { n: "chord", x: 7.45 * U, y: 1.5 * U });
 [["F19",2.7],["⌃",3.7],["⌘",4.7],["␣ alt",5.9]].forEach(([n, x], i) => keys.push({ n, x: x * U, y: 4 * U + 18 + (i === 3 ? 12 : 0), ns: true }));
-[["⏎",RX - 1.9 * U],["⌘",RX - 0.7 * U],["⌫",RX + 0.3 * U],["F19",RX + 1.3 * U]].forEach(([n, x], i) => keys.push({ n, x, y: 4 * U + 18 + (i === 0 ? 12 : 0), ns: true }));
+[["alt+⏎",RX - 1.9 * U],["⌘",RX - 0.7 * U],["⌫",RX + 0.3 * U],["F19",RX + 1.3 * U]].forEach(([n, x], i) => keys.push({ n, x, y: 4 * U + 18 + (i === 0 ? 12 : 0), ns: i !== 0 }));
 
 const board = document.getElementById("board"), els = {};
 for (const k of keys) {
@@ -121,8 +121,9 @@ function at(seat) { const s = SI[seat]; const c = pos.indexOf(s); return c >= 0 
 function render(partners) {
   for (const n in els) {
     const d = els[n], c = at(n), ch = c === null ? "" : D.alpha[c];
-    const gl = D.gallium[n] ?? n;
-    d.innerHTML = `<span class="gl">${gl}</span><span class="cy">${ch}</span>` + (heat && c !== null ? `<span class="freq">${(100 * D.uni[c]).toFixed(1)}</span>` : "");
+    const gl = n === "alt+⏎" ? "⌥ ⏎" : (D.gallium[n] ?? n);
+    const hard = ch === "ь" ? `<span class="alt">⌥${D.alpha[at("chord")] || ""}</span>` : "";
+    d.innerHTML = `<span class="gl">${gl}</span><span class="cy">${ch}</span>${hard}` + (heat && c !== null ? `<span class="freq">${(100 * D.uni[c]).toFixed(1)}</span>` : "");
     d.className = "k seat";
     if (ch && TWIN[ch] && D.gallium[n] === TWIN[ch]) d.classList.add("twin");
     if (c !== null && pinned[c]) d.classList.add("pin");
@@ -216,13 +217,22 @@ for (const [name, p] of Object.entries(D.presets)) {
 
 // typing pad: the board sends qwerty scancodes, karabiner turns them into gallium (english input) or leaves them raw (russian input)
 const GINV = Object.fromEntries(Object.entries(D.gallium).map(([q, g]) => [g, q]));
-const CODE = { Comma: ",", Period: ".", Semicolon: ";", Quote: "'", Slash: "/", BracketLeft: "[", BracketRight: "]", Backquote: "`", Equal: "=", Minus: "-" };
+const RAWCODE = { Comma: ",", Period: ".", Semicolon: ";", Quote: "'", Slash: "/", BracketLeft: "[", BracketRight: "]", Backquote: "`", Equal: "=", Minus: "-" };
+// what karabiner's Gallium rule actually sends for the punctuation seats (karabiner.json, "Gallium Colstag"): p→comma, ,→slash (shift: backslash), .→semicolon, /→period
+const GALCODE = { Comma: "p", Slash: ",", Backslash: ",", Semicolon: ".", Period: "/" };
+let rawMode = false;
 function seatOf(e) {
-  let k = e.code.startsWith("Key") ? e.code.slice(3).toLowerCase() : CODE[e.code];
-  if (!k) return null;
-  const raw = /[а-яё]/i.test(e.key);
-  if (!raw && GINV[k]) return GINV[k];
-  return k in SI ? k : null;
+  if (/^[а-яё]$/i.test(e.key)) rawMode = true;
+  else if (/^[a-z]$/i.test(e.key)) rawMode = false;
+  const raw = rawMode;
+  if (e.code.startsWith("Key")) {
+    const k = e.code.slice(3).toLowerCase();
+    if (raw) return k in SI ? k : null;
+    return GINV[k] ?? null;
+  }
+  if (!raw && GALCODE[e.code]) return GALCODE[e.code];
+  const k = RAWCODE[e.code];
+  return k && k in SI ? k : null;
 }
 const pad = document.getElementById("pad");
 let line = "", typed = [], hints = true, lineNo = Math.floor(Math.random() * D.lines.length), t0 = null, strokes = 0, errs = 0;
@@ -241,7 +251,8 @@ function updatePad() {
   if (hints && nc && nc !== " ") { const s = NAMES[pos[CI[nc]]]; if (els[s]) els[s].classList.add("next"); }
 }
 document.addEventListener("keydown", e => {
-  const chordSeat = e.altKey && e.key === "Enter" && !e.metaKey && !e.ctrlKey ? "alt+⏎" : null;
+  const altOnly = e.altKey && !e.metaKey && !e.ctrlKey;
+  const chordSeat = altOnly && e.key === "Enter" ? "alt+⏎" : altOnly && seatOf(e) === NAMES[pos[CI["ь"]]] ? "chord" : null;
   if (!chordSeat && (e.metaKey || e.ctrlKey || e.altKey)) return;
   e.preventDefault();
   if (e.key === "Enter" && !chordSeat) return nextLine();

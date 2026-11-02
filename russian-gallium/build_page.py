@@ -32,7 +32,7 @@ def sample_lines(path, n=600):
     return out[:n]
 
 
-def main(subs, out="layout.html"):
+def main(subs=None, out="layout.html"):
     m = Model("stats.npz")
     r = lambda a: [float(f"{v:.6g}") for v in np.asarray(a).ravel()]
     data = dict(
@@ -41,7 +41,7 @@ def main(subs, out="layout.html"):
         gallium=GALLIUM, W=W,
         uni=r(m.uni), bi=r(m.bi), sk=r(m.sk),
         ta=m.t_a.tolist(), tb=m.t_b.tolist(), tc=m.t_c.tolist(), tf=r(m.t_f),
-        lines=sample_lines(subs),
+        lines=sample_lines(subs) if subs else open("lines.txt").read().split("\n")[:-1],
         presets={
             "twin draft": dict(map=parse(TWIN), pins=list("стнр,.ёмлдпзбгфаеиоуйяыэъ")),
             "йцукен": dict(map=YCUKEN, pins=[]),
