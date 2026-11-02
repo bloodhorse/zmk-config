@@ -41,8 +41,9 @@
   #info { min-height:44px; color:var(--blue); margin:8px 0; }
   #info b { color:var(--fg); }
   .sfb { color:var(--pink); }
-  #pad { margin-top:14px; padding:14px; border-radius:10px; background:#191b21; outline:none; border:1px solid #262a33; cursor:text; }
-  #pad:focus { border-color:var(--blue); }
+  #pad { margin-top:14px; padding:14px; border-radius:10px; background:#191b21; border:1px solid #262a33; }
+  body:focus { outline:none; }
+  
   #target { text-align:center; font-size:24px; letter-spacing:.02em; white-space:pre-wrap; min-height:34px; }
   #target .ok { color:var(--mint); } #target .er { color:var(--bg); background:var(--pink); border-radius:2px; } #target .cur { border-bottom:2px solid var(--blue); } #target .todo { color:#8a93a6; }
   #padstat { text-align:center; color:var(--blue); font-size:12px; margin-top:6px; }
@@ -51,14 +52,14 @@
   #worst span { display:inline-block; margin-right:12px; }
 </style>
 </head>
-<body>
+<body role="textbox">
 <div id="left">
   <h1>русский галлий · lily58</h1>
   <div id="board"></div>
   <div class="hint">click two keys = swap · shift-click = pin/unpin · hover = what hurts there · esc = drop selection</div>
-  <div id="pad" tabindex="0" role="textbox">
+  <div id="pad">
     <div id="target"></div>
-    <div id="padstat">click here and type on the board. enter = next line, tab = hide the hint keys</div>
+    <div id="padstat">just type on the board. enter = next line, tab = hide the hint keys</div>
   </div>
 </div>
 <div id="right">
@@ -308,13 +309,13 @@ document.getElementById("undo").onclick = () => { const h = history.pop(); if (h
 document.getElementById("heat").onclick = e => { heat = !heat; e.target.classList.toggle("on", heat); render(); };
 document.getElementById("copy").onclick = () => navigator.clipboard.writeText(JSON.stringify({ map: toMap(), pins: D.alpha.filter((c, i) => pinned[i]) }, null, 1));
 document.getElementById("paste").onclick = () => { const t = prompt("paste the json"); if (t) { snap(); const j = JSON.parse(t); load(j.map, j.pins || [], true); } };
+document.addEventListener("mousedown", e => { if (e.target.closest("button")) e.preventDefault(); });
 const pr = document.getElementById("presets");
 for (const [name, p] of Object.entries(D.presets)) {
   const b = document.createElement("button"); b.textContent = name;
   b.onclick = () => { snap(); load(p.map, p.pins); };
   pr.appendChild(b);
 }
-document.addEventListener("keydown", e => { if (e.key === "Escape" && document.activeElement !== pad) { sel = null; render(); } });
 
 // typing pad: the board sends qwerty scancodes, karabiner turns them into gallium (english input) or leaves them raw (russian input)
 const GINV = Object.fromEntries(Object.entries(D.gallium).map(([q, g]) => [g, q]));
@@ -340,16 +341,14 @@ function updatePad() {
   document.getElementById("target").innerHTML = h;
   for (const n in els) els[n].classList.remove("next");
   const nc = line[typed.length];
-  if (hints && nc && nc !== " " && document.activeElement === pad) { const s = NAMES[pos[CI[nc]]]; if (els[s]) els[s].classList.add("next"); }
+  if (hints && nc && nc !== " ") { const s = NAMES[pos[CI[nc]]]; if (els[s]) els[s].classList.add("next"); }
 }
-pad.addEventListener("focus", updatePad);
-pad.addEventListener("blur", () => { for (const n in els) els[n].classList.remove("next"); });
-pad.addEventListener("keydown", e => {
+document.addEventListener("keydown", e => {
   if (e.metaKey || e.ctrlKey || e.altKey) return;
   e.preventDefault();
   if (e.key === "Enter") return nextLine();
   if (e.key === "Tab") { hints = !hints; return updatePad(); }
-  if (e.key === "Escape") return pad.blur();
+  if (e.key === "Escape") { sel = null; return render(); }
   if (e.key === "Backspace") { typed.pop(); return updatePad(); }
   let ch = null;
   if (e.code === "Space") ch = " ";
