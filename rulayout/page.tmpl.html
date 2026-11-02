@@ -6,11 +6,11 @@
 <style>
   :root { --bg:#14161b; --key:#22252d; --key2:#2a2e38; --dim:#4a5060; --fg:#dde3ee; --mint:#7fd1b9; --pink:#e58fb7; --blue:#7fb6e5; --u:54px; }
   * { box-sizing:border-box; }
-  body { margin:0; background:var(--bg); color:var(--fg); font:14px/1.4 ui-monospace, "SF Mono", Menlo, monospace; display:flex; gap:28px; padding:24px; }
-  #left { flex:0 0 auto; }
-  #right { flex:1 1 auto; min-width:300px; }
-  h1 { font-size:15px; font-weight:600; color:var(--blue); margin:0 0 14px; letter-spacing:.04em; }
-  #board { position:relative; width:calc(var(--u) * 15.2); height:calc(var(--u) * 5.6); }
+  body { margin:0; background:var(--bg); color:var(--fg); font:14px/1.4 ui-monospace, "SF Mono", Menlo, monospace; display:flex; flex-direction:column; align-items:center; gap:22px; padding:28px 24px; }
+  #left { flex:0 0 auto; width:calc(var(--u) * 14.9); }
+  #right { width:calc(var(--u) * 14.9); }
+  h1 { text-align:center; font-size:15px; font-weight:600; color:var(--blue); margin:0 0 14px; letter-spacing:.04em; }
+  #board { position:relative; width:calc(var(--u) * 14.9); height:calc(var(--u) * 5.6); }
   .k { position:absolute; width:calc(var(--u) - 5px); height:calc(var(--u) - 5px); border-radius:8px; background:var(--key); display:flex; align-items:center; justify-content:center; user-select:none; transition:background .12s, box-shadow .12s; }
   .k.ns { background:#1b1d23; color:var(--dim); font-size:11px; }
   .k.seat { cursor:pointer; }
@@ -41,12 +41,13 @@
   #info { min-height:44px; color:var(--blue); margin:8px 0; }
   #info b { color:var(--fg); }
   .sfb { color:var(--pink); }
-  #pad { margin-top:16px; padding:14px; border-radius:10px; background:#191b21; outline:none; border:1px solid #262a33; cursor:text; }
+  #pad { margin-top:14px; padding:14px; border-radius:10px; background:#191b21; outline:none; border:1px solid #262a33; cursor:text; }
   #pad:focus { border-color:var(--blue); }
-  #target { font-size:22px; letter-spacing:.02em; white-space:pre-wrap; min-height:34px; }
+  #target { text-align:center; font-size:24px; letter-spacing:.02em; white-space:pre-wrap; min-height:34px; }
   #target .ok { color:var(--mint); } #target .er { color:var(--bg); background:var(--pink); border-radius:2px; } #target .cur { border-bottom:2px solid var(--blue); } #target .todo { color:#8a93a6; }
-  #padstat { color:var(--blue); font-size:12px; margin-top:6px; }
+  #padstat { text-align:center; color:var(--blue); font-size:12px; margin-top:6px; }
   .hint { color:var(--dim); font-size:12px; }
+  #left > .hint { text-align:center; }
   #worst span { display:inline-block; margin-right:12px; }
 </style>
 </head>
