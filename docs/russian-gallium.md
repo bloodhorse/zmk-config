@@ -46,8 +46,10 @@ optimum under the current pins.
 - **ё folded into е.** bekh never types ё, so the corpus counts every ё as е; ё sits on the
   number-row `]` and nobody cares.
 - **э on alt+⏎** (left thumb holds Space = alt, right thumb taps Enter): it already lives
-  there in his ЙЦУКЕН habit. **ъ on alt + the ь key**: every right-thumb key is busy under
-  alt (⌫ is word delete, ⌘ a modifier, F19 caps). alt+k is free in `docs/chords.txt`.
+  there in his ЙЦУКЕН habit. **ъ on alt + the ь key**, confirmed by bekh: every right-thumb
+  key is busy under alt (⌫ is word delete, ⌘ a modifier, F19 caps), and HEAVEN (held
+  Enter) was weighed and dropped because its right hand is all arrows. ъ comes up maybe
+  once a week, so it isn't worth more. alt+k is free in `docs/chords.txt`.
 - **`-` and `=` (the inner bottom keys) stay symbols.** Russian types hyphens all the time
   (что-то, кто-нибудь, по-моему). The thumb chords for э and ъ are what freed them.
 
@@ -113,10 +115,13 @@ curl -sLO https://downloads.wortschatz-leipzig.de/corpora/rus-ru_web-public_2019
 
 ## Next
 
-1. **bekh lives with the page**: types in the pad, moves what feels wrong. Feel only gets a
-   vote once he can type it; before that, memory (the pins) and math (the rest).
-2. **The Karabiner rule**: keep RussianWin as the input source, and gate a rule on Russian
-   that sends, for each physical key, the key RussianWin types our letter on. cmd/ctrl
+1. **bekh is training on the page** and comes back when it feels okay. Feel only gets a
+   vote once he can type it; before that, memory (the pins) and math (the rest). Don't
+   wait for fluency to build the rule: until it exists he types ЙЦУКЕН everywhere else,
+   which fights the new habit, and real chats train faster than subtitles.
+2. **The Karabiner rule**: nothing custom gets installed. Keep the stock RussianWin input
+   source, and gate a rule on Russian that sends, for each physical key, the key RussianWin
+   types our letter on (all 33 letters exist there, shift passes through for capitals). cmd/ctrl
    chords stay out of it so shortcuts keep Gallium. Karabiner reloads instantly, which is
    what iterating needs (a `.keylayout` change needs a logout). alt+⏎ → э, alt+ь-key → ъ.
    Check how it meets the existing Gallium rules (gated `^en$`) and the spares rule 0
