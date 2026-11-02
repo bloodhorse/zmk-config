@@ -6,7 +6,7 @@ TWIN = """
 ] ё
 q б w л e д r с t ц y й u ю i о o у p , [ э
 ` к a н s р d т f ж g г h п j в k а l е ; и
-z х x ч c м v ш b з = щ - ъ n ь m ф , ы . я / .
+z х x ч c м v ш b з = щ - ъ n ь m ф , я . ы / .
 """
 MINE = """
 ] ё
