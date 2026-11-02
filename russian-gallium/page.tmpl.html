@@ -218,6 +218,7 @@ for (const [name, p] of Object.entries(D.presets)) {
 // typing pad: the board sends qwerty scancodes, karabiner turns them into gallium (english input) or leaves them raw (russian input)
 const GINV = Object.fromEntries(Object.entries(D.gallium).map(([q, g]) => [g, q]));
 const RAWCODE = { Comma: ",", Period: ".", Semicolon: ";", Quote: "'", Slash: "/", BracketLeft: "[", BracketRight: "]", Backquote: "`", Equal: "=", Minus: "-" };
+// karabiner turns alt+Enter into a bare quote, alt stripped: that is the э chord
 // what karabiner's Gallium rule actually sends for the punctuation seats (karabiner.json, "Gallium Colstag"): p→comma, ,→slash (shift: backslash), .→semicolon, /→period
 const GALCODE = { Comma: "p", Slash: ",", Backslash: ",", Semicolon: ".", Period: "/" };
 let rawMode = false;
@@ -230,6 +231,7 @@ function seatOf(e) {
     if (raw) return k in SI ? k : null;
     return GINV[k] ?? null;
   }
+  if (e.code === "Quote") return "alt+⏎";
   if (!raw && GALCODE[e.code]) return GALCODE[e.code];
   const k = RAWCODE[e.code];
   return k && k in SI ? k : null;

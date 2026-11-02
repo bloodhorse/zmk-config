@@ -112,6 +112,12 @@ curl -sLO https://downloads.wortschatz-leipzig.de/corpora/rus-ru_web-public_2019
   `backslash`), `.` as `semicolon`, `/` as `period`, `p` as `comma`. Mapping by the
   Gallium table instead of karabiner.json made the я key type a period. `GALCODE` in
   the template is the real map; letters are fine by the table.
+- **alt+⏎ never arrives as alt+Enter.** Karabiner's "Lily58: alt numpad + alt+Enter =
+  apostrophe" rule turns it into a bare `quote` keycode with alt stripped, which is how
+  RussianWin has always given him э. The pad maps `Quote` to э in both modes; the future
+  rule can leave that chord alone. The same rule turns alt + the right-hand block (Gallium
+  y o u / h a e / f ' ;) into digits, so no alt chord for ъ can live there; the ь key
+  (physical `n`) is outside it.
 
 ## Next
 
