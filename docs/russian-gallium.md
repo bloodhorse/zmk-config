@@ -83,6 +83,13 @@ optimum under the current pins.
   is the `TWIN` string at the top of it (seat, letter pairs). The practice lines come from
   `lines.txt`; pass a subtitles file to resample them.
 - `ycuken.py`: scores ЙЦУКЕН as bekh has it on this board.
+- `compare.py`: scores ЙЦУКЕН, Диктор, Зубачёв and Редактор on this board against ours and
+  the unpinned optimum (tables from monkeytype's `frontend/static/layouts/*.json`; Диктор
+  checked against its author's `.klc`). It adds the right outer home key as a seat for
+  their 11th column. Today: free optimum 229.5, ours 269.8, Зубачёв 339, Редактор 348,
+  Диктор 350, ЙЦУКЕН 861. The alternatives carry 2–2.5× our same-finger load. They were
+  tuned for row-staggered boards and other metrics (Диктор rewards hand alternation), so
+  the same-finger column is the fair comparison, not the total.
 
 **The corpus** isn't in the repo; `stats.npz` is. To rebuild it: 40 MB streamed off the top
 of OpenSubtitles' Russian mono dump plus Leipzig's 300K-sentence Russian web corpus.
