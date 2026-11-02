@@ -122,8 +122,7 @@ function render(partners) {
   for (const n in els) {
     const d = els[n], c = at(n), ch = c === null ? "" : D.alpha[c];
     const gl = n === "alt+⏎" ? "⌥ ⏎" : (D.gallium[n] ?? n);
-    const hard = ch === "ь" ? `<span class="alt">⌥${D.alpha[at("chord")] || ""}</span>` : "";
-    d.innerHTML = `<span class="gl">${gl}</span><span class="cy">${ch}</span>${hard}` + (heat && c !== null ? `<span class="freq">${(100 * D.uni[c]).toFixed(1)}</span>` : "");
+    d.innerHTML = `<span class="gl">${gl}</span><span class="cy">${ch}</span>` + (heat && c !== null ? `<span class="freq">${(100 * D.uni[c]).toFixed(1)}</span>` : "");
     d.className = "k seat";
     if (ch && TWIN[ch] && D.gallium[n] === TWIN[ch]) d.classList.add("twin");
     if (c !== null && pinned[c]) d.classList.add("pin");
@@ -141,7 +140,7 @@ function render(partners) {
     return `<tr><td class="l">${names[k]}</td><td class="v">${m[k].toFixed(2)}</td><td class="d ${ds ? (good ? "dn" : "up") : ""}">${ds}</td></tr>`;
   }).join("");
   document.getElementById("worst").innerHTML = SC.sfbList(pos, 10).map(([bg, f, w]) => `<span><span class="sfb">${bg}</span> ${f.toFixed(2)}×${w.toFixed(1)}</span>`).join("");
-  localStorage.setItem("rulayout2", JSON.stringify({ map: toMap(), pins: D.alpha.filter((c, i) => pinned[i]) }));
+  localStorage.setItem("rulayout3", JSON.stringify({ map: toMap(), pins: D.alpha.filter((c, i) => pinned[i]) }));
 }
 
 function toMap() { return Object.fromEntries(D.alpha.map((c, i) => [c, NAMES[pos[i]]])); }
@@ -254,7 +253,7 @@ function updatePad() {
 }
 document.addEventListener("keydown", e => {
   const altOnly = e.altKey && !e.metaKey && !e.ctrlKey;
-  const chordSeat = altOnly && e.key === "Enter" ? "alt+⏎" : altOnly && seatOf(e) === NAMES[pos[CI["ь"]]] ? "chord" : null;
+  const chordSeat = altOnly && e.key === "Enter" ? "alt+⏎" : null;
   if (!chordSeat && (e.metaKey || e.ctrlKey || e.altKey)) return;
   e.preventDefault();
   if (e.key === "Enter" && !chordSeat) return nextLine();
@@ -275,7 +274,7 @@ document.addEventListener("keydown", e => {
 });
 function flash(s) { const d = els[s]; if (!d) return; d.classList.add("hit"); setTimeout(() => d.classList.remove("hit"), 140); }
 
-const saved = JSON.parse(localStorage.getItem("rulayout2") || "null");
+const saved = JSON.parse(localStorage.getItem("rulayout3") || "null");
 if (saved) load(saved.map, saved.pins); else load(D.presets["twin draft"].map, D.presets["twin draft"].pins);
 nextLine();
 </script>

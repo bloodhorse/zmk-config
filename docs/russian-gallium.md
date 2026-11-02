@@ -14,14 +14,14 @@ so far.
 Drawn as physical keys (`opt.py` prints the same picture):
 
 ```text
-                                  ё
+                                  ъ
     б л д ш ц     й ж о у , ю
   к н р т с г     п в а е и
     х щ м ч з     ь ф я ы .
-         alt+⏎ э   alt+ь ъ
+             alt+⏎ э
 ```
 
-Score 269.7 against ЙЦУКЕН's 861 on the same board (lower is better; the units are
+Score 269.8 against ЙЦУКЕН's 861 on the same board (lower is better; the units are
 made up and only compare layouts). All 12 annealing restarts converge on it, so it's the
 optimum under the current pins.
 
@@ -43,13 +43,14 @@ optimum under the current pins.
   then chose к for it, its best seat by numbers (every other seat +3 to +34). A letter on a
   balanced hold-tap only misfires as F20 when the next key is pressed *and released*
   inside the hold, which normal rolling rarely does.
-- **ё folded into е.** bekh never types ё, so the corpus counts every ё as е; ё sits on the
-  number-row `]` and nobody cares.
+- **ё is gone.** bekh never types ё, so the corpus counts every ё as е and ё has no key
+  (the model parks it on the virtual `chord` seat at zero frequency, undrawn). alt+е
+  can't hold it: е sits inside Karabiner's alt numpad block.
 - **э on alt+⏎** (left thumb holds Space = alt, right thumb taps Enter): it already lives
-  there in his ЙЦУКЕН habit. **ъ on alt + the ь key**, confirmed by bekh: every right-thumb
-  key is busy under alt (⌫ is word delete, ⌘ a modifier, F19 caps), and HEAVEN (held
-  Enter) was weighed and dropped because its right hand is all arrows. ъ comes up maybe
-  once a week, so it isn't worth more. alt+k is free in `docs/chords.txt`.
+  there in his ЙЦУКЕН habit. **ъ on the number-row `]`**, where stock ЙЦУКЕН keeps it too:
+  a plain key, no chord, and ъ comes up maybe once a week. Before that it was alt + the ь
+  key; a right-thumb chord was out (⌫ is word delete, ⌘ a modifier, F19 caps) and so was
+  HEAVEN (held Enter), whose right hand is all arrows.
 - **`-` and `=` (the inner bottom keys) stay symbols.** Russian types hyphens all the time
   (что-то, кто-нибудь, по-моему). The thumb chords for э and ъ are what freed them.
 
@@ -61,8 +62,8 @@ optimum under the current pins.
 - "optimize unpinned" anneals the rest in the browser (~1 s a run, 8 restarts)
 - presets: the twin draft (the layout above) and ЙЦУКЕН for comparison
 - the typing pad: real subtitle lines, type on the board in either input source, the next
-  key glows. alt+⏎ types э, alt + the ь key types ъ.
-- state persists in `localStorage["rulayout2"]`; bump the key when a preset changes or the
+  key glows. alt+⏎ types э.
+- state persists in `localStorage["rulayout3"]`; bump the key when a preset changes or the
   page keeps showing the old one
 
 ## The machinery
@@ -71,7 +72,7 @@ optimum under the current pins.
   frequencies over 35 symbols (33 letters, `,` `.`), each file weighted equally, ё → е.
   Fast (numpy over utf-32), 100 MB in 1.5 s.
 - `opt.py pins.json`: the scorer and the annealer. Seats are QWERTY scancodes (what the
-  board sends) plus two virtual thumb seats `alt+⏎` and `chord`. Each seat: hand, finger,
+  board sends) plus two virtual seats: `alt+⏎` (э) and `chord` (ё's parking spot, never typed). Each seat: hand, finger,
   row, column, effort. The score is effort plus penalties for same-finger bigrams
   (weighted by distance, the heaviest), same-finger skipgrams, index stretches, scissors and
   redirects, minus a bonus for rolls. **The weights in `W` are guesses, not calibrated**: a
@@ -116,8 +117,7 @@ curl -sLO https://downloads.wortschatz-leipzig.de/corpora/rus-ru_web-public_2019
   apostrophe" rule turns it into a bare `quote` keycode with alt stripped, which is how
   RussianWin has always given him э. The pad maps `Quote` to э in both modes; the future
   rule can leave that chord alone. The same rule turns alt + the right-hand block (Gallium
-  y o u / h a e / f ' ;) into digits, so no alt chord for ъ can live there; the ь key
-  (physical `n`) is outside it.
+  y o u / h a e / f ' ;) into digits, so no alt chord for a letter can live there.
 
 ## Next
 
@@ -129,7 +129,8 @@ curl -sLO https://downloads.wortschatz-leipzig.de/corpora/rus-ru_web-public_2019
    source, and gate a rule on Russian that sends, for each physical key, the key RussianWin
    types our letter on (all 33 letters exist there, shift passes through for capitals). cmd/ctrl
    chords stay out of it so shortcuts keep Gallium. Karabiner reloads instantly, which is
-   what iterating needs (a `.keylayout` change needs a logout). alt+⏎ → э, alt+ь-key → ъ.
+   what iterating needs (a `.keylayout` change needs a logout). alt+⏎ already arrives as
+   RussianWin's э key; ъ on `]` is where RussianWin has it, so neither needs a mapping.
    Check how it meets the existing Gallium rules (gated `^en$`) and the spares rule 0
    (`docs/karabiner.md`).
 3. Once it stops moving: bake it into a real `.keylayout` with the generator from

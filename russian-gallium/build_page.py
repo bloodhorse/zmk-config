@@ -3,11 +3,11 @@ import numpy as np
 from opt import SEATS, NAMES, GALLIUM, W, Model
 
 TWIN = """
-] ё
+] ъ
 q б w л e д r ш t ц y й u ж i о o у p , [ ю
 ` к a н s р d т f с g г h п j в k а l е ; и
 z х x щ c м v ч b з n ь m ф , я . ы / .
-alt+⏎ э chord ъ
+alt+⏎ э chord ё
 """
 YCUKEN = dict(zip("йцукенгшщзхфывапролджячсмитьбю.ъё", "qwertyuiop[asdfghjkl;zxcvbnm,./]`"))
 YCUKEN.update({"э": "alt+⏎", ",": "/"})
