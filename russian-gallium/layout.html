@@ -366,6 +366,9 @@ document.addEventListener("keydown", e => {
   if (e.key === "Backspace") { typed.pop(); return updatePad(); }
   let ch = null;
   if (e.code === "Space") ch = " ";
+  else if (!chordSeat && (/^[а-яё]$/i.test(e.key) || (rawMode && /^[,.]$/.test(e.key)))) {
+    rawMode = true; ch = e.key.toLowerCase(); const c = CI[ch]; if (c !== undefined) flash(NAMES[pos[c]]);
+  }
   else { const s = chordSeat || seatOf(e); if (s) { const c = at(s); if (c !== null) ch = D.alpha[c]; flash(s); } }
   if (ch === null || typed.length >= line.length) return;
   if (t0 === null) t0 = performance.now();
