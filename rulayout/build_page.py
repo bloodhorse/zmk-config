@@ -4,18 +4,13 @@ from opt import SEATS, NAMES, GALLIUM, W, Model
 
 TWIN = """
 ] ё
-q б w л e д r ж t ц y й u х i о o у p , [ ъ
+q б w л e д r ш t ц y й u ж i о o у p , [ ю
 ` к a н s р d т f с g г h п j в k а l е ; и
-z э x ч c м v ш b з = щ - ю n ь m ф , я . ы / .
-"""
-MINE = """
-] ё
-q б w л e м r с t ш y ф u ю i а o у p , [ щ
-` к a н s р d т f ч g г h я j е k о l и ; в
-z п x й c д v з b ж = ц - ъ n э m х , ы . ь / .
+z х x щ c м v ч b з n ь m ф , я . ы / .
+alt+⏎ э chord ъ
 """
 YCUKEN = dict(zip("йцукенгшщзхфывапролджячсмитьбю.ъё", "qwertyuiop[asdfghjkl;zxcvbnm,./]`"))
-YCUKEN.update({"э": "=", ",": "-"})
+YCUKEN.update({"э": "alt+⏎", ",": "/"})
 
 
 def parse(s):
@@ -48,8 +43,7 @@ def main(subs, out="layout.html"):
         ta=m.t_a.tolist(), tb=m.t_b.tolist(), tc=m.t_c.tolist(), tf=r(m.t_f),
         lines=sample_lines(subs),
         presets={
-            "twin draft": dict(map=parse(TWIN), pins=list("стнр,.ёмлдпзбгфаеиоуйяы")),
-            "your four": dict(map=parse(MINE), pins=list("стнр,.ё")),
+            "twin draft": dict(map=parse(TWIN), pins=list("стнр,.ёмлдпзбгфаеиоуйяыэъ")),
             "йцукен": dict(map=YCUKEN, pins=[]),
         },
     )
