@@ -48,7 +48,7 @@ def main(subs, out="layout.html"):
         ta=m.t_a.tolist(), tb=m.t_b.tolist(), tc=m.t_c.tolist(), tf=r(m.t_f),
         lines=sample_lines(subs),
         presets={
-            "twin draft": dict(map=parse(TWIN), pins=list("стнр,.ёмлдпзбгфаеиоуй")),
+            "twin draft": dict(map=parse(TWIN), pins=list("стнр,.ёмлдпзбгфаеиоуйяы")),
             "your four": dict(map=parse(MINE), pins=list("стнр,.ё")),
             "йцукен": dict(map=YCUKEN, pins=[]),
         },
