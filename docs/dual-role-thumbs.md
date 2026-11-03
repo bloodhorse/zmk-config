@@ -26,13 +26,15 @@ Measurements come from [`../stats/keycount-2026-07.md`](../stats/keycount-2026-0
   layer edit, while slow typing makes the timer's misfire window cheap.
 - **`require-prior-idle-ms`** turns a hold-tap into tap-on-press when the
   previous key was recent. That removes felt latency inside a typing burst, at
-  the price of behavior that depends on how fast you were going. In use on
-  every door, paired with hold-preferred (below).
+  the price of behavior that depends on how fast you were going. Tried on
+  every door, with hold-preferred and with balanced, and dropped both times
+  (`board.md`): after a pause, rolls off Space came out as alt chords.
 - **Balanced loses fast hotkeys.** It reads a flick that lets go of the door
   before the target (door down, key down, door up, key up) as typing, and a
   quick chord ends before the term can rescue it. Hold-preferred takes the
-  hold the moment another key goes down; the prior-idle window is what keeps
-  that from turning prose rolls into chords.
+  hold the moment another key goes down, and only an idle window keeps that
+  from turning prose rolls into chords. Balanced is what's live; the flick is
+  its price.
 - **Karabiner's `to_if_alone` is stricter than ZMK**: any intervening key
   swallows the tap entirely. A Space→Command dual in Karabiner turns a fast
   roll into `cmd+letter` and no space, and `cmd+W`/`cmd+Q` are one roll away.

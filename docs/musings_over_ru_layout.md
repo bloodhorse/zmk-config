@@ -1,7 +1,9 @@
 # musings over the RU layout
 
 A custom ЙЦУКЕН `.keylayout` so that symbol keys give the same glyph regardless
-of which language macOS is in. **Built 2026-09-08, not yet cut over** — pick up
+of which language macOS is in. **Built, never cut over**, and since then
+Russian Gallium (`russian-gallium.md`) took over the Russian question: this
+plan's generator is how that layout gets baked once it stops moving. Pick up
 from "Where it stands".
 
 ## The problem in one line
@@ -23,7 +25,7 @@ The keycodes with no Russian letter on them: the digit row `1`–`0`, `-`, `=`,
 sends** (see below). Anything we want predictable across languages has to
 arrive on one of these.
 
-## What was measured (2026-09-08)
+## What was measured
 
 Everything here comes from asking macOS itself — `keylayout/dumplayout.swift`
 runs UCKeyTranslate over all 128 virtual keycodes × 32 modifier states for a
@@ -76,12 +78,12 @@ Three mechanisms, each used where it is the cheapest correct one:
    `international1 → shift+slash`, `international3 → shift+semicolon`,
    `keypad_comma → shift+quote`, `non_us_backslash → semicolon`. Under ABC
    the same spare produces the same glyph the RU layout gives it. The pair is
-   what makes a spare-fed symbol uniform. **Live since 2026-09-08, inert until
-   a layer sends those usages.**
+   what makes a spare-fed symbol uniform. **Live, inert until a layer sends
+   those usages.**
 
 The two halves meet on the board: a layer cell that sends `INT_RO` types `?`
-in both languages. Base pos 35 (today `LS(N7)` + Karabiner rule 12) becomes
-`INT_RO` at cutover — and rule 12 goes, because with RU shift+7 now `&`, that
+in both languages. Base pos 35 (today `LS(N7)` + the `shift+7 → ?` Karabiner rule) becomes
+`INT_RO` at cutover — and that rule goes, because with RU shift+7 now `&`, that
 rule was the last thing making EN shift+7 differ from RU.
 
 Rejected on the way, for the record: alt+digit as a symbol layer (AeroSpace
@@ -116,12 +118,12 @@ the spares make it unnecessary).
   That was learned by knocking bekh into Russian for ten seconds.
 - **Cutover / rollback are one command each:** `keylayout/cutover.sh`
   (verify → enable new, select ABC, disable RussianWin → Karabiner id refs +
-  drop rule 12, committed and pushed → board pos 35 `INT_RO`) and
+  drop the `shift+7 → ?` rule, committed and pushed → board pos 35 `INT_RO`) and
   `keylayout/rollback.sh` (board back to `LS(N7)` → `git revert` the cutover
   commit → RussianWin back on, RussianWinPlus off). The bundle stays installed
   either way; removing it would need another logout to mean anything.
 
-## Why the unshifted row got reverted (2026-09-02)
+## Why the unshifted row got reverted
 
 The row ran as unshifted `! @ # $ % ^ & * ( )` for an evening. It fell to
 cmd+digit: bekh uses cmd+1…9 constantly (tabs, workspaces), and a seat that
@@ -139,19 +141,21 @@ sends shift+digit makes that cmd+shift+digit. Two fixes exist, neither free:
 bekh's call: not ready to solve it, revert to digits, decide later. The
 mod-morph is the answer when he is.
 
-## Where it stands (2026-09-08)
+## Where it stands
 
-- **Bundle built, validated, installed to `~/Library/Keyboard Layouts`, not
-  yet visible** — this login session predates the install. The next step is
-  bekh's: **log out, log in, run `keylayout/verify.sh`**. MATCH → run
-  `keylayout/cutover.sh`. Anything else → stop, read the cells it prints.
-- Karabiner half of the spares is live (rule 0). Rule 12 (`shift+7 → ?`) is
-  still in place until cutover removes it.
-- Board: base pos 35 is still `LS(N7)`; cutover rebinds it to `INT_RO` and
-  the mirror in `config/lily58.keymap` must follow by hand. `shit` layer row 1
-  already carries shift+digit cells (`RS(N7)` on the `&` seat to dodge rule
-  12 — once rule 12 is gone that dodge is cosmetic; leave it or normalise to
-  `LS(N7)`, either verifies).
+- **Bundle built, validated, installed to `~/Library/Keyboard Layouts`, still
+  not visible** (`keylayout/tis list` doesn't show it): no login session since
+  the install has been checked. The step is bekh's: **log out, log in, run
+  `keylayout/verify.sh`**. MATCH → `keylayout/cutover.sh`. Anything else →
+  stop, read the cells it prints. But the delta was drawn for RussianWin's
+  letters; with Russian Gallium live, regenerate against that layout first.
+- Karabiner half of the spares is live ("Lily58 spares → EN symbols"). The
+  `shift+7 → ?` rule is still in place until cutover removes it.
+- Board: base pos 35 is still `mtb280 F20 LS(N7)`; cutover rebinds its tap to
+  `INT_RO` (a `set`, not a `kp`: the hold stays) and the mirror in
+  `config/lily58.keymap` must follow by hand. The old `shit` layer's
+  shift+digit cells are gone; shit's digits are Karabiner's F-row media rule
+  now (`layers.md`).
 - Not bound anywhere yet, both free to place on a layer whenever: `KP_SLASH`
   (uniform `/`), and the spares `INT_YEN` `KP_COMMA` `NON_US_BSLH` for
   uniform `: " ;`. `INT_RO` takes pos 35 at cutover.

@@ -6,10 +6,13 @@ Usage:
   .venv/bin/python tools/zmkctl.py get L POS      # read one key
   .venv/bin/python tools/zmkctl.py verify         # MATCH/MISMATCH vs the keymap file
   .venv/bin/python tools/zmkctl.py behaviors      # id + node name of every behavior on the board
+  .venv/bin/python tools/zmkctl.py kp L POS NAME|0x…    # plain key press + save
+  .venv/bin/python tools/zmkctl.py trans L POS…         # back to transparent + save
   .venv/bin/python tools/zmkctl.py set L POS NODE_NAME P1 P2   # bind custom behavior + save
-      e.g. set 0 53 layer_tap_balanced_320 1 SPACE   (tune the Space hold term)
+      e.g. set 0 53 mod_tap_balanced_320 LALT SPACE   (tune the Space hold term)
 
-The board must be free (ZMK Studio GUI disconnected) and unlocked.
+The board must be free (ZMK Studio GUI killed, see CLAUDE.md) and unlocked.
+In a dump a hold-tap reads hold/tap: `LAlt/Spc`, `F20/``, `L2/Ret` (L = layer).
 Positions are keymap indices, row-major:
   0-11 num row | 12-23 top | 24-35 home | 36-49 bottom row incl. the two
   center keys at 42 (left) / 43 (right) | 50-57 thumbs.
@@ -44,6 +47,10 @@ HID = {
     65: "F8", 66: "F9", 67: "F10", 68: "F11", 69: "F12",
     74: "Home", 75: "PgUp", 76: "Del", 77: "End", 78: "PgDn",
     79: "→", 80: "←", 81: "↓", 82: "↑",
+    84: "KP/", 85: "KP*", 86: "KP-", 87: "KP+", 88: "KPRet", 99: "KP.", 103: "KP=",
+    **{104 + i: f"F{13 + i}" for i in range(12)},
+    **{89 + i: f"KP{(i + 1) % 10}" for i in range(10)},
+    0xCE: "KP@",
     224: "LCtl", 225: "LSft", 226: "LAlt", 227: "LGui",
     228: "RCtl", 229: "RSft", 230: "RAlt", 231: "RGui",
 }
@@ -51,30 +58,38 @@ HID = {
 MODS = {1: "LC", 2: "LS", 4: "LA", 8: "LG", 16: "RC", 32: "RS", 64: "RA", 128: "RG"}
 
 
+def _usage_label(page, usage, mods):
+    name = HID.get(usage, f"p{page}u{usage}")
+    prefix = "+".join(v for k, v in MODS.items() if mods & k)
+    return f"{prefix}({name})" if prefix else name
+
+
 def label(behavior):
+    import re
     s = str(behavior)
-    if "NoBehavior" in s:
+    if "NoBehavior" in s or "Unknown { behavior_id: 0" in s:
         return "✗"
     if "Transparent" in s:
         return "▽"
-    if "KeyPress" in s:
-        import re
-        m = re.search(r"page: (\d+), id: (\d+), modifiers: (\d+)", s)
-        if m:
-            page, usage, mods = int(m.group(1)), int(m.group(2)), int(m.group(3))
-            name = HID.get(usage, f"p{page}u{usage}")
-            prefix = "+".join(v for k, v in MODS.items() if mods & k)
-            return f"{prefix}({name})" if prefix else name
+    usages = [_usage_label(*map(int, g)) for g in re.findall(r"page: (\d+), id: (\d+), modifiers: (\d+)", s)]
+    if "KeyPress" in s and usages:
+        return usages[0]
     if "MomentaryLayer" in s:
-        import re
         m = re.search(r"MomentaryLayer.*?(\d+)", s)
         return f"mo{m.group(1)}" if m else "mo?"
     if "ToggleLayer" in s:
-        import re
         m = re.search(r"ToggleLayer.*?(\d+)", s)
         return f"tog{m.group(1)}" if m else "tog?"
-    if "LayerTap" in s or "ModTap" in s or "StickyLayer" in s or "CapsWord" in s:
-        return s[:18]
+    # hold-taps, ours (Custom) or stock: hold/tap, a layer hold as L<n>
+    layer = re.search(r"LayerId\((\d+)\)|layer_id: (\d+)", s)
+    if layer:
+        hold = f"L{layer.group(1) or layer.group(2)}"
+        return f"{hold}/{usages[0]}" if usages else hold
+    if len(usages) == 2:
+        return f"{usages[0]}/{usages[1]}"
+    if "Bluetooth" in s:
+        m = re.search(r"Bluetooth\w*\((\w+)", s)
+        return f"bt:{m.group(1)[:5]}" if m else "bt"
     return s[:14]
 
 
@@ -105,8 +120,8 @@ def dump(client, max_layers=10):
             continue
         print(f"=== layer {layer} ===")
         for name, left, right in ROWS:
-            l = " ".join(f"{cells[p]:>7}" for p in left)
-            r = " ".join(f"{cells[p]:>7}" for p in right)
+            l = " ".join(f"{cells[p]:>8}" for p in left)
+            r = " ".join(f"{cells[p]:>8}" for p in right)
             print(f"{name} {l}   |   {r}")
         print()
 

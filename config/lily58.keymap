@@ -236,7 +236,7 @@
         heaven_layer {
 // ------------------------------------------------------------------------------------------------------------
 // |       |     | KP@ |      |      |      |                   |BT_CLR|BT_SEL0|BT_PRV |BT_NXT|   ]   |  KP+  |
-// |       |     |     |      |      |      |                   |LA(J) |LA+LG(Y)|  ^   |      |       |       |
+// |       |     |     |      |      |      |                   |LA(Y) |LA+LG(U)|  ^   |      |       |       |
 // |       |     |     |      |      |      |                   |LA(<-)|  <-   |   v   |  ->  |LA(->) |       |
 // |       |     |     |      |      |      |        |  |       | F13  |  F18  |   |   |LG(I) |   K   |       |
 //                      |      |      |      |    `   |  |   '   | tog1 |  DEL  |       |
@@ -271,7 +271,7 @@
         };
 
         fuck_layer {
-// Empty. The doors (pos 24, pos 35) no longer open it: they hold F20 (mtp150),
+// Empty. The doors (pos 24, pos 35) no longer open it: they hold F20 (mtb280),
 // and hyprshit's shitd reads held F20 as its own modifier, fuck (config/keys
 // there); the mini's keyd reads it as a layer of its own. Kept so slot ids stay.
             display-name = "FUCK";

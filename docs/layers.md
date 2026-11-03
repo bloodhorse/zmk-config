@@ -61,15 +61,15 @@ What sits on it (Gallium names):
   click, media key or modifier between, spelled with the modifiers held at
   release. A bare tap does nothing: it flipped caps by accident. The mini
   does the same in keyd: `f19 = overload(shit, capslock)` in `[sup:M]`, with
-  `overload_tap_timeout = 500`. It's not a board hold-tap on purpose: the
-  doors' prior-idle window would turn a shit chord right after typing into a
-  tap and flip caps.
+  `overload_tap_timeout = 500`. It's not a board hold-tap on purpose: a
+  balanced hold-tap reads a flick that lets go of F19 before the key as a
+  tap, and every such shit chord would flip caps.
 - Volume stays on the rotary encoder, bound on every layer.
 
 **The F-row rule:** one key that fires something is an F-key wire; anything
 pressed as a combination is an `alt-`/`fuck-`/`shit-` line in `config/keys`.
-F13 is dictation, F18 neru's hints and gamevoice's push-to-talk, F19 shit,
-F20 fuck; F14–F17 are free.
+F13 is dictation, F17 the pad's couch key (dictate room), F18 neru's hints,
+F19 shit, F20 fuck; F14–F16 are free.
 
 A key that becomes a hold is eaten under **every** modifier, so it needs a key
 nothing uses at all, bare or chorded. The spare keycodes in

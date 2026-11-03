@@ -18,13 +18,13 @@ no save command after a key write, so it should hold across a replug; not proven
 | key | sends | for |
 |---|---|---|
 | 0 (left) | F17 | the couch key: a take for the talk-engine room (`f17 dictate room` in hyprshit's `config/keys`) |
-| 1 | F13 | VoiceInk |
+| 1 | F13 | dictate toggle (hyprshit's `dictated`) |
 | 2 | F18 | neru's hints |
 | 16-18 | macros 14, 12, 15 | the knob, probably; untouched |
 | 19-21 | mute, vol up, vol down | the knob |
 
 Key 0 was macro 0 before F17. Before giving it a new key, check `docs/chords.txt` and the F-row
-owners: F13 VoiceInk, F18 neru, F19 the lily's shit, F20 fuck. F16 and F17 were the free ones;
+owners: F13 dictate, F18 neru, F19 the lily's shit, F20 fuck. F16 and F17 were the free ones;
 F17 is the pad's now. F14/F15 are brightness on some keyboards, stay off them.
 
 ## the protocol
