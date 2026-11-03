@@ -17,11 +17,11 @@ Drawn as physical keys (`opt.py` prints the same picture):
                                   ъ
     б л д ш ц     й ж о у , ю
   к н р т с г     п в а е и
-    х щ м ч з     ь ф я ы .
+    х щ м ч з     ь ф ы я .
              alt+⏎ э
 ```
 
-Score 269.8 against ЙЦУКЕН's 861 on the same board (lower is better; the units are
+Score 265.4 against ЙЦУКЕН's 861 on the same board (lower is better; the units are
 made up and only compare layouts). All 12 annealing restarts converge on it, so it's the
 optimum under the current pins.
 
@@ -36,8 +36,9 @@ optimum under the current pins.
   р on Gallium p by look (+14 to +20, the most expensive move tried), в on v (+17),
   к on its twin k (+23, "ск" piles onto one finger).
 - **`,` and `.`** stay on Gallium's own comma and period keys, same as English.
-- **я and ы are swapped against the numbers** (+4.7, "ая"/"оя" land on one finger), by
-  feel. Pinned so the optimizer can't undo it.
+- **я and ы sit where the optimizer put them**, я on the ring, ы on the middle. Swapping
+  them by feel was tried and undone: +4.5, nearly all of it same-finger pairs, because the
+  middle finger already carries о and а, so "ая", "оя", "моя" hit it twice in a row.
 - **к on the left outer home key** (the `` ` `` / F20 hold-tap). bekh likes that key and the
   pinky stretch costs him nothing, so it's priced like a home key (1.8). The optimizer
   then chose к for it, its best seat by numbers (every other seat +3 to +34). A letter on a
@@ -63,7 +64,7 @@ optimum under the current pins.
 - presets: the twin draft (the layout above) and ЙЦУКЕН for comparison
 - the typing pad: real subtitle lines, type on the board in either input source, the next
   key glows. alt+⏎ types э.
-- state persists in `localStorage["rulayout3"]`; bump the key when a preset changes or the
+- state persists in `localStorage["rulayout4"]`; bump the key when a preset changes or the
   page keeps showing the old one
 
 ## The machinery
@@ -94,7 +95,7 @@ optimum under the current pins.
 - `compare.py`: scores ЙЦУКЕН, Диктор, Зубачёв and Редактор on this board against ours and
   the unpinned optimum (tables from monkeytype's `frontend/static/layouts/*.json`; Диктор
   checked against its author's `.klc`). It adds the right outer home key as a seat for
-  their 11th column. Today: free optimum 229.5, ours 269.8, Зубачёв 339, Редактор 348,
+  their 11th column. Today: free optimum 229.5, ours 265.4, Зубачёв 339, Редактор 348,
   Диктор 350, ЙЦУКЕН 861. The alternatives carry 2–2.5× our same-finger load. They were
   tuned for row-staggered boards and other metrics (Диктор rewards hand alternation), so
   the same-finger column is the fair comparison, not the total.
