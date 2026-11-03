@@ -168,6 +168,10 @@ Next, each waiting on bekh's go:
 
 Open:
 
+- **GitHub Actions is switched off on the repo** (the fork banner on the
+  Actions tab, `docs/board.md`): no firmware build and no keymap drawing
+  happens on push until bekh clicks re-enable there. Builds are a build-path
+  question until then.
 - **Not pressed through yet:** the Karabiner alt numpad, alt+`=` / alt+shift+`=` (shitd's launchers), every fuck
   and shit chord through the real board, mac and mini (only synthetic fuck-x
   and shit-x are seen firing; shit-x flipped caps). The alt on

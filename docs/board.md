@@ -139,6 +139,14 @@ bekh double-taps.
 
 ## Pushing the keymap
 
+- **GitHub can silently switch Actions off on this repo, because it's a
+  fork.** It did once ("Workflows are not currently being run on this fork due
+  to the scale of GitHub Actions usage"): pushes landed, nothing built, the
+  drawer never amended, and the API still reported Actions enabled; only a
+  `gh workflow run` (422, "Actions has been disabled") or the Actions tab's
+  banner tells. Before counting on a build, check
+  `gh run list --limit 1` shows a run for the latest push. The re-enable
+  button is on the repo's Actions tab, owner only; it has no API.
 - **The keymap-drawer Action rewrites the commit you just pushed.** On any push
   touching `config/*.keymap` it regenerates `keymap-drawer/lily58.{svg,yaml}`,
   amends them into your commit and force-pushes. After every keymap push, wait
