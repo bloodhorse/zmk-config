@@ -1,10 +1,11 @@
 # lily58-zmk
 
 bekh's Lily58 keyboard config, and the Karabiner half that turns its QWERTY
-scancodes into Gallium on the mac. Forked from mctechnology17's zmk-config, so
-most of the tree (corne, sofle, dongles, `src/`, `snippets/`) is upstream
-ballast. The parts that are actually ours are `config/lily58.keymap`,
-`tools/zmkctl.py`, `stats/` and `docs/`.
+scancodes into Gallium on the mac. Forked from mctechnology17's zmk-config and
+stripped to the Lily: `boards/shields/lily58` (his shield, with the nice_oled
+wiring) and `zephyr/module.yml` are what's left of upstream, the rest is ours:
+`config/lily58.*`, `tools/`, `docs/`, `stats/`, `russian-gallium/`,
+`keylayout/`, `pad/`.
 
 This file is also the front door for any keyboard question on bekh's desk: the
 global CLAUDE.md routes every session that touches keys, chords or bindings here.
