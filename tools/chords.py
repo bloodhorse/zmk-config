@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
 """Every global chord on the desk in one flat index: docs/chords.txt.
 
-Sources: hyprshit's keys, macOS's own shortcuts, iTerm's hotkey window, and
-docs/chords.hand for the claims no script can see. Chords are spelled the way
+Sources: hyprshit's keys, macOS's own shortcuts, iTerm's hotkey window,
+Karabiner's chord rules, and docs/chords.hand for the claims no script can see. Chords are spelled the way
 shitd spells them (alt-ctrl-shift-cmd-<key>), keys as the US layout types them,
 which is what everything after Karabiner's Gallium remap sees.
 """
+import json
 import os
 import plistlib
 import subprocess
@@ -143,6 +144,66 @@ def hand():
     return claims
 
 
+KARABINER = Path.home() / ".config/karabiner/karabiner.json"
+# the layout tables themselves, not claims
+KARABINER_SKIP = ("Gallium Colstag", "Gallium mod-combos", "Russian Gallium", "Colemak")
+GALLIUM = dict(zip("qwertyuiopasdfghjkl;zxcvbnm,./", "bldcvjyou,nrtsgphaeixqmwzkf';."))
+KB_MODS = {"command": "cmd", "option": "alt", "control": "ctrl", "shift": "shift"}
+KB_KEYS = {
+    "slash": "/", "return_or_enter": "return", "open_bracket": "[", "close_bracket": "]",
+    "semicolon": ";", "quote": "'", "comma": ",", "period": ".", "hyphen": "-",
+    "equal_sign": "=", "grave_accent_and_tilde": "`", "backslash": "\\", "spacebar": "space",
+    "escape": "esc", "delete_or_backspace": "delete", "delete_forward": "fdelete",
+    "left_arrow": "left", "right_arrow": "right", "up_arrow": "up", "down_arrow": "down",
+}
+
+
+def kb_key(code):
+    return KB_KEYS.get(code, code)
+
+
+def kb_mods(names):
+    return {KB_MODS[n.split("_")[-1]] for n in names if n.split("_")[-1] in KB_MODS}
+
+
+def kb_to(to):
+    out = []
+    for t in to:
+        if "shell_command" in t:
+            words = [w for w in t["shell_command"].split() if "=" not in w]
+            out.append("exec " + Path(words[0]).name if words else "exec")
+        elif "key_code" in t:
+            out.append("key " + spell(kb_mods(t.get("modifiers", [])), kb_key(t["key_code"])))
+        elif "set_variable" in t:
+            out.append(f"set {t['set_variable']['name']}")
+        elif "select_input_source" in t:
+            out.append("input source")
+    return ", ".join(dict.fromkeys(out)) or "?"
+
+
+def karabiner():
+    """Chords Karabiner rewrites before anyone else hears them. Rules above the Gallium
+    mod-combos see physical QWERTY, so their letters go through the table."""
+    d = json.loads(KARABINER.read_text())
+    prof = next((p for p in d["profiles"] if p.get("selected")), d["profiles"][0])
+    rules = prof.get("complex_modifications", {}).get("rules", [])
+    split = next((i for i, r in enumerate(rules) if r["description"].startswith("Gallium mod-combos")), len(rules))
+    claims = []
+    for i, r in enumerate(rules):
+        if not r.get("enabled", True) or r["description"].startswith(KARABINER_SKIP):
+            continue
+        for m in r["manipulators"]:
+            f = m.get("from", {})
+            mods = kb_mods(f.get("modifiers", {}).get("mandatory", []))
+            if "key_code" not in f or not mods or f["key_code"].split("_")[-1] in KB_MODS:
+                continue
+            key = kb_key(f["key_code"])
+            if i < split:
+                key = GALLIUM.get(key, key)
+            claims.append((spell(mods, key), "karabiner", kb_to(m.get("to", []))))
+    return list(dict.fromkeys(claims))
+
+
 def bare(chord):
     """The chord as shitd hears it: fn is ignored."""
     return chord.removeprefix("fn-")
@@ -153,7 +214,7 @@ def keyof(chord):
 
 
 def main():
-    claims = hyprshit() + macos() + iterm() + hand()
+    claims = hyprshit() + macos() + iterm() + karabiner() + hand()
     owners = defaultdict(set)
     for chord, owner, _ in claims:
         owners[bare(chord)].add((owner, _))

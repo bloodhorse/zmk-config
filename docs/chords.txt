@@ -21,11 +21,14 @@
    f20  none: held as a modifier, every chord on it is eaten
 
 ## everything else
+   alt-'                     karabiner key 2
    ctrl--                    hyprshit  key cmd--
+   alt-.                     karabiner key f13
    alt-0                     hyprshit  exec /Users/bekh/tower/forge/hyprshit/probes/tile-toggle.sh
    fuck-3                    hyprshit  exec screencapture -m ~/Desktop/"Screenshot $(date '+%Y-%m-%d at %H.%M.%S').png"
    fuck-ctrl-3               hyprshit  exec screencapture -m -c
-   shift-cmd-3               macos     screenshot to file #28 (default)
+!! shift-cmd-3               macos     screenshot to file #28 (default)
+!! shift-cmd-3               karabiner exec screencapture
    ctrl-shift-cmd-3          macos     screenshot to clipboard #29 (default)
    fuck-4                    hyprshit  key shift-cmd-4
    fuck-ctrl-4               hyprshit  key ctrl-shift-cmd-4
@@ -34,6 +37,9 @@
    alt-5                     hyprshit  ws five
    alt-shift-5               hyprshit  move five
    shift-cmd-5               macos     screenshot options #184 (default)
+   shift-6                   karabiner key shift-7
+   shift-7                   karabiner key shift-/
+   alt-;                     karabiner key 3
    alt-=                     hyprshit  launch apps
    cmd-=                     hyprshit  launch tray
    ctrl-=                    hyprshit  key cmd-=
@@ -47,6 +53,7 @@
    alt-`                     hyprshit  ws special
    cmd-`                     macos     next window #27 (default)
    alt-shift-`               hyprshit  move special
+   alt-a                     karabiner key 5
    shit-b                    hyprshit  bind
    fn-ctrl-c                 macos     window tiling #238
    alt-shift-c               hyprshit  swap
@@ -54,16 +61,22 @@
    fuck-d                    hyprshit  exec /Users/bekh/bin/display-dim-toggle --nameLike=Built-in
    shit-d                    hyprshit  key cmd-up
    ctrl-down                 macos     app windows #33 (default)
+   alt-e                     karabiner key 6
    fuck-e                    hyprshit  app com.apple.finder
    alt-shift-e               hyprshit  place right-half
    fuck-shift-e              hyprshit  exec osascript -e 'tell application "Finder" to close every window'
    alt-esc                   hyprshit  ws esc
    alt-shift-esc             hyprshit  move esc
+   ctrl-cmd-esc              karabiner key alt-cmd-esc
+   alt-f                     karabiner key 1
    fn-ctrl-f                 macos     window tiling #237
    f11                       macos     show desktop #36 (default)
+   alt-g                     karabiner key alt-ctrl-cmd-g
    fuck-g                    hyprshit  exec /Users/bekh/tower/forge/horsefriendwidget/poke focus
    fuck-alt-g                hyprshit  exec /Users/bekh/tower/forge/horsefriendwidget/poke travel
    alt-ctrl-cmd-g            hyprshit  launch clip
+   alt-h                     karabiner key 4
+   alt-cmd-h                 karabiner set gallium_off
    alt-shift-h               hyprshit  place left-half
    alt-j                     hyprshit  exec /Users/bekh/bin/jot-toggle.sh
    fuck-l                    hyprshit  exec /Users/bekh/bin/display-dim-toggle "--nameLike=Mi Monitor"
@@ -75,10 +88,14 @@
    alt-shift-m               hyprshit  app com.mimestream.Mimestream
    alt-n                     hyprshit  app company.thebrowser.Browser
    fuck-n                    hyprshit  summon company.thebrowser.Browser
+   alt-o                     karabiner key 8
    alt-shift-p               hyprshit  exec /Users/bekh/bin/span-play
+   ctrl-shift-p              karabiner exec tts-ctl
    fn-q                      macos     quick note #190 (default)
    shit-q                    hyprshit  key ctrl-e
+   alt-r                     hyprshit  app org.bloodhorse.riffloop.spike
    fn-ctrl-r                 macos     window tiling #239
+   alt-return                karabiner key '
    ctrl-right                hyprshit  ws next
    fn-alt-ctrl-right         macos     window tiling #241
    alt-s                     hyprshit  app com.bekh.bare
@@ -88,14 +105,20 @@
    fuck-space                hyprshit  ws special
    alt-cmd-space             macos     finder search #65 (default)
    alt-shift-space           hyprshit  launch menu
+   alt-t                     karabiner key alt-ctrl-cmd-t
    shit-t                    hyprshit  key cmd-a
    alt-ctrl-cmd-t            iterm     hotkey window (Hotkey Window)
    alt-tab                   hyprshit  launch windows
+   cmd-tab                   karabiner input source
+   alt-u                     karabiner key 9
    ctrl-up                   macos     mission control #32 (default)
    fn-alt-ctrl-up            macos     window tiling #245
+   alt-v                     karabiner key return
+   alt-shift-v               karabiner exec kvmtype
    alt-w                     hyprshit  app net.kovidgoyal.kitty
    fuck-w                    hyprshit  summon net.kovidgoyal.kitty
    shit-x                    hyprshit  caps
+   alt-y                     karabiner key 7
    alt-z                     hyprshit  place full
    alt-shift-z               hyprshit  app dev.zmk.studio
 
