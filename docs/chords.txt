@@ -84,8 +84,6 @@
    shit-m                    hyprshit  mode
    alt-cmd-m                 hyprshit  mode
    alt-shift-m               hyprshit  app com.mimestream.Mimestream
-   alt-n                     hyprshit  app com.bekh.arctic
-   fuck-n                    hyprshit  summon com.bekh.arctic
    alt-o                     karabiner key 8
    alt-shift-p               hyprshit  exec /Users/bekh/bin/span-play
    ctrl-shift-p              karabiner exec tts-ctl
