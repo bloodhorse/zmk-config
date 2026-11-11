@@ -72,8 +72,6 @@
    fn-ctrl-f                 macos     window tiling #237
    f11                       macos     show desktop #36 (default)
    alt-g                     karabiner key alt-ctrl-cmd-g
-   fuck-g                    hyprshit  exec /Users/bekh/tower/forge/horsefriendwidget/poke focus
-   fuck-alt-g                hyprshit  exec /Users/bekh/tower/forge/horsefriendwidget/poke travel
    alt-ctrl-cmd-g            hyprshit  launch clip
    alt-h                     karabiner key 4
    alt-cmd-h                 karabiner set gallium_off
@@ -86,13 +84,16 @@
    shit-m                    hyprshit  mode
    alt-cmd-m                 hyprshit  mode
    alt-shift-m               hyprshit  app com.mimestream.Mimestream
-   alt-n                     hyprshit  app company.thebrowser.Browser
-   fuck-n                    hyprshit  summon company.thebrowser.Browser
+   alt-n                     hyprshit  app com.bekh.arctic
+   fuck-n                    hyprshit  summon com.bekh.arctic
    alt-o                     karabiner key 8
    alt-shift-p               hyprshit  exec /Users/bekh/bin/span-play
    ctrl-shift-p              karabiner exec tts-ctl
    fn-q                      macos     quick note #190 (default)
+   cmd-q                     hyprshit  quit
    shit-q                    hyprshit  key ctrl-e
+   shift-cmd-q               hyprshit  quit hard
+   alt-shift-cmd-q           hyprshit  nop
    alt-r                     hyprshit  app org.bloodhorse.riffloop.spike
    fn-ctrl-r                 macos     window tiling #239
    alt-return                karabiner key '
