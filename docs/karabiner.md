@@ -95,6 +95,15 @@ window it stays cmd+[, and hyprshit's gated `cmd-[` catches that case.
 shift+cmd+[ (kitty's forward message jump). Without it, a held modifier makes the rule miss
 silently. The game F17 rule stays bare on purpose.
 
+## The back button in the browsers
+
+With bare, arctic or Arc frontmost, one rule above the two plain button5 rules (both links,
+cable and 2.4G) splits the button: a tap shorter than 250ms is cmd+[ (back), a longer hold is a
+held left cmd until release, which pops the browser's tab list (bare's own, shitd's over Arc) to
+pick a row with the left button, one-handed. `to_if_alone_timeout` equals the hold threshold on
+purpose: left at Karabiner's default 1000ms, a 300ms hold would fire both the list and back.
+The price is that back fires on release, not on press, and only in those three apps.
+
 ## The rules, and what's up for cleanup
 
 bekh wants the dead ones gone and hasn't picked them yet.
