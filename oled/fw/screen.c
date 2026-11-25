@@ -1,9 +1,10 @@
-// the whole screen: five patterns, a 50 ms tick, and each half's own keys driving it.
+// the whole screen: four patterns, a 50 ms tick, and both hands driving both halves.
 // a port of oled/live.js line for line; the emulator is where these get designed.
 #include <string.h>
 #include <zephyr/kernel.h>
 #include <zephyr/settings/settings.h>
 #include <lvgl.h>
+#include <zmk/behavior.h>
 #include <zmk/event_manager.h>
 #include <zmk/events/position_state_changed.h>
 #include "frames.h"
@@ -14,9 +15,9 @@
 #define TICK_MS 50
 #define BYTES (W * H / 8)
 
-enum { LIGHTNING, RAIN, WIRE, STARS, GEM, MODES };
+enum { STORM, WIRE, STARS, GEM, MODES };
 
-static uint8_t mode = IS_ENABLED(CONFIG_ZMK_SPLIT_ROLE_CENTRAL) ? LIGHTNING : GEM;
+static uint8_t mode = IS_ENABLED(CONFIG_ZMK_SPLIT_ROLE_CENTRAL) ? STORM : GEM;
 
 static uint8_t pix[BYTES], prev[BYTES];
 static uint8_t img_map[8 + BYTES] = {0xff, 0xff, 0xff, 0xff, 0x00, 0x00, 0x00, 0xff};
@@ -71,19 +72,73 @@ static void line(int x0, int y0, int x1, int y1, int fade) {
     }
 }
 
-// keys: the listener pushes, the tick pops. one producer, one consumer.
+// keys: the listener (and on the right half, the forwarded left hand) push, the tick pops.
 static uint8_t kq[32];
 static atomic_t kh, kt;
+static struct k_spinlock kq_lock;
+
+void oled_screen_key(uint8_t position) {
+    k_spinlock_key_t key = k_spin_lock(&kq_lock);
+    atomic_val_t h = atomic_get(&kh);
+    if (h - atomic_get(&kt) < (atomic_val_t)sizeof(kq)) {
+        kq[h & 31] = position;
+        atomic_set(&kh, h + 1);
+    }
+    k_spin_unlock(&kq_lock, key);
+}
+
+// the switcher, on the central, which sees both halves: a pinky held (fuck, pos 24 / 35)
+// plus 1 turns the left screen, plus 0 the right one, handed across as &scr_r.
+#define PINKY_L 24
+#define PINKY_R 35
+#define KEY_LEFT 1
+#define KEY_RIGHT 10
+#if IS_ENABLED(CONFIG_ZMK_SPLIT_ROLE_CENTRAL) && DT_NODE_EXISTS(DT_NODELABEL(scr_r))
+static uint8_t pinkies;
+
+static void switcher(const struct zmk_position_state_changed *ev) {
+    uint8_t bit = ev->position == PINKY_L ? 1 : ev->position == PINKY_R ? 2 : 0;
+    if (bit) {
+        pinkies = ev->state ? pinkies | bit : pinkies & ~bit;
+        return;
+    }
+    if (!ev->state || !pinkies)
+        return;
+    if (ev->position == KEY_LEFT) {
+        oled_screen_next();
+    } else if (ev->position == KEY_RIGHT) {
+        struct zmk_behavior_binding b = {.behavior_dev = DEVICE_DT_GET(DT_NODELABEL(scr_r))->name};
+        struct zmk_behavior_binding_event e = {.position = ev->position, .timestamp = ev->timestamp};
+        zmk_behavior_invoke_binding(&b, e, true);
+        zmk_behavior_invoke_binding(&b, e, false);
+    }
+}
+#else
+static void switcher(const struct zmk_position_state_changed *ev) {}
+#endif
 
 static int on_position(const zmk_event_t *eh) {
     const struct zmk_position_state_changed *ev = as_zmk_position_state_changed(eh);
-    if (ev && ev->state && ev->source == ZMK_POSITION_STATE_CHANGE_SOURCE_LOCAL) {
-        atomic_val_t h = atomic_get(&kh);
-        if (h - atomic_get(&kt) < (atomic_val_t)sizeof(kq)) {
-            kq[h & 31] = ev->position;
-            atomic_set(&kh, h + 1);
-        }
+    if (ev)
+        switcher(ev);
+    if (!ev || !ev->state)
+        return ZMK_EV_EVENT_BUBBLE;
+    bool local = ev->source == ZMK_POSITION_STATE_CHANGE_SOURCE_LOCAL;
+#if IS_ENABLED(CONFIG_ZMK_SPLIT_ROLE_CENTRAL)
+    // both hands drive both screens: the central hears everything, and hands its own
+    // presses across so the right half hears them too
+    oled_screen_key(ev->position);
+#if DT_NODE_EXISTS(DT_NODELABEL(scr_k))
+    if (local) {
+        struct zmk_behavior_binding b = {.behavior_dev = DEVICE_DT_GET(DT_NODELABEL(scr_k))->name};
+        struct zmk_behavior_binding_event e = {.position = ev->position, .timestamp = ev->timestamp};
+        zmk_behavior_invoke_binding(&b, e, true);
     }
+#endif
+#else
+    if (local)
+        oled_screen_key(ev->position);
+#endif
     return ZMK_EV_EVENT_BUBBLE;
 }
 ZMK_LISTENER(oled_keys, on_position);
@@ -119,8 +174,6 @@ static void rain_init(void) {
         drops[i].y = rnd(H + drops[i].len) * 16;
     }
 }
-
-static void rain_key(void) { boost = MIN(boost + 12, 112); }
 
 static void rain_step(void) {
     boost -= (boost + 15) >> 4;
@@ -159,7 +212,7 @@ static void rain_draw(void) {
 }
 
 // lightning
-#define STRIKE_EVERY 5
+#define STRIKE_EVERY 4
 #define SEGS 96
 static struct {
     uint8_t x0, y0, x1, y1, br;
@@ -307,16 +360,14 @@ static void tick(lv_timer_t *timer) {
         uint8_t code = kq[t & 31];
         atomic_set(&kt, t + 1);
         switch (m) {
-        case LIGHTNING: lightning_key(); break;
-        case RAIN: rain_key(); break;
+        case STORM: lightning_key(); break;
         case WIRE: wire_key(code); break;
         case STARS: stars_key(); break;
         }
     }
     memset(pix, 0, BYTES);
     switch (m) {
-    case LIGHTNING: lightning_step(); lightning_draw(); break;
-    case RAIN: rain_step(); rain_draw(); break;
+    case STORM: rain_step(); lightning_step(); rain_draw(); lightning_draw(); break;
     case WIRE: wire_step(); wire_draw(); break;
     case STARS: stars_step(); memcpy(pix, column_frames[sf], BYTES); break;
     case GEM: memcpy(pix, gem_frames[(k_uptime_get() / GEM_FRAME_MS) % GEM_FRAMES], BYTES); break;
@@ -328,8 +379,8 @@ static void tick(lv_timer_t *timer) {
     }
 }
 
-// the side keys: &scr_l / &scr_r land here on the matching half; the pick survives a reboot
-static void save_mode(struct k_work *work) { settings_save_one("oled/mode", &mode, sizeof(mode)); }
+// &scr_l / &scr_r (and the switcher above) land here on the matching half; the pick survives a reboot
+static void save_mode(struct k_work *work) { settings_save_one("oled/pick", &mode, sizeof(mode)); }
 static K_WORK_DELAYABLE_DEFINE(save_work, save_mode);
 
 void oled_screen_next(void) {
@@ -339,7 +390,7 @@ void oled_screen_next(void) {
 
 static int mode_set(const char *name, size_t len, settings_read_cb read_cb, void *cb_arg) {
     uint8_t m;
-    if (settings_name_steq(name, "mode", NULL) && len == 1 && read_cb(cb_arg, &m, 1) == 1 &&
+    if (settings_name_steq(name, "pick", NULL) && len == 1 && read_cb(cb_arg, &m, 1) == 1 &&
         m < MODES)
         mode = m;
     return 0;

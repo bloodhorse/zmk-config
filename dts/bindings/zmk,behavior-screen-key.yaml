@@ -1,0 +1,5 @@
+description: A key the central forwards to the peripheral's OLED (oled/fw/behavior_screen_key.c)
+
+compatible: "zmk,behavior-screen-key"
+
+include: zero_param.yaml

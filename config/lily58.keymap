@@ -203,6 +203,12 @@
             side = <1>;
             display-name = "Right Screen";
         };
+        // never bound: the central forwards its own presses through it, so the
+        // right OLED hears the left hand too (oled/fw/behavior_screen_key.c)
+        scr_k: scr_k {
+            compatible = "zmk,behavior-screen-key";
+            #binding-cells = <0>;
+        };
     };
 
     keymap {
@@ -213,11 +219,10 @@
 // |  ESC  |  1  |  2  |  3   |  4   |  5   |                   |  6   |  7    |  8    |  9   |   0   |   ]   |
 // |  TAB  |  Q  |  W  |  E   |  R   |  T   |                   |  Y   |  U    |  I    |  O   |   P   |   [   |
 // | ~/FUCK|  A  |  S  |  D   |  F   |  G   |                   |  H   |  J    |  K    |  L   |   ;   |?/FUCK |
-// | SCR_L |  Z  |  X  |  C   |  V   |  B   |   =    |  |   -   |  N   |  M    |  ,    |  .   |   /   | SCR_R |
+// | SHIFT |  Z  |  X  |  C   |  V   |  B   |   =    |  |   -   |  N   |  M    |  ,    |  .   |   /   | SHIFT |
 //                      | SHIT |LCTRL | LGUI |SPC/ALT |  |RET/HVN| RGUI | BSPC  | SHIT  |
 //
-// the shifts are the screen keys for now (bekh's call, "how I roll for a while"):
-// a tap is the next pattern on that side's OLED.
+// the screens switch on fuck+1 (left) and fuck+0 (right), watched in oled/fw/screen.c.
 // pos 35 '?' is LS(N7), the ЙЦУКЕН chord on one key; Karabiner's EN-gated
 // shift+7 -> ? covers English. It had to be a modifier seat: every symbol
 // seat is a live Cyrillic letter under ЙЦУКЕН.
@@ -226,7 +231,7 @@
 &kp ESC   &kp N1 &kp N2 &kp N3   &kp N4   &kp N5                        &kp N6 &kp N7   &kp N8    &kp N9  &kp N0   &kp RBKT
 &kp TAB   &kp Q  &kp W  &kp E    &kp R    &kp T                         &kp Y  &kp U    &kp I     &kp O   &kp P    &kp LBKT
 &mtb280 F20 GRAVE &kp A &kp S &kp D &kp F  &kp G                         &kp H  &kp J    &kp K     &kp L   &kp SEMI &mtb280 F20 LS(N7)
-&scr_l    &kp Z  &kp X  &kp C    &kp V    &kp B  &kp EQUAL   &kp MINUS  &kp N  &kp M    &kp COMMA &kp DOT &kp FSLH &scr_r
+&kp LSHFT &kp Z  &kp X  &kp C    &kp V    &kp B  &kp EQUAL   &kp MINUS  &kp N  &kp M    &kp COMMA &kp DOT &kp FSLH &kp RSHFT
                         &kp F19  &kp LCTRL &kp LGUI &mtb280 LALT SPACE &ltb280 2 RET &kp RGUI &kp BSPC &kp F19
             >;
 
