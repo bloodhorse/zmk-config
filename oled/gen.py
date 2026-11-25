@@ -96,7 +96,44 @@ def spin(over, turn_s, fps, stroke=2.0):
     return dict(fps=fps, frames=frames)
 
 
+def gem_frames():
+    # nice_oled's crystal: 16 frames of 69x68, indexed 1-bit, index 1 lit
+    import re
+    src = pathlib.Path(__file__).with_name("assets").joinpath("crystal.c").read_text()
+    out = []
+    for body in re.findall(r"crystal_\d\d_map\[\] = \{(.*?)\};", src, re.S):
+        body = re.sub(r"#if.*?#endif", "", body, flags=re.S)
+        b = [int(x, 16) for x in re.findall(r"0x[0-9a-fA-F]{2}", body)]
+        im = Image.new("L", (69, 68), 0)
+        im.putdata([255 if (b[y * 9 + (x >> 3)] >> (7 - (x & 7))) & 1 else 0 for y in range(68) for x in range(69)])
+        out.append(im)
+    return out
+
+
+def gem(length=1.0, width=1.0):
+    # its long axis runs down the strip, the way the old peripheral screen showed it
+    frames = []
+    for g in gem_frames():
+        g = g.rotate(90, expand=True)
+        if (length, width) != (1.0, 1.0):
+            g = g.resize((round(g.width * width * SS), round(g.height * length * SS)), Image.LANCZOS)
+            g = g.resize((round(g.width / SS), round(g.height / SS)), Image.LANCZOS)
+        im = Image.new("L", (W, H), 0)
+        im.paste(g, ((W - g.width) // 2, (H - g.height) // 2))
+        px = im.load()
+        out = bytearray(W * H // 8)
+        for y in range(H):
+            for x in range(W):
+                if px[x, y] > 100:
+                    i = y * W + x
+                    out[i >> 3] |= 0x80 >> (i & 7)
+        frames.append(base64.b64encode(bytes(out)).decode())
+    return dict(fps=round(16 / 0.96), frames=frames)
+
+
 ANIMS = {
+    "gem": gem(),
+    "gem-tall": gem(length=1.45, width=0.88),
     **{
         f"spin-{int(over * 100)}%-{turn}s": spin(over, turn, fps)
         for over in (0.15, 0.35)

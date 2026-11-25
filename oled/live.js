@@ -55,7 +55,7 @@ const rain = {
   info: s => `wind ${(1 + s.boost / 16).toFixed(1)}×`,
 };
 
-// lightning: a still sky with a few specks drifting down, and your keys call the bolts:
+// lightning: a black glass, and your keys call the bolts:
 // each press strikes with a chance of one in `every`, so it lands about every Nth key, never on the beat.
 function bolt(s) {
   const r = s.r, segs = [];
@@ -72,25 +72,15 @@ function bolt(s) {
   s.segs = segs;
 }
 const lightning = {
-  init(r) {
-    const s = { r, every: 10, t: -1, segs: [], force: false, specks: [] };
-    for (let i = 0; i < 7; i++) s.specks.push({ x: r(W), y: r(H), wait: r(80) });
-    return s;
-  },
+  init(r) { return { r, every: 10, t: -1, segs: [], force: false }; },
   key(s) { if (s.r(s.every) === 0) s.force = true; },
   strike(s) { s.force = true; },
   step(s) {
     const r = s.r;
-    for (const p of s.specks) if (--p.wait <= 0) {
-      p.y = (p.y + 1) % H;
-      if (r(4) === 0) p.x = (p.x + W + r(3) - 1) % W;
-      p.wait = 50 + r(60);
-    }
     if (s.t >= 0) { if (++s.t > 16) s.t = -1; }
     else if (s.force) { s.force = false; bolt(s); s.t = 0; }
   },
   draw(s, b) {
-    for (const p of s.specks) put(b, p.x, p.y);
     const t = s.t, r = s.r;
     if (t < 0 || t === 1 || t === 4) return;
     if (t === 0) for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) if (((x + 3 * y) & 7) === 0) put(b, x, y);
@@ -130,7 +120,32 @@ const wire = {
   info: s => `queue ${s.queue.length}`,
 };
 
-window.LIVE = { wire, lightning, rain };
+// stars: the baked column of three, turned by your hands: a key is a frame (5 degrees).
+// at rest it creeps a frame a minute, so nothing sits on the same pixels till the screen blanks.
+const CREEP = 1200;
+let columnFrames = null;
+function column() {
+  if (columnFrames) return columnFrames;
+  const a = window.ANIMS.anims['star-column'];
+  return columnFrames = a.frames.map(b64 => {
+    const t = atob(b64), bits = new Uint8Array(W * H);
+    for (let i = 0; i < W * H; i++) bits[i] = (t.charCodeAt(i >> 3) >> (7 - (i & 7))) & 1;
+    return bits;
+  });
+}
+const stars = {
+  init(r) { return { r, f: 0, pending: 0, idle: 0 }; },
+  key(s) { if (s.pending < 72) s.pending++; },
+  step(s) {
+    const n = column().length;
+    if (s.pending) { s.pending--; s.f = (s.f + 1) % n; s.idle = 0; }
+    else if (++s.idle >= CREEP) { s.idle = 0; s.f = (s.f + 1) % n; }
+  },
+  draw(s, b) { b.set(column()[s.f]); },
+  info: s => `frame ${s.f}/${column().length}`,
+};
+
+window.LIVE = { lightning, rain, wire, stars };
 window.LIVE_TICK = TICK;
 window.LIVE_XS = xs;
 })();

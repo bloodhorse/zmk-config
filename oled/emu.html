@@ -40,15 +40,16 @@
     <label>glow <input id="glow" type="range" min="0" max="1" step="0.05" value="0.55"></label>
     <label><span>burn map</span><input id="burn" type="checkbox"></label>
     <label>strike every <input id="every" type="range" min="2" max="100" step="1" value="10"><span id="everyv" class="k">10</span></label>
+    <label><span>each hand drives its own screen</span><input id="hands" type="checkbox" checked></label>
     <label><span>typist (simulated hands)</span><input id="typist" type="checkbox"></label>
     <div><button id="play">pause</button> <button id="step">step</button> <button id="strike">strike</button> <button id="reset">reset</button></div>
-    <div id="keys">type anywhere: keys hit both screens</div>
+    <div id="keys">type anywhere: these are your keys</div>
     <div id="info"></div>
     <div style="color:#555">esc pause · → step · the burn map of a live screen counts since reset; warp the speed to live a day</div>
   </div>
 </div>
-<script src="frames.js?v=2"></script>
-<script src="live.js?v=2"></script>
+<script src="frames.js?v=3"></script>
+<script src="live.js?v=3"></script>
 <script>
 const D = window.ANIMS, W = D.w, H = D.h, LIVE = window.LIVE, TICK = window.LIVE_TICK;
 const $ = id => document.getElementById(id);
@@ -78,8 +79,8 @@ for (const sel of [$('al'), $('ar')]) {
   sel.append(live, baked);
 }
 const saved = JSON.parse(localStorage.oledEmu || '{}');
-$('al').value = names.includes(saved.al) ? saved.al : 'wire';
-$('ar').value = names.includes(saved.ar) ? saved.ar : 'rain';
+$('al').value = names.includes(saved.al) ? saved.al : 'lightning';
+$('ar').value = names.includes(saved.ar) ? saved.ar : 'gem-tall';
 if (saved.col) $('col').value = saved.col;
 if (saved.every) { $('every').value = saved.every; $('everyv').textContent = saved.every; }
 const save = () => localStorage.oledEmu = JSON.stringify({ al: $('al').value, ar: $('ar').value, col: $('col').value, every: $('every').value });
@@ -187,14 +188,27 @@ function schedule() {
   else { typist.burst = 3 + (r() * 40 | 0); typist.next += r() < 0.75 ? 800 + r() * 7000 : 15000 + r() * 90000; }
 }
 let flashT = 0;
-function press(code) {
+// the board's halves: the right one only hears its own keys. letters by gallium column.
+const LEFT_KEYS = new Set('`12345blndcvrtsgxqmwz');
+const RIGHT_KEYS = new Set("67890-=jyou,phaeik f';.[]/\\".replace(' ', ''));
+function handOf(e) {
+  const k = e.key.toLowerCase();
+  if (LEFT_KEYS.has(k) || e.key === 'Tab' || e.key === 'Escape') return 'l';
+  if (RIGHT_KEYS.has(k) || e.key === 'Backspace') return 'r';
+  return null;
+}
+function press(code, hand) {
   typed++;
-  for (const s of Object.values(sides)) if (s.st) LIVE[s.name].key(s.st, code);
+  for (const [k, s] of Object.entries(sides)) {
+    if (!s.st) continue;
+    if ($('hands').checked && hand && hand !== k) continue;
+    LIVE[s.name].key(s.st, code);
+  }
   if (performance.now() - flashT > 60) { flashT = performance.now(); $('keys').classList.add('hit'); setTimeout(() => $('keys').classList.remove('hit'), 80); }
 }
 function tickLive() {
   simT += TICK;
-  while ($('typist').checked && typist.next <= simT) { press((Math.random() * 64) | 0); schedule(); }
+  while ($('typist').checked && typist.next <= simT) { press((Math.random() * 64) | 0, Math.random() < 0.5 ? 'l' : 'r'); schedule(); }
   for (const s of Object.values(sides)) if (s.st) {
     const L = LIVE[s.name];
     L.step(s.st); s.bits.fill(0); L.draw(s.st, s.bits);
@@ -236,6 +250,7 @@ $('every').oninput = () => {
   for (const s of Object.values(sides)) if (s.st && 'every' in s.st) s.st.every = +$('every').value;
 };
 $('every').onchange = () => $('every').blur();
+$('hands').onchange = () => $('hands').blur();
 $('typist').onchange = () => { typist.next = simT; $('typist').blur(); };
 $('play').onclick = () => { playing = !playing; $('play').textContent = playing ? 'pause' : 'play'; $('play').blur(); };
 $('step').onclick = () => { T += TICK; tickLive(); draw(); $('step').blur(); };
@@ -247,7 +262,7 @@ addEventListener('keydown', e => {
   if (e.key === 'ArrowRight') { $('step').click(); return; }
   if (e.repeat || e.metaKey || e.ctrlKey) return;
   e.preventDefault();
-  press(hash(e.code));
+  press(hash(e.code), handOf(e));
 });
 reset(); requestAnimationFrame(tick);
 </script>
