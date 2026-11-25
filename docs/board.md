@@ -135,6 +135,10 @@ work happens with the left half on USB. The bootloader mounts as
 The board can't be read once it's in bootloader mode, so run `verify` before
 bekh double-taps.
 
+- **A copy the instant the drive appears is refused** (`cp: Permission
+  denied`): macOS hasn't finished mounting it. `make flash` waits 2 s after
+  the mount; a hand copy a few seconds later goes through.
+
 ## Traps
 
 - **A `trans` over a whole layer (58 cells) can time out on the save**

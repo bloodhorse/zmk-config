@@ -12,7 +12,7 @@ flash: flash_left flash_right
 
 flash_left flash_right: flash_%:
 	@printf "double-tap reset on the $* half, waiting for $(MOUNT).."
-	@while [ ! -d $(MOUNT) ]; do sleep 1; printf "."; done; printf "\n"
+	@while [ ! -d $(MOUNT) ]; do sleep 1; printf "."; done; printf "\n"; sleep 2
 	cp -vX firmware/lily58_$*.uf2 $(MOUNT)
 	@while [ -d $(MOUNT) ]; do sleep 1; done
 
