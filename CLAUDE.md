@@ -183,7 +183,7 @@ Open:
   (`docs/board.md`), but the keymap drawing still waits on bekh's re-enable
   click.
 - **The stars are on trial:** bekh is living with them to see if they
-  distract. The first knob is speed (`fps` in `gen.py`, now 12).
+  distract. Was the drifting stream first; the motion everywhere bothered him, so now one slow star. `FIRMWARE` in `gen.py` picks what gets baked.
 - **Not pressed through yet:** the Karabiner alt numpad, alt+`=` / alt+shift+`=` (shitd's launchers), every fuck
   and shit chord through the real board, mac and mini (only synthetic fuck-x
   and shit-x are seen firing; shit-x flipped caps). The alt on

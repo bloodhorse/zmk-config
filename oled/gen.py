@@ -115,7 +115,7 @@ print(f"{out}: " + ", ".join(f"{k} {len(v['frames'])}f" for k, v in ANIMS.items(
 
 # the board: the panel is 128x32 landscape, and portrait is a quarter turn clockwise, the way
 # nice_oled's rotate_canvas does it (lv_canvas_transform 900): portrait (x, y) lands on (127 - y, x).
-FIRMWARE = "star-drift"
+FIRMWARE = "spin-35%-30s"
 
 
 def landscape(b64):
