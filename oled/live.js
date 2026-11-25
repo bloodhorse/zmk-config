@@ -72,7 +72,7 @@ function bolt(s) {
   s.segs = segs;
 }
 const lightning = {
-  init(r) { return { r, every: 10, t: -1, segs: [], force: false }; },
+  init(r) { return { r, every: 5, t: -1, segs: [], force: false }; },
   key(s) { if (s.r(s.every) === 0) s.force = true; },
   strike(s) { s.force = true; },
   step(s) {
