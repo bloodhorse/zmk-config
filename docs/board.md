@@ -26,6 +26,8 @@ compiled once at several terms:
 - `mtbi200`: mod hold, balanced, term 200, quick-tap 200, idle 150. Unbound:
   tried on Space alone and bekh called it horrible.
 - `gtog*`, `motog`: unused. They stay compiled because pruning shifts ids.
+- `scr_l`, `scr_r`, `scr_k`: the screens' behaviors, ids 45–47, appended last
+  (`docs/oled.md`).
 
 Retuning a key is rebinding it to another rung:
 `zmkctl set 0 53 mod_tap_balanced_320 LALT SPACE`. Hex params carry no
@@ -94,6 +96,10 @@ settings wipe costs nothing but BT bonds.
   right-hand mods 10/20/40/80), then page `07`, then the id. So `LA(LG(C))` is
   `0x0C070006`.
 - `set` takes keycode names for both params (`set 0 53 mod_tap_balanced_280 LALT SPACE`).
+  A zero-param behavior is set by its display name with `0 0`
+  (`set 0 36 "Left Screen" 0 0`).
+- `kp` knows the api's enum names, not the keymap's: `LSHFT` is refused, so
+  modifiers go in as hex (`kp 0 36 0x0700E1`).
 - The usbmodem node moves between ports. `zmkctl` globs for it and
   `ZMKCTL_SERIAL` overrides.
 

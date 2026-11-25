@@ -25,6 +25,8 @@
    ctrl--                    hyprshit  key cmd--
    alt-.                     karabiner key f13
    alt-0                     hyprshit  exec /Users/bekh/tower/forge/hyprshit/probes/tile-toggle.sh
+   fuck-0                    board     the next pattern on the right OLED (oled/fw/screen.c watches pinky + 0)
+   fuck-1                    board     the next pattern on the left OLED (oled/fw/screen.c watches pinky + 1)
    fuck-3                    hyprshit  exec screencapture -m ~/Desktop/"Screenshot $(date '+%Y-%m-%d at %H.%M.%S').png"
    fuck-ctrl-3               hyprshit  exec screencapture -m -c
 !! shift-cmd-3               macos     screenshot to file #28 (default)
@@ -90,9 +92,10 @@
    fn-q                      macos     quick note #190 (default)
    cmd-q                     hyprshit  quit
    shit-q                    hyprshit  key ctrl-e
-   shift-cmd-q               hyprshit  quit hard
+   alt-shift-q               hyprshit  quit hard
+   shift-cmd-q               hyprshit  nop
    alt-shift-cmd-q           hyprshit  nop
-   alt-r                     hyprshit  app org.bloodhorse.riffloop.spike
+   alt-r                     hyprshit  app com.mitchellh.ghostty.fun
    fn-ctrl-r                 macos     window tiling #239
    alt-return                karabiner key '
    ctrl-right                hyprshit  ws next

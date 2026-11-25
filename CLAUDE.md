@@ -146,10 +146,11 @@ bekh says the intent in his words ("put Finder on FUCK+e"). Then:
   gets baked once it stops moving.
 - **Measurements** → `stats/keycount-2026-07.md`: when arguing a layout
   choice. Don't argue from feel.
-- **The screens** → `docs/oled.md`: before changing what the OLEDs show. Our
-  own status screen in `oled/` (the void's star, one slow turn per panel,
-  nice_oled gone): `gen.py` bakes the frames, `emu.html` previews them on a
-  schematic Lily with a burn map, `fw/` is the C. Idle blanking is 10 min.
+- **The screens** → `docs/oled.md`: before changing what the OLEDs show.
+  Four patterns per half (storm, wire, stars, gem), driven by both hands,
+  switched by fuck+1 (left) and fuck+0 (right). Designed in `oled/live.js` and
+  previewed in `oled/emu.html`, ported to `oled/fw/screen.c`. Idle blanking is
+  10 min.
 - **The three-key pad** → `pad/README.md`: the temu pad with a knob (F17 the
   couch key, F13, F18). `pad/pad` rewires it from the shell, no vendor page.
 
@@ -181,8 +182,9 @@ Open:
   Actions tab): firmware builds locally with `tools/build.sh`
   (`docs/board.md`), but the keymap drawing still waits on bekh's re-enable
   click.
-- **The star is on trial:** bekh is living with it to see whether a slow turn
-  still distracts. The first knob is slower (`docs/oled.md`).
+- **The screens are new:** bekh is living with the storm. The strike rate is
+  `STRIKE_EVERY` in `oled/fw/screen.c` (4), the emulator's slider is where to
+  find a new one.
 - **Not pressed through yet:** the Karabiner alt numpad, alt+`=` / alt+shift+`=` (shitd's launchers), every fuck
   and shit chord through the real board, mac and mini (only synthetic fuck-x
   and shit-x are seen firing; shit-x flipped caps). The alt on
