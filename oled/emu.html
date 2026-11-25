@@ -49,7 +49,7 @@
   </div>
 </div>
 <script src="frames.js?v=3"></script>
-<script src="live.js?v=4"></script>
+<script src="live.js?v=5"></script>
 <script>
 const D = window.ANIMS, W = D.w, H = D.h, LIVE = window.LIVE, TICK = window.LIVE_TICK;
 const $ = id => document.getElementById(id);
@@ -79,7 +79,7 @@ for (const sel of [$('al'), $('ar')]) {
   sel.append(live, baked);
 }
 const saved = JSON.parse(localStorage.oledEmu || '{}');
-$('al').value = names.includes(saved.al) ? saved.al : 'lightning';
+$('al').value = names.includes(saved.al) ? saved.al : 'storm';
 $('ar').value = names.includes(saved.ar) ? saved.ar : 'gem';
 if (saved.col) $('col').value = saved.col;
 if (saved.every) { $('every').value = saved.every; $('everyv').textContent = saved.every; }

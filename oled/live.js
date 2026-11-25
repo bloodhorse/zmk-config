@@ -145,7 +145,17 @@ const stars = {
   info: s => `frame ${s.f}/${column().length}`,
 };
 
-window.LIVE = { lightning, rain, wire, stars };
+// storm: the rain as a background that never hears you, the lightning over it on your keys.
+const storm = {
+  init(r) { return { r, every: 5, rain: rain.init(r), sky: lightning.init(r) }; },
+  key(s) { s.sky.every = s.every; lightning.key(s.sky); },
+  strike(s) { lightning.strike(s.sky); },
+  step(s) { rain.step(s.rain); lightning.step(s.sky); },
+  draw(s, b) { rain.draw(s.rain, b); lightning.draw(s.sky, b); },
+  info: s => `rain, and a strike every ~${s.every} keys`,
+};
+
+window.LIVE = { storm, wire, stars, lightning, rain };
 window.LIVE_TICK = TICK;
 window.LIVE_XS = xs;
 })();
