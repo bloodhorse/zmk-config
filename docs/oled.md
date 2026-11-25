@@ -43,6 +43,11 @@ and a language flag.
   strip (`star-drift`) worked on the glass and bothered bekh within minutes:
   peripheral vision is built to catch motion. One slow star in place is the
   answer for now; if that's still too much, slow it further before anything else.
+- **The display must run on its own thread** (`ZMK_DISPLAY_WORK_QUEUE_DEDICATED`
+  in `config/lily58.conf`). On the system work queue every frame's i2c push
+  stalls the matrix scan, and the board goes sluggish and drops quick double
+  taps. nice_oled's defconfig used to set this quietly, so dropping the shield
+  dropped it too.
 - **The halves don't stay in step.** Each runs its own timer and blanks on its
   own; true lockstep would need a split message. Not wanted so far.
 - **What's out there was already tried.** nice_oled's menu (cat, gem, head,
