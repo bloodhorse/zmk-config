@@ -55,8 +55,8 @@ const rain = {
   info: s => `wind ${(1 + s.boost / 16).toFixed(1)}×`,
 };
 
-// lightning: a still sky with a few specks drifting down, and now and then a bolt.
-// at rest about one in 45 min, a storm at most one in 9; typing builds a charge, and a long hard session is a storm.
+// lightning: a still sky with a few specks drifting down, and your keys call the bolts:
+// each press strikes with a chance of one in `every`, so it lands about every Nth key, never on the beat.
 function bolt(s) {
   const r = s.r, segs = [];
   const walk = (x, y, n, lean, br) => {
@@ -73,22 +73,21 @@ function bolt(s) {
 }
 const lightning = {
   init(r) {
-    const s = { r, charge: 0, n: 0, t: -1, segs: [], force: false, specks: [] };
+    const s = { r, every: 10, t: -1, segs: [], force: false, specks: [] };
     for (let i = 0; i < 7; i++) s.specks.push({ x: r(W), y: r(H), wait: r(80) });
     return s;
   },
-  key(s) { s.charge = Math.min(s.charge + 2, 1024); },
+  key(s) { if (s.r(s.every) === 0) s.force = true; },
   strike(s) { s.force = true; },
   step(s) {
     const r = s.r;
-    if (s.charge && (++s.n & 15) === 0) s.charge--;
     for (const p of s.specks) if (--p.wait <= 0) {
       p.y = (p.y + 1) % H;
       if (r(4) === 0) p.x = (p.x + W + r(3) - 1) % W;
       p.wait = 50 + r(60);
     }
     if (s.t >= 0) { if (++s.t > 16) s.t = -1; }
-    else if (s.force || r(54000) < 1 + (s.charge >> 8)) { s.force = false; bolt(s); s.t = 0; }
+    else if (s.force) { s.force = false; bolt(s); s.t = 0; }
   },
   draw(s, b) {
     for (const p of s.specks) put(b, p.x, p.y);
@@ -103,40 +102,7 @@ const lightning = {
       if (!g.br && t <= 3) line(b, g.x0 + 1, g.y0, g.x1 + 1, g.y1, keep);
     }
   },
-  info: s => `charge ${s.charge}/1024 · a strike every ~${Math.round(54000 / (1 + (s.charge >> 8)) * TICK / 60000)} min`,
-};
-
-// sand: every key drops a grain; they pile up. when the glass is full the floor opens.
-const CAP = 2600;
-const sand = {
-  init(r) { return { r, g: new Uint8Array(W * H), pending: 0, count: 0, drain: false, flip: 0 }; },
-  key(s) { if (s.pending < 64) s.pending++; },
-  step(s) {
-    const { r, g } = s;
-    for (let k = 0; k < 2 && s.pending; k++) {
-      const x = 12 + r(8);
-      if (!g[x]) { g[x] = 1; s.pending--; s.count++; }
-    }
-    for (let pass = 0; pass < 2; pass++) {
-      s.flip ^= 1;
-      for (let y = H - 1; y >= 0; y--) for (let i = 0; i < W; i++) {
-        const x = s.flip ? i : W - 1 - i, at = y * W + x;
-        if (!g[at]) continue;
-        if (y === H - 1) { if (s.drain) { g[at] = 0; s.count--; } continue; }
-        const below = at + W;
-        if (!g[below]) { g[below] = 1; g[at] = 0; continue; }
-        const d = r(2) ? 1 : -1;
-        for (const dx of [d, -d]) {
-          const nx = x + dx;
-          if (nx >= 0 && nx < W && !g[below + dx]) { g[below + dx] = 1; g[at] = 0; break; }
-        }
-      }
-    }
-    if (!s.drain && s.count >= CAP) s.drain = true;
-    if (s.drain && s.count < 8) s.drain = false;
-  },
-  draw(s, b) { b.set(s.g); },
-  info: s => `${s.count}/${CAP} grains${s.drain ? ' · draining' : ''}`,
+  info: s => `a strike every ~${s.every} keys`,
 };
 
 // the wire: paper tape crawling up out of a punch. every key punches a row of five holes,
@@ -164,7 +130,7 @@ const wire = {
   info: s => `queue ${s.queue.length}`,
 };
 
-window.LIVE = { wire, lightning, sand, rain };
+window.LIVE = { wire, lightning, rain };
 window.LIVE_TICK = TICK;
 window.LIVE_XS = xs;
 })();
