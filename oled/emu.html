@@ -1,0 +1,172 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>lily58 oled</title>
+<style>
+  :root { color-scheme: dark; }
+  body { margin: 0; background: #0b0b0d; color: #8a8f98; font: 13px ui-monospace, Menlo, monospace; }
+  #wrap { display: flex; gap: 40px; padding: 24px; align-items: flex-start; }
+  #board { display: block; }
+  #big { display: flex; gap: 28px; }
+  .bigp { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+  .bigp canvas { display: block; }
+  #ui { display: flex; flex-direction: column; gap: 10px; min-width: 200px; }
+  select, button { background: #16171b; color: #cfd3da; border: 1px solid #2a2c33; padding: 4px 8px; font: inherit; }
+  label { display: flex; justify-content: space-between; gap: 10px; align-items: center; }
+  .k { color: #cfd3da; }
+</style></head>
+<body>
+<div id="wrap">
+  <div>
+    <canvas id="board"></canvas>
+    <div id="big">
+      <div class="bigp"><canvas id="bl"></canvas><span>left (central)</span></div>
+      <div class="bigp"><canvas id="br"></canvas><span>right (peripheral)</span></div>
+    </div>
+  </div>
+  <div id="ui">
+    <label>left <select id="al"></select></label>
+    <label>right <select id="ar"></select></label>
+    <label>colour <select id="col">
+      <option value="#eef6ff">white</option>
+      <option value="#3fb6ff">blue</option>
+      <option value="#2be8ff">cyan</option>
+      <option value="#ff2bd6">magenta</option>
+    </select></label>
+    <label>speed <input id="spd" type="range" min="0.25" max="3" step="0.25" value="1"><span id="spdv" class="k">1×</span></label>
+    <label>glow <input id="glow" type="range" min="0" max="1" step="0.05" value="0.55"></label>
+    <label><span>burn map</span><input id="burn" type="checkbox"></label>
+    <div><button id="play">pause</button> <button id="step">step</button></div>
+    <div id="info"></div>
+    <div style="color:#555">space pause · → step · b burn</div>
+  </div>
+</div>
+<script src="frames.js?v=1"></script>
+<script>
+const D = window.ANIMS, W = D.w, H = D.h;
+const $ = id => document.getElementById(id);
+
+const decoded = {};
+for (const [name, a] of Object.entries(D.anims)) {
+  decoded[name] = a.frames.map(b64 => {
+    const s = atob(b64), bits = new Uint8Array(W * H);
+    for (let i = 0; i < W * H; i++) bits[i] = (s.charCodeAt(i >> 3) >> (7 - (i & 7))) & 1;
+    return bits;
+  });
+}
+const heat = {};
+for (const [name, fr] of Object.entries(decoded)) {
+  const h = new Float32Array(W * H);
+  for (const b of fr) for (let i = 0; i < W * H; i++) h[i] += b[i];
+  for (let i = 0; i < W * H; i++) h[i] /= fr.length;
+  heat[name] = h;
+}
+
+for (const sel of [$('al'), $('ar')]) for (const n of Object.keys(D.anims)) sel.add(new Option(n, n));
+const saved = JSON.parse(localStorage.oledEmu || '{}');
+$('al').value = saved.al || 'star'; $('ar').value = saved.ar || 'star-drift';
+if (saved.col) $('col').value = saved.col;
+const save = () => localStorage.oledEmu = JSON.stringify({ al: $('al').value, ar: $('ar').value, col: $('col').value });
+
+// a 0.91" SSD1306: 128x32 on a 0.175 mm pitch, pixels 0.159 mm, glass about 11.5 x 30 mm.
+const PITCH_MM = 0.175, FILL = 0.159 / 0.175, KEY_MM = 19.05;
+const BIG = 4.5; // px per pixel pitch in the big view
+const glassPad = { x: (11.5 - W * PITCH_MM) / 2, top: 2.2, bot: 30 - H * PITCH_MM - 2.2 };
+
+function panel(canvas, pitch, name, f) {
+  const gx = glassPad.x / PITCH_MM * pitch, gt = glassPad.top / PITCH_MM * pitch, gb = glassPad.bot / PITCH_MM * pitch;
+  const cw = Math.round(W * pitch + 2 * gx), ch = Math.round(H * pitch + gt + gb);
+  if (canvas.width !== cw) { canvas.width = cw; canvas.height = ch; }
+  const c = canvas.getContext('2d');
+  c.fillStyle = '#060607'; c.fillRect(0, 0, cw, ch);
+  c.strokeStyle = '#1c1d22'; c.lineWidth = 1; c.strokeRect(0.5, 0.5, cw - 1, ch - 1);
+  c.fillStyle = '#000'; c.fillRect(gx, gt, W * pitch, H * pitch);
+  const col = $('col').value, sz = pitch * FILL;
+  if ($('burn').checked) {
+    const h = heat[name];
+    for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) {
+      const v = h[y * W + x]; if (!v) continue;
+      c.fillStyle = `hsl(${(1 - v) * 60}, 100%, ${20 + v * 40}%)`;
+      c.fillRect(gx + x * pitch, gt + y * pitch, sz, sz);
+    }
+  } else {
+    const bits = decoded[name][f % decoded[name].length];
+    const lit = new Path2D();
+    for (let y = 0; y < H; y++) for (let x = 0; x < W; x++)
+      if (bits[y * W + x]) lit.rect(gx + x * pitch, gt + y * pitch, sz, sz);
+    const g = +$('glow').value;
+    if (g > 0) {
+      c.save(); c.filter = `blur(${pitch * 1.4}px)`; c.globalAlpha = g; c.fillStyle = col; c.fill(lit); c.restore();
+    }
+    c.fillStyle = col; c.fill(lit);
+  }
+  const ref = c.createLinearGradient(0, 0, cw, ch);
+  ref.addColorStop(0, 'rgba(255,255,255,0.05)'); ref.addColorStop(0.35, 'rgba(255,255,255,0)');
+  c.fillStyle = ref; c.fillRect(0, 0, cw, ch);
+}
+
+// the left half of a lily58, in key units; the right is its mirror. stagger and seats are near enough.
+const STAG = [0.45, 0.45, 0.15, 0, 0.15, 0.3];
+function keysLeft() {
+  const k = [];
+  for (let r = 0; r < 4; r++) for (let c = 0; c < 6; c++) k.push({ x: c, y: r + STAG[c] });
+  k.push({ x: 6, y: 3 + 0.45 });
+  [2, 3, 4].forEach(c => k.push({ x: c + 0.5, y: 4 + STAG[c] * 0.5 + 0.1 }));
+  k.push({ x: 5.7, y: 4.45, rot: 30 });
+  return k;
+}
+const U = 44, GAP = 2.2;
+const oledAt = { x: 6.05, y: 0.15 };
+
+const offL = document.createElement('canvas'), offR = document.createElement('canvas');
+function board(nl, nr, f) {
+  const cv = $('board'), totalU = 7.5 * 2 + GAP;
+  cv.width = totalU * U + 20; cv.height = 5.6 * U + 20;
+  const c = cv.getContext('2d');
+  c.fillStyle = '#0b0b0d'; c.fillRect(0, 0, cv.width, cv.height);
+  const pitch = U / KEY_MM * PITCH_MM * 4; // render at 4x, draw down to true scale
+  panel(offL, pitch, nl, f); panel(offR, pitch, nr, f);
+  for (const side of [0, 1]) {
+    c.save(); c.translate(10, 10);
+    if (side) { c.translate(totalU * U, 0); c.scale(-1, 1); }
+    c.fillStyle = '#121317'; c.strokeStyle = '#24262d';
+    c.beginPath(); c.roundRect(-0.15 * U, -0.15 * U, 7.5 * U, 5.45 * U, 10); c.fill(); c.stroke();
+    for (const k of keysLeft()) {
+      c.save(); c.translate((k.x + 0.5) * U, (k.y + 0.5) * U); if (k.rot) c.rotate(k.rot * Math.PI / 180);
+      c.fillStyle = '#1b1d22'; c.strokeStyle = '#2c2f37';
+      c.beginPath(); c.roundRect(-0.46 * U, -0.46 * U, 0.92 * U, 0.92 * U, 5); c.fill(); c.stroke();
+      c.restore();
+    }
+    c.restore();
+    const src = side ? offR : offL, sw = src.width / 4, sh = src.height / 4;
+    const cx = 10 + (side ? totalU * U - (oledAt.x + 0.6) * U - sw / 2 : (oledAt.x + 0.6) * U - sw / 2);
+    c.drawImage(src, cx, 10 + oledAt.y * U + 0.2 * U, sw, sh);
+  }
+}
+
+let f = 0, playing = true, last = performance.now(), acc = 0;
+function draw() {
+  const nl = $('al').value, nr = $('ar').value;
+  panel($('bl'), BIG, nl, f); panel($('br'), BIG, nr, f);
+  board(nl, nr, f);
+  const lit = n => { const fr = decoded[n][f % decoded[n].length]; let s = 0; for (const b of fr) s += b; return s; };
+  const hot = n => Math.max(...heat[n]);
+  $('info').innerHTML = [['left', nl], ['right', nr]].map(([s, n]) =>
+    `${s}: <span class="k">${n}</span><br>${decoded[n].length} frames · ${D.anims[n].fps} fps<br>lit now ${lit(n)}/${W * H} · hottest px ${(hot(n) * 100).toFixed(0)}% of the loop`
+  ).join('<br><br>');
+}
+function tick(t) {
+  const fps = D.anims[$('al').value].fps * +$('spd').value;
+  if (playing) { acc += t - last; if (acc >= 1000 / fps) { acc = 0; f++; draw(); } }
+  last = t; requestAnimationFrame(tick);
+}
+for (const id of ['al', 'ar', 'col', 'glow', 'burn']) $(id).oninput = () => { save(); draw(); };
+$('spd').oninput = () => $('spdv').textContent = $('spd').value + '×';
+$('play').onclick = () => { playing = !playing; $('play').textContent = playing ? 'pause' : 'play'; };
+$('step').onclick = () => { f++; draw(); };
+addEventListener('keydown', e => {
+  if (e.key === ' ') { e.preventDefault(); $('play').click(); }
+  if (e.key === 'ArrowRight') $('step').click();
+  if (e.key === 'b') { $('burn').checked = !$('burn').checked; draw(); }
+});
+draw(); requestAnimationFrame(tick);
+</script>
+</body></html>
