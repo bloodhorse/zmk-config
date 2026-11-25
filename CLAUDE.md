@@ -71,10 +71,12 @@ the port exclusively and relaunches itself to grab it again. Standing
 authorization: kill it, don't ask, before every `zmkctl` call:**
 
 ```bash
-P=$(lsof -t /dev/tty.usbmodem* 2>/dev/null | head -1); [ -n "$P" ] && kill $P
+P=$(lsof -t /dev/*.usbmodem* 2>/dev/null | head -1); [ -n "$P" ] && kill $P
 ```
 
 Kill by the PID, never `pkill -f zmk`: the shell matches its own pattern.
+Studio may hold the port as `/dev/cu.usbmodem…`, not `tty.`, hence the glob;
+a `zmkctl` that hangs or says "busy" is Studio holding the other one.
 Killing Studio loses nothing, but **a Studio edit bekh hasn't saved lives
 only in the board's RAM**: `dump`/`verify` read it as if it were real, and the
 next reboot or flash drops it back to the saved cell (FUCK+e went that way).

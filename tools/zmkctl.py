@@ -286,6 +286,9 @@ def cell_from_token(t):
         if arg in KEYCODES:
             return ("kp",) + KEYCODES[arg] + (mods,)
         return ("UNKNOWN-NAME", arg)
+    m = re.match(r"&([a-z_][a-z_0-9]*)$", t)
+    if m and m.group(1) not in ("trans", "none"):
+        return ("custom0", m.group(1))
     return ("other", t)
 
 
@@ -330,6 +333,9 @@ def cell_from_board(b):
             return (kind, int(m.group(1))) if m else (kind, None)
     if "Bluetooth" in s:
         return ("bt",)
+    m = re.search(r'Custom \{ behavior_id: \d+, display_name: "([^"]+)", param1: Unused, param2: Unused', s)
+    if m:
+        return ("custom0", m.group(1))
     return ("other", s[:40])
 
 
@@ -340,6 +346,8 @@ def verify(client, keymap_path="config/lily58.keymap"):
     # devicetree label vs node name: the keymap binds &lt_curse, the board
     # reports "layer_tap_curse". Same behavior, two names — resolve the label.
     labels = dict(re.findall(r"^\s*([a-z_][a-z_0-9]*):\s*([a-z_][a-z_0-9]*)\s*\{", src, re.M))
+    # a behavior with a display-name is reported by it, not by the node name
+    shown = dict(re.findall(r"^\s*([a-z_][a-z_0-9]*):\s*[a-z_][a-z_0-9]*\s*\{[^}]*?display-name = \"([^\"]+)\"", src, re.M | re.S))
     blocks = re.findall(r"bindings = <\n(.*?)>;", src, re.S)
     bad = 0
     for layer, block in enumerate(blocks):
@@ -352,6 +360,8 @@ def verify(client, keymap_path="config/lily58.keymap"):
             want = cell_from_token(toks[pos])
             if want[0] == "custom":
                 want = (want[0], labels.get(want[1], want[1])) + want[2:]
+            if want[0] == "custom0":
+                want = (want[0], shown.get(want[1], labels.get(want[1], want[1])))
             got = cell_from_board(client.get_key_at(layer, pos))
             if want != got:
                 bad += 1
