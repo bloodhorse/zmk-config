@@ -189,6 +189,20 @@
             require-prior-idle-ms = <150>;
             bindings = <&kp>, <&kp>;
         };
+        // the OLEDs: the next pattern on the left / right screen (oled/fw). node
+        // names stay under 9 chars, the split hands them to the peripheral by name.
+        scr_l: scr_l {
+            compatible = "zmk,behavior-screen-next";
+            #binding-cells = <0>;
+            side = <0>;
+            display-name = "Left Screen";
+        };
+        scr_r: scr_r {
+            compatible = "zmk,behavior-screen-next";
+            #binding-cells = <0>;
+            side = <1>;
+            display-name = "Right Screen";
+        };
     };
 
     keymap {

@@ -1,0 +1,11 @@
+description: The next pattern on one half's OLED (oled/fw/screen.c)
+
+compatible: "zmk,behavior-screen-next"
+
+include: zero_param.yaml
+
+properties:
+  side:
+    type: int
+    required: true
+    description: 0 the left half (central), 1 the right
