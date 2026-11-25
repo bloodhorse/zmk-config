@@ -118,6 +118,13 @@ fork is off and nothing depends on it.
   link fails on `lv_img_*`.
 - `west.yml` still fetches the nice_oled family on `main`, unpinned and
   unused since the shield list dropped `nice_oled`.
+- **Rebuilding the workspace from scratch:** the venv needs west, Zephyr's
+  python requirements, and `setuptools<81` plus `protobuf` and
+  `grpcio-tools` (nanopb's generator still imports `pkg_resources`, and the
+  Studio protobuf step dies without it). brew gives ninja, dtc and ccache.
+- **Flash only what `tools/build.sh` made.** The old uf2s in `~/Downloads`
+  came from some other tree (they blanked the screens at 30 s while every
+  build of this one says 2 min); `firmware/` is the only source.
 
 ## Flashing
 

@@ -144,13 +144,10 @@ bekh says the intent in his words ("put Finder on FUCK+e"). Then:
   gets baked once it stops moving.
 - **Measurements** → `stats/keycount-2026-07.md`: when arguing a layout
   choice. Don't argue from feel.
-- **The screens** → `oled/`: our own status screen, the void's star drifting
-  down both panels, nice_oled gone. `gen.py` draws the 1-bit frames once and
-  writes both `frames.js` (for `emu.html`, the two panels on a schematic Lily
-  with a burn map) and `fw/star_frames.c`; `fw/stars.c` is an image and a
-  timer. Change the look in the emulator, run `gen.py`, build, flash. Idle
-  blanking is 10 min (`CONFIG_ZMK_IDLE_TIMEOUT`); a pixel that never moves
-  would burn, so nothing static goes on the glass.
+- **The screens** → `docs/oled.md`: before changing what the OLEDs show. Our
+  own status screen in `oled/` (the void's star, one slow turn per panel,
+  nice_oled gone): `gen.py` bakes the frames, `emu.html` previews them on a
+  schematic Lily with a burn map, `fw/` is the C. Idle blanking is 10 min.
 - **The three-key pad** → `pad/README.md`: the temu pad with a knob (F17 the
   couch key, F13, F18). `pad/pad` rewires it from the shell, no vendor page.
 
@@ -182,8 +179,8 @@ Open:
   Actions tab): firmware builds locally with `tools/build.sh`
   (`docs/board.md`), but the keymap drawing still waits on bekh's re-enable
   click.
-- **The stars are on trial:** bekh is living with them to see if they
-  distract. Was the drifting stream first; the motion everywhere bothered him, so now one slow star. `FIRMWARE` in `gen.py` picks what gets baked.
+- **The star is on trial:** bekh is living with it to see whether a slow turn
+  still distracts. The first knob is slower (`docs/oled.md`).
 - **Not pressed through yet:** the Karabiner alt numpad, alt+`=` / alt+shift+`=` (shitd's launchers), every fuck
   and shit chord through the real board, mac and mini (only synthetic fuck-x
   and shit-x are seen firing; shit-x flipped caps). The alt on
