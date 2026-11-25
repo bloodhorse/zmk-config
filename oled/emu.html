@@ -8,10 +8,12 @@
   #big { display: flex; gap: 28px; }
   .bigp { display: flex; flex-direction: column; align-items: center; gap: 8px; }
   .bigp canvas { display: block; }
-  #ui { display: flex; flex-direction: column; gap: 10px; min-width: 200px; }
+  #ui { display: flex; flex-direction: column; gap: 10px; min-width: 240px; max-width: 300px; }
   select, button { background: #16171b; color: #cfd3da; border: 1px solid #2a2c33; padding: 4px 8px; font: inherit; }
   label { display: flex; justify-content: space-between; gap: 10px; align-items: center; }
   .k { color: #cfd3da; }
+  #keys { color: #555; }
+  #keys.hit { color: #cfd3da; }
 </style></head>
 <body>
 <div id="wrap">
@@ -31,17 +33,23 @@
       <option value="#2be8ff">cyan</option>
       <option value="#ff2bd6">magenta</option>
     </select></label>
-    <label>speed <input id="spd" type="range" min="0.25" max="3" step="0.25" value="1"><span id="spdv" class="k">1×</span></label>
+    <label>speed <select id="spd">
+      <option>0.25</option><option>0.5</option><option selected>1</option><option>2</option>
+      <option>5</option><option>20</option><option>100</option><option>600</option>
+    </select></label>
     <label>glow <input id="glow" type="range" min="0" max="1" step="0.05" value="0.55"></label>
     <label><span>burn map</span><input id="burn" type="checkbox"></label>
-    <div><button id="play">pause</button> <button id="step">step</button></div>
+    <label><span>typist (simulated hands)</span><input id="typist" type="checkbox"></label>
+    <div><button id="play">pause</button> <button id="step">step</button> <button id="strike">strike</button> <button id="reset">reset</button></div>
+    <div id="keys">type anywhere: keys hit both screens</div>
     <div id="info"></div>
-    <div style="color:#555">space pause · → step · b burn</div>
+    <div style="color:#555">esc pause · → step · the burn map of a live screen counts since reset; warp the speed to live a day</div>
   </div>
 </div>
 <script src="frames.js?v=2"></script>
+<script src="live.js?v=1"></script>
 <script>
-const D = window.ANIMS, W = D.w, H = D.h;
+const D = window.ANIMS, W = D.w, H = D.h, LIVE = window.LIVE, TICK = window.LIVE_TICK;
 const $ = id => document.getElementById(id);
 
 const decoded = {};
@@ -52,26 +60,52 @@ for (const [name, a] of Object.entries(D.anims)) {
     return bits;
   });
 }
-const heat = {};
+const bakedHeat = {};
 for (const [name, fr] of Object.entries(decoded)) {
   const h = new Float32Array(W * H);
   for (const b of fr) for (let i = 0; i < W * H; i++) h[i] += b[i];
   for (let i = 0; i < W * H; i++) h[i] /= fr.length;
-  heat[name] = h;
+  bakedHeat[name] = h;
 }
 
-for (const sel of [$('al'), $('ar')]) for (const n of Object.keys(D.anims)) sel.add(new Option(n, n));
+const names = [...Object.keys(LIVE), ...Object.keys(D.anims)];
+for (const sel of [$('al'), $('ar')]) {
+  const live = document.createElement('optgroup'); live.label = 'live';
+  for (const n of Object.keys(LIVE)) live.appendChild(new Option(n, n));
+  const baked = document.createElement('optgroup'); baked.label = 'baked';
+  for (const n of Object.keys(D.anims)) baked.appendChild(new Option(n, n));
+  sel.append(live, baked);
+}
 const saved = JSON.parse(localStorage.oledEmu || '{}');
-$('al').value = saved.al || 'star'; $('ar').value = saved.ar || 'star-drift';
+$('al').value = names.includes(saved.al) ? saved.al : 'wire';
+$('ar').value = names.includes(saved.ar) ? saved.ar : 'rain';
 if (saved.col) $('col').value = saved.col;
 const save = () => localStorage.oledEmu = JSON.stringify({ al: $('al').value, ar: $('ar').value, col: $('col').value });
 
+// one screen's state: a baked loop, or a live program with its own buffer and burn tally
+const sides = {};
+function setSide(k, name) {
+  const s = sides[k] = { name, bits: new Uint8Array(W * H), sum: new Float32Array(W * H), ticks: 0, st: null };
+  if (LIVE[name]) {
+    s.st = LIVE[name].init(window.LIVE_XS((Math.random() * 2 ** 32) >>> 0));
+    LIVE[name].draw(s.st, s.bits);
+  }
+}
+const fr = n => Math.floor(T * D.anims[n].fps / 1000);
+const bitsOf = s => s.st ? s.bits : decoded[s.name][fr(s.name) % decoded[s.name].length];
+function heatOf(s) {
+  if (!s.st) return bakedHeat[s.name];
+  const h = new Float32Array(W * H), n = Math.max(1, s.ticks);
+  for (let i = 0; i < W * H; i++) h[i] = s.sum[i] / n;
+  return h;
+}
+
 // a 0.91" SSD1306: 128x32 on a 0.175 mm pitch, pixels 0.159 mm, glass about 11.5 x 30 mm.
 const PITCH_MM = 0.175, FILL = 0.159 / 0.175, KEY_MM = 19.05;
-const BIG = 4.5; // px per pixel pitch in the big view
+const BIG = 4.5;
 const glassPad = { x: (11.5 - W * PITCH_MM) / 2, top: 2.2, bot: 30 - H * PITCH_MM - 2.2 };
 
-function panel(canvas, pitch, name, f) {
+function panel(canvas, pitch, s) {
   const gx = glassPad.x / PITCH_MM * pitch, gt = glassPad.top / PITCH_MM * pitch, gb = glassPad.bot / PITCH_MM * pitch;
   const cw = Math.round(W * pitch + 2 * gx), ch = Math.round(H * pitch + gt + gb);
   if (canvas.width !== cw) { canvas.width = cw; canvas.height = ch; }
@@ -81,14 +115,14 @@ function panel(canvas, pitch, name, f) {
   c.fillStyle = '#000'; c.fillRect(gx, gt, W * pitch, H * pitch);
   const col = $('col').value, sz = pitch * FILL;
   if ($('burn').checked) {
-    const h = heat[name];
+    const h = heatOf(s);
     for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) {
       const v = h[y * W + x]; if (!v) continue;
       c.fillStyle = `hsl(${(1 - v) * 60}, 100%, ${20 + v * 40}%)`;
       c.fillRect(gx + x * pitch, gt + y * pitch, sz, sz);
     }
   } else {
-    const bits = decoded[name][f % decoded[name].length];
+    const bits = bitsOf(s);
     const lit = new Path2D();
     for (let y = 0; y < H; y++) for (let x = 0; x < W; x++)
       if (bits[y * W + x]) lit.rect(gx + x * pitch, gt + y * pitch, sz, sz);
@@ -117,13 +151,13 @@ const U = 44, GAP = 2.2;
 const oledAt = { x: 6.05, y: 0.15 };
 
 const offL = document.createElement('canvas'), offR = document.createElement('canvas');
-function board(nl, nr) {
+function board() {
   const cv = $('board'), totalU = 7.5 * 2 + GAP;
   cv.width = totalU * U + 20; cv.height = 5.6 * U + 20;
   const c = cv.getContext('2d');
   c.fillStyle = '#0b0b0d'; c.fillRect(0, 0, cv.width, cv.height);
-  const pitch = U / KEY_MM * PITCH_MM * 4; // render at 4x, draw down to true scale
-  panel(offL, pitch, nl, fr(nl)); panel(offR, pitch, nr, fr(nr));
+  const pitch = U / KEY_MM * PITCH_MM * 4;
+  panel(offL, pitch, sides.l); panel(offR, pitch, sides.r);
   for (const side of [0, 1]) {
     c.save(); c.translate(10, 10);
     if (side) { c.translate(totalU * U, 0); c.scale(-1, 1); }
@@ -142,31 +176,71 @@ function board(nl, nr) {
   }
 }
 
-let T = 0, playing = true, last = performance.now();
-const fr = n => Math.floor(T * D.anims[n].fps / 1000);
-function draw() {
-  const nl = $('al').value, nr = $('ar').value;
-  panel($('bl'), BIG, nl, fr(nl)); panel($('br'), BIG, nr, fr(nr));
-  board(nl, nr);
-  const lit = n => { const b = decoded[n][fr(n) % decoded[n].length]; let s = 0; for (const x of b) s += x; return s; };
-  const hot = n => Math.max(...heat[n]);
-  $('info').innerHTML = [['left', nl], ['right', nr]].map(([s, n]) =>
-    `${s}: <span class="k">${n}</span><br>${decoded[n].length} frames · ${D.anims[n].fps} fps · ${(decoded[n].length * 520 / 1024).toFixed(0)} KB<br>lit now ${lit(n)}/${W * H} · hottest px ${(hot(n) * 100).toFixed(0)}% of the loop`
-  ).join('<br><br>');
+let T = 0, acc = 0, simT = 0, typed = 0, playing = true, last = performance.now();
+const typist = { next: 0, burst: 0 };
+function schedule() {
+  const r = Math.random;
+  if (typist.burst > 0) { typist.burst--; typist.next += 90 + r() * 220; }
+  else { typist.burst = 3 + (r() * 40 | 0); typist.next += r() < 0.75 ? 800 + r() * 7000 : 15000 + r() * 90000; }
 }
+let flashT = 0;
+function press(code) {
+  typed++;
+  for (const s of Object.values(sides)) if (s.st) LIVE[s.name].key(s.st, code);
+  if (performance.now() - flashT > 60) { flashT = performance.now(); $('keys').classList.add('hit'); setTimeout(() => $('keys').classList.remove('hit'), 80); }
+}
+function tickLive() {
+  simT += TICK;
+  while ($('typist').checked && typist.next <= simT) { press((Math.random() * 64) | 0); schedule(); }
+  for (const s of Object.values(sides)) if (s.st) {
+    const L = LIVE[s.name];
+    L.step(s.st); s.bits.fill(0); L.draw(s.st, s.bits);
+    for (let i = 0; i < W * H; i++) s.sum[i] += s.bits[i];
+    s.ticks++;
+  }
+}
+
+const hms = ms => { const m = Math.floor(ms / 60000); return m >= 60 ? `${Math.floor(m / 60)}h${String(m % 60).padStart(2, '0')}` : `${m}m${String(Math.floor(ms / 1000) % 60).padStart(2, '0')}s`; };
+function draw() {
+  panel($('bl'), BIG, sides.l); panel($('br'), BIG, sides.r);
+  board();
+  const lit = s => { let n = 0; for (const x of bitsOf(s)) n += x; return n; };
+  const hot = s => Math.max(...heatOf(s));
+  $('info').innerHTML = [['left', sides.l], ['right', sides.r]].map(([side, s]) => {
+    const head = s.st
+      ? `live · ${LIVE[s.name].info(s.st)}<br>burn over ${hms(s.ticks * TICK)}`
+      : `${decoded[s.name].length} frames · ${D.anims[s.name].fps} fps · ${(decoded[s.name].length * 520 / 1024).toFixed(0)} KB`;
+    return `${side}: <span class="k">${s.name}</span><br>${head}<br>lit now ${lit(s)}/${W * H} · hottest px ${(hot(s) * 100).toFixed(0)}%`;
+  }).join('<br><br>') + `<br><br>keys ${typed} · sim ${hms(simT)}`;
+}
+let lastInfo = 0;
 function tick(t) {
-  if (playing) { T += (t - last) * +$('spd').value; draw(); }
+  if (playing) {
+    const dt = Math.min(t - last, 100) * +$('spd').value;
+    T += dt; acc += dt;
+    let n = 0;
+    while (acc >= TICK && n < 2000) { acc -= TICK; tickLive(); n++; }
+    if (acc >= TICK) acc = 0;
+    draw();
+  }
   last = t; requestAnimationFrame(tick);
 }
-for (const id of ['al', 'ar', 'col', 'glow', 'burn']) $(id).oninput = () => { save(); draw(); };
-$('spd').oninput = () => $('spdv').textContent = $('spd').value + '×';
-$('play').onclick = () => { playing = !playing; $('play').textContent = playing ? 'pause' : 'play'; };
-$('step').onclick = () => { T += 1000 / D.anims[$('al').value].fps; draw(); };
+function reset() { setSide('l', $('al').value); setSide('r', $('ar').value); simT = 0; typed = 0; typist.next = 0; draw(); }
+for (const id of ['al', 'ar']) $(id).onchange = () => { save(); setSide(id === 'al' ? 'l' : 'r', $(id).value); $(id).blur(); draw(); };
+for (const id of ['col', 'glow', 'burn', 'spd']) $(id).onchange = $(id).oninput = () => { save(); $(id).blur(); draw(); };
+$('typist').onchange = () => { typist.next = simT; $('typist').blur(); };
+$('play').onclick = () => { playing = !playing; $('play').textContent = playing ? 'pause' : 'play'; $('play').blur(); };
+$('step').onclick = () => { T += TICK; tickLive(); draw(); $('step').blur(); };
+$('strike').onclick = () => { for (const s of Object.values(sides)) if (s.st && LIVE[s.name].strike) LIVE[s.name].strike(s.st); $('strike').blur(); };
+$('reset').onclick = () => { reset(); $('reset').blur(); };
+const hash = str => { let h = 0; for (const ch of str) h = (h * 31 + ch.charCodeAt(0)) | 0; return (h >>> 0) % 64; };
 addEventListener('keydown', e => {
-  if (e.key === ' ') { e.preventDefault(); $('play').click(); }
-  if (e.key === 'ArrowRight') $('step').click();
-  if (e.key === 'b') { $('burn').checked = !$('burn').checked; draw(); }
+  if (e.key === 'Escape') { $('play').click(); return; }
+  if (e.key === 'ArrowRight') { $('step').click(); return; }
+  if (e.repeat || e.metaKey || e.ctrlKey) return;
+  e.preventDefault();
+  press(hash(e.code));
 });
-draw(); requestAnimationFrame(tick);
+reset(); requestAnimationFrame(tick);
 </script>
 </body></html>
