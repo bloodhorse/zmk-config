@@ -2,10 +2,10 @@
 
 bekh's Lily58 keyboard config, and the Karabiner half that turns its QWERTY
 scancodes into Gallium on the mac. Forked from mctechnology17's zmk-config and
-stripped to the Lily: `boards/shields/lily58` (his shield, with the nice_oled
-wiring) and `zephyr/module.yml` are what's left of upstream, the rest is ours:
-`config/lily58.*`, `tools/`, `docs/`, `stats/`, `russian-gallium/`,
-`keylayout/`, `pad/`.
+stripped to the Lily: `boards/shields/lily58` is what's left of upstream, and
+it's never built (ZMK's in-tree shield of the same name wins, `docs/board.md`).
+The rest is ours: `config/lily58.*`, `oled/`, `tools/`, `docs/`, `stats/`,
+`russian-gallium/`, `keylayout/`, `pad/`, `zephyr/`.
 
 This file is also the front door for any keyboard question on bekh's desk: the
 global CLAUDE.md routes every session that touches keys, chords or bindings here.
@@ -144,6 +144,13 @@ bekh says the intent in his words ("put Finder on FUCK+e"). Then:
   gets baked once it stops moving.
 - **Measurements** → `stats/keycount-2026-07.md`: when arguing a layout
   choice. Don't argue from feel.
+- **The screens** → `oled/`: our own status screen, the void's star drifting
+  down both panels, nice_oled gone. `gen.py` draws the 1-bit frames once and
+  writes both `frames.js` (for `emu.html`, the two panels on a schematic Lily
+  with a burn map) and `fw/star_frames.c`; `fw/stars.c` is an image and a
+  timer. Change the look in the emulator, run `gen.py`, build, flash. Idle
+  blanking is 10 min (`CONFIG_ZMK_IDLE_TIMEOUT`); a pixel that never moves
+  would burn, so nothing static goes on the glass.
 - **The three-key pad** → `pad/README.md`: the temu pad with a knob (F17 the
   couch key, F13, F18). `pad/pad` rewires it from the shell, no vendor page.
 
@@ -172,9 +179,11 @@ Next, each waiting on bekh's go:
 Open:
 
 - **GitHub Actions is switched off on the repo** (the fork banner on the
-  Actions tab, `docs/board.md`): no firmware build and no keymap drawing
-  happens on push until bekh clicks re-enable there. Builds are a build-path
-  question until then.
+  Actions tab): firmware builds locally with `tools/build.sh`
+  (`docs/board.md`), but the keymap drawing still waits on bekh's re-enable
+  click.
+- **The stars are on trial:** bekh is living with them to see if they
+  distract. The first knob is speed (`fps` in `gen.py`, now 12).
 - **Not pressed through yet:** the Karabiner alt numpad, alt+`=` / alt+shift+`=` (shitd's launchers), every fuck
   and shit chord through the real board, mac and mini (only synthetic fuck-x
   and shit-x are seen firing; shit-x flipped caps). The alt on

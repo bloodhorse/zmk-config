@@ -9,9 +9,9 @@ How a change gets onto the Lily58 and stays true: RPC vs build, flashing,
   already exists in firmware. Set over Studio RPC with `tools/zmkctl.py`; it's
   live in seconds and reverts in seconds.
 - **Build**: a genuinely new behavior (a mod-morph, a hold-tap with a new
-  flavor or term, a `conditional_layers` node). Edit the keymap, push, let
-  GitHub Actions build, flash both halves, **then bind over RPC** wherever a
-  cell had been edited before. A conditional_layers node needs no rebinding,
+  flavor or term, a `conditional_layers` node). Edit the keymap,
+  `tools/build.sh` (local, ~40 s for both halves), `make flash`, **then bind
+  over RPC** wherever a cell had been edited before. A conditional_layers node needs no rebinding,
   because it lives in firmware, not settings.
 
 Hold terms are tuned at runtime because the hold-taps come as ladders,
@@ -97,12 +97,34 @@ settings wipe costs nothing but BT bonds.
 - The usbmodem node moves between ports. `zmkctl` globs for it and
   `ZMKCTL_SERIAL` overrides.
 
+## Building
+
+`tools/build.sh [left|right]` is the CI matrix run on this mac: west
+workspace in `~/.local/share/zmk-ws`, Zephyr SDK 0.16.3 (arm only) in
+`~/.local/share/zephyr-sdk-0.16.3`, both outside `~/tower` so syncthing never
+sees the gigabytes. It copies `config/` into the workspace, re-runs `west
+update` only when `west.yml` changed, and drops `lily58_{left,right}.uf2` in
+`firmware/`. `PRISTINE=auto` for an incremental build. GitHub Actions on this
+fork is off and nothing depends on it.
+
+- **`boards/shields/lily58/` is never built.** ZMK ships its own in-tree
+  `lily58` shield with the same names, and its board root wins, so our copy
+  of the dtsi, overlays and Kconfig is dead weight. The panel node there is
+  identical to ours. Code of ours goes in through the module's cmake
+  (`zephyr/CMakeLists.txt`, `build: cmake: zephyr` in `module.yml`), never a
+  shield folder's `CMakeLists.txt`.
+- **ZMK leaves LVGL's widgets off.** Anything beyond the core needs its
+  switch in the conf (`CONFIG_LV_USE_IMG=y` for the screen); without it the
+  link fails on `lv_img_*`.
+- `west.yml` still fetches the nice_oled family on `main`, unpinned and
+  unused since the shield list dropped `nice_oled`.
+
 ## Flashing
 
 Only the left half (central) exposes Studio's serial port, so all `zmkctl`
 work happens with the left half on USB. The bootloader mounts as
 `/Volumes/NICENANO`. A background loop that waits for the mount and copies
-`lily58_{left,right}_nice_oled.uf2` in turn lets bekh just double-tap.
+`lily58_{left,right}.uf2` in turn lets bekh just double-tap.
 The board can't be read once it's in bootloader mode, so run `verify` before
 bekh double-taps.
 
