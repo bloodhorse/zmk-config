@@ -39,7 +39,7 @@
     <div style="color:#555">space pause · → step · b burn</div>
   </div>
 </div>
-<script src="frames.js?v=1"></script>
+<script src="frames.js?v=2"></script>
 <script>
 const D = window.ANIMS, W = D.w, H = D.h;
 const $ = id => document.getElementById(id);
@@ -117,13 +117,13 @@ const U = 44, GAP = 2.2;
 const oledAt = { x: 6.05, y: 0.15 };
 
 const offL = document.createElement('canvas'), offR = document.createElement('canvas');
-function board(nl, nr, f) {
+function board(nl, nr) {
   const cv = $('board'), totalU = 7.5 * 2 + GAP;
   cv.width = totalU * U + 20; cv.height = 5.6 * U + 20;
   const c = cv.getContext('2d');
   c.fillStyle = '#0b0b0d'; c.fillRect(0, 0, cv.width, cv.height);
   const pitch = U / KEY_MM * PITCH_MM * 4; // render at 4x, draw down to true scale
-  panel(offL, pitch, nl, f); panel(offR, pitch, nr, f);
+  panel(offL, pitch, nl, fr(nl)); panel(offR, pitch, nr, fr(nr));
   for (const side of [0, 1]) {
     c.save(); c.translate(10, 10);
     if (side) { c.translate(totalU * U, 0); c.scale(-1, 1); }
@@ -142,26 +142,26 @@ function board(nl, nr, f) {
   }
 }
 
-let f = 0, playing = true, last = performance.now(), acc = 0;
+let T = 0, playing = true, last = performance.now();
+const fr = n => Math.floor(T * D.anims[n].fps / 1000);
 function draw() {
   const nl = $('al').value, nr = $('ar').value;
-  panel($('bl'), BIG, nl, f); panel($('br'), BIG, nr, f);
-  board(nl, nr, f);
-  const lit = n => { const fr = decoded[n][f % decoded[n].length]; let s = 0; for (const b of fr) s += b; return s; };
+  panel($('bl'), BIG, nl, fr(nl)); panel($('br'), BIG, nr, fr(nr));
+  board(nl, nr);
+  const lit = n => { const b = decoded[n][fr(n) % decoded[n].length]; let s = 0; for (const x of b) s += x; return s; };
   const hot = n => Math.max(...heat[n]);
   $('info').innerHTML = [['left', nl], ['right', nr]].map(([s, n]) =>
-    `${s}: <span class="k">${n}</span><br>${decoded[n].length} frames · ${D.anims[n].fps} fps<br>lit now ${lit(n)}/${W * H} · hottest px ${(hot(n) * 100).toFixed(0)}% of the loop`
+    `${s}: <span class="k">${n}</span><br>${decoded[n].length} frames · ${D.anims[n].fps} fps · ${(decoded[n].length * 520 / 1024).toFixed(0)} KB<br>lit now ${lit(n)}/${W * H} · hottest px ${(hot(n) * 100).toFixed(0)}% of the loop`
   ).join('<br><br>');
 }
 function tick(t) {
-  const fps = D.anims[$('al').value].fps * +$('spd').value;
-  if (playing) { acc += t - last; if (acc >= 1000 / fps) { acc = 0; f++; draw(); } }
+  if (playing) { T += (t - last) * +$('spd').value; draw(); }
   last = t; requestAnimationFrame(tick);
 }
 for (const id of ['al', 'ar', 'col', 'glow', 'burn']) $(id).oninput = () => { save(); draw(); };
 $('spd').oninput = () => $('spdv').textContent = $('spd').value + '×';
 $('play').onclick = () => { playing = !playing; $('play').textContent = playing ? 'pause' : 'play'; };
-$('step').onclick = () => { f++; draw(); };
+$('step').onclick = () => { T += 1000 / D.anims[$('al').value].fps; draw(); };
 addEventListener('keydown', e => {
   if (e.key === ' ') { e.preventDefault(); $('play').click(); }
   if (e.key === 'ArrowRight') $('step').click();

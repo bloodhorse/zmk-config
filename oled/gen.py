@@ -84,7 +84,24 @@ def column(stroke=2.0):
     return frames
 
 
+def spin(over, turn_s, fps, stroke=2.0):
+    # one star in the middle, `over` past the side edges at its widest, one turn in turn_s seconds
+    r = W * (1 + over) / (2 * math.cos(math.radians(18)))
+    n = round(turn_s * fps)
+    frames = []
+    for f in range(n):
+        im, d = canvas()
+        star(d, W / 2, H / 2, r, 360 * f / n, stroke)
+        frames.append(to_bits(im))
+    return dict(fps=fps, frames=frames)
+
+
 ANIMS = {
+    **{
+        f"spin-{int(over * 100)}%-{turn}s": spin(over, turn, fps)
+        for over in (0.15, 0.35)
+        for turn, fps in ((6, 12), (15, 8), (30, 6))
+    },
     "star": dict(fps=12, frames=one()),
     "star-thin": dict(fps=12, frames=one(stroke=1.2)),
     "star-drift": dict(fps=12, frames=drift()),
