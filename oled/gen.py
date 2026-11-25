@@ -135,7 +135,7 @@ c.append("const lv_img_dsc_t *const star_frames[STAR_FRAMES] = {")
 c += [f"    &f{i:02d}," for i in range(len(anim["frames"]))]
 c.append("};")
 
-shield = pathlib.Path(__file__).resolve().parent.parent / "boards/shields/lily58/stars"
+shield = pathlib.Path(__file__).resolve().parent / "fw"
 (shield / "star_frames.c").write_text("\n".join(c) + "\n")
 (shield / "star_frames.h").write_text(
     "#pragma once\n#include <lvgl.h>\n\n"
