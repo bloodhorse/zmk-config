@@ -1,0 +1,5 @@
+if(CONFIG_ZMK_DISPLAY AND CONFIG_ZMK_DISPLAY_STATUS_SCREEN_CUSTOM AND NOT CONFIG_SHIELD_NICE_OLED)
+    zephyr_library()
+    zephyr_library_include_directories(${ZEPHYR_LVGL_MODULE_DIR} stars)
+    zephyr_library_sources(stars/stars.c stars/star_frames.c)
+endif()
