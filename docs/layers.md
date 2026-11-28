@@ -117,6 +117,11 @@ right with alt+arrows beside it, BT controls on the number row, and `&tog 1`
 at pos 55, the only door to CURSE. Pos 2 holds a stray `0xCE` (Keypad @,
 ignored by macOS); undecided.
 
+**Door seats stay transparent on HEAVEN** (Space, both pinkies, the outer
+thumbs, ctrl, gui, shift), so the doors work in any order: Enter then Space
+is alt, same as Space then Enter. Pos 53 held a backtick once, and
+Enter-before-Space jumps came out as backticks.
+
 ## CURSE (slot 1), dead weight
 
 No hold door; reachable only through HEAVEN's `&tog 1`. Its alt cells,

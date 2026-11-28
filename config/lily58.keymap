@@ -269,7 +269,7 @@
 &trans  &trans  &trans  &trans &trans &trans                    &kp LA(Y)    &kp LA(LG(U)) &kp UP     &trans       &trans &trans
 &trans  &trans  &trans  &trans &trans &trans                    &kp LA(LEFT) &kp LEFT     &kp DOWN    &kp RIGHT    &kp LA(RIGHT) &trans
 &trans  &trans  &trans  &trans &trans &trans &trans   &trans    &kp F13      &kp F18      &kp LS(BSLH) &kp LG(I)   &kp K  &trans
-                        &trans &trans &trans &kp GRAVE   &kp SQT   &tog 1     &kp DEL      &trans
+                        &trans &trans &trans &trans      &kp SQT   &tog 1     &kp DEL      &trans
             >;
 
             sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN>;
